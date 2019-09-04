@@ -2,24 +2,24 @@
 A Work In Process game thats a Random Rougealike Game
 
 # Roadmap
-- [ ] Terrain Generation
-# [checkbox:checked] Resource 1 Generation
-# [checkbox:unchecked] Resource 2 Generation
-# [checkbox:unchecked] Charcter generation
-# [checkbox:unchecked] Turns
-# [checkbox:unchecked] Inventory
-# [checkbox:unchecked] Text Colours
-# [checkbox:unchecked] Battle System
-# [checkbox:unchecked] Movement
-# [checkbox:unchecked] Maping System
-# [checkbox:unchecked] Save system
-# [checkbox:unchecked] Magic System
-# [checkbox:unchecked] Towns
-# [checkbox:unchecked] NPCs
-# [checkbox:unchecked] Modding
-# [checkbox:unchecked] Code Rewrite
-# [checkbox:unchecked] QOL Fixes (Turns, Time played, Achivements ect,)
-# [checkbox:unchecked] Weather / Battle Effects
+- [x] Terrain Generation
+- [x] Resource 1 Generation
+- [ ] Resource 2 Generation
+- [ ] Charcter generation
+- [ ] Turns
+- [ ] Inventory
+- [ ] Text Colours
+- [ ] Battle System
+- [ ] Movement
+- [ ] Maping System
+- [ ] Save system
+- [ ] Magic System
+- [ ] Towns
+- [ ] NPCs
+- [ ] Modding
+- [ ] Code Rewrite
+- [ ] QOL Fixes (Turns, Time played, Achivements ect,)
+- [ ] Weather / Battle Effects
 
 There are probably more to add to the list so when I remeber them I'll add them
 
