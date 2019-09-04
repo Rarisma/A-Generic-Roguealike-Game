@@ -4,7 +4,7 @@ A Work In Process game thats a Random Rougealike Game
 # Roadmap
 - [x] Terrain Generation
 - [x] Resource 1 Generation
-- [ ] Resource 2 Generation
+- [x] Resource 2 Generation
 - [ ] Charcter generation
 - [ ] Turns
 - [ ] Inventory
