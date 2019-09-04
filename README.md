@@ -2,7 +2,7 @@
 A Work In Process game thats a Random Rougealike Game
 
 # Roadmap
- [checkbox:checked] Terrain Generation
+- [ ] Terrain Generation
 # [checkbox:checked] Resource 1 Generation
 # [checkbox:unchecked] Resource 2 Generation
 # [checkbox:unchecked] Charcter generation
