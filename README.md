@@ -7,10 +7,12 @@ A Work In Process game thats a Random Rougealike Game
 - [x] Resource 2 Generation
 - [ ] Charcter generation
 - [ ] Turns
+- [ ] Levels
 - [ ] Inventory
 - [ ] Text Colours
 - [ ] Battle System
 - [ ] Movement
+- [ ] Eccononmy
 - [ ] Maping System
 - [ ] Save system
 - [ ] Magic System
