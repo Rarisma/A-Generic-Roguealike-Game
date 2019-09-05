@@ -5,7 +5,7 @@ A Work In Process game thats a Random Rougealike Game
 - [x] Terrain Generation
 - [x] Resource 1 Generation
 - [x] Resource 2 Generation
-- [ ] Charcter generation
+- [x] Charcter generation
 - [ ] Inventory
 - [ ] Text Colours
 - [ ] Battle System
