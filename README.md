@@ -6,11 +6,11 @@ A Work In Process game thats a Random Rougealike Game
 - [x] Resource 1 Generation
 - [x] Resource 2 Generation
 - [ ] Charcter generation
-- [ ] Turns
-- [ ] Levels
 - [ ] Inventory
 - [ ] Text Colours
 - [ ] Battle System
+- [ ] Turns
+- [ ] Levels
 - [ ] Movement
 - [ ] Eccononmy
 - [ ] Maping System
