@@ -13,12 +13,12 @@ and extract it to the same directory as Rougalike.py
 Once a item has been completed it will be removed from this list after the next update
 - [x] Resource 2 Generation
 - [x] Charcter generation
-- [ ] Inventory
-- [ ] Text Colours
-- [ ] Battle System
 - [ ] Turns
 - [ ] Levels
 - [ ] Movement
+- [ ] Inventory
+- [ ] Text Colours
+- [ ] Battle System
 - [ ] Eccononmy
 - [ ] Maping System
 - [ ] Save system
