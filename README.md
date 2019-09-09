@@ -11,9 +11,8 @@ and extract it to the same directory as Rougalike.py
 
 # The To-Do list
 Once a item has been completed it will be removed from this list after the next update
-- [x] Resource 2 Generation
 - [x] Charcter generation
-- [ ] Turns
+- [x] Turns
 - [ ] Levels
 - [ ] Movement
 - [ ] Inventory
