@@ -11,16 +11,14 @@ and extract it to the same directory as Rougalike.py
 
 # The To-Do list
 Once a item has been completed it will be removed from this list after the next update
-- [x] Charcter generation
-- [x] Turns
 
-- [ ] Movement
-- [ ] Battle System
-- [ ] Levels
-- [ ] Eccononmy
+- [x] Movement
+- [x] Battle System
+- [x] Levels
 - [ ] Inventory
-- [ ] Text Colours
 - [ ] Maping System
+- [ ] Text Colours
+- [ ] Eccononmy
 - [ ] Save system
 - [ ] Magic System
 - [ ] Towns
@@ -32,5 +30,5 @@ Once a item has been completed it will be removed from this list after the next 
 
 There are probably more to add to the list so when I remeber them I'll add them
 
-#Modding
+# Modding
 This game is designed to be easy to mod however the game is in early alpha and while modding is available I will not document how to edit it properly until the game is nearly finished (It seems it will be ready around late November/Earlt December)
