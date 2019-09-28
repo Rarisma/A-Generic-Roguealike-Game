@@ -17,12 +17,11 @@ Once a item has been completed it will be removed from this list after the next 
 - [x] Levels
 - [ ] Inventory
 - [ ] Maping System
-- [ ] Text Colours
+- [ ] Towns
+- [ ] NPCs
 - [ ] Eccononmy
 - [ ] Save system
 - [ ] Magic System
-- [ ] Towns
-- [ ] NPCs
 - [ ] Modding
 - [ ] Code Rewrite
 - [ ] QOL Fixes (Turns, Time played, Achivements ect,)
