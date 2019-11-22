@@ -1,242 +1,302 @@
-#Created by TMAltair
-import linecache #Allows reading lines from files without a load of code
-import os        #Does file opperations and other stuff like clearing screen
-import random    #Allows random number generation
+#Mk 5?
+BuildNumber = "0.0.2 Nov/18/11/19"
+Debug = 0   #1 = true anything else = false
 
-#Select     - deals with user input Select.upper should allways follow after it                                         #slots.txt lines
-#DataPath   - Path to data folder                                                                                       #1 - Terrain
-#LoadStage  - Stage of loading                                                                                          #2 - Hostiles
-#TempFile   - Current file that needs loading for linecache
-#SlotNo     - Picks a random number
-#Terrain    - Current Terrain
-#Turn       - Current turn
-#Character  - Save folder
+def BootCheck():    #Starts up and checks required modules are installed
+    TMPTXT = "FILLER TEXT"
+    TMPTXT = ""
+    try:
+         import time
+    except ImportError:
+        TMPTXT = " time"
 
-global Tempfile
-TempFile = "A tempory forever"  #He wanted to live forever.
-DataPath = os.getcwd()          #Gets file path
-DataPath = DataPath + "\\data"  #Leads to data folder
-LoadStage = 1
-Turn = 0
-Character = DataPath + "\\char" 
-MapX = random.randint(-100000,100000)
-MapY = random.randint(-100000,100000)
-PLMXMana = 100
-PLMXHealth = 100
-PLMXAttack = 100
-EXP = 0
-PLMana = PLMXMana
-PLHealth = PLMXHealth
-PLAttack = PLMXAttack
+    try:
+        import keyboard
+    except ImportError:
+        TMPTXT = TMPTXT + " keyboard"
+    
+    try:
+        import random
+    except ImportError:
+        TMPTXT = TMPTXT + " random"
 
-def MainMenu():
-    Select = input("Project4\nNew game\n\n")
-    Select = Select.upper() #Converts to caps so it cannot be missinterpreted due to case
-    if Select == "NEW GAME":
-        LoadInit()
+    try:
+        import os
+    except ImportError:
+        TMPTXT = TMPTXT + " os"
+
+    try:
+        import linecache
+    except ImportError:
+        TMPTXT = TMPTXT + " linecache"
+
+    try:
+        from colorama import Fore, Back, Style
+    except ImportError:
+        TMPTXT = TMPTXT + " colorama"
+
+    if TMPTXT == "":
+        print(" ")
     else:
-        print("Invalid Command.")
-        MainMenu()
+        input("You are missing required modules.\nPlease use this command in comand prompt to fix this\npip install" + TMPTXT)
 
-def LoadInit():         #Initalises loading 
-    global LoadStage    #Makes a global variable editable
-    LoadStage = 1       #Sets LoadStage to 1
-    Generation()        #Sends to Generation    
+#Fore.__getattribute__(TxClPref) + Back.__getattribute__(TxHlPref) + Style.__getattribute__(TxBrPref) 
+#This is the color prefs 
 
-def Generation():   #Generates world
-    if LoadStage == 1:
-        TerrainGen()
-    elif LoadStage == 2:
-        ResAGen()
-    elif LoadStage == 3:
-        ResBGen()
-    elif LoadStage == 4:
-        Creature()
-    elif LoadStage == 5:
-        display()
+BootCheck()
+import time
+import keyboard
+import random
+import os
+import linecache
+from colorama import Fore, Back, Style, init
+init(convert=True)  #Allows CMD and Powershell to display colors instead of the acsii code or whatever garbled text s/21A is
 
-def TerrainGen():
-    TerrainSlots = 0    #Ammount of slots terrain has (Slots is how many lines of text it has)
-    global TempFile
-    global SlotNo
-    TempFile = DataPath + "\\slots.txt"              #Writes the full path to slots.txt to TempFile
-    TerrainSlots = int( linecache.getline(TempFile, 1) )
-    SlotNo = random.randint(1,TerrainSlots)         #Picks a random number between 1 and how many slots are in line 1 of slots.txt
-    TempFile = DataPath + "\\Terrain.txt"            #Path to terrain.txt
-    global Terrain
-    Terrain = linecache.getline(TempFile,SlotNo)    #Gets terrain
-    global LoadStage
-    LoadStage = LoadStage + 1
-    Generation()
+MapX = random.randint(-1000000,1000000)
+MapY = random.randint(-1000000,1000000)  
+PlayerStats = [100,100,100,100]
+EnemyStats  = [10000,1000,1000,1000,3]
+PlayerInventory = ["Grey Crystal"]  #grey crystal means nothing and is just for the list to initalised
+PlayerInventoryAmmount = [1]
+WorldText   = "The glass is half full"          #
+EnemyText   = "The glass is a stupid question." # Hastag NOTFILLERTEXT
+XP   = 0
+Gold = 100
+Resource1 = "Aircatcher"
+Resource1Ammount = 1911
 
-def ResAGen():  #Generates 1st resource
-    ResASlotNo = SlotNo       #Ammount of slots 
-    global ResAName
-    ResAName  = "UNKNOWN"     #NoTE:So I havce no idea how inventory should work but here is an idea it looks inside a folder called inventory for whatever ResAName when collected it adds the ammount to the number in it if it doesnt exist create it
-    TempFile = DataPath + "\\ResA.txt"
-    global ResANum
-    ResAName = linecache.getline(TempFile,ResASlotNo)
-    ResANum = random.randint(1,5)   #Rewrite this one day to make it harder to get higher numbers like rolling a 1 rerolls between 1 and 2 and if its a 2 on roll 1 then it rerolls between 2 and 3
-    global LoadStage
-    LoadStage = LoadStage + 1
-    Generation()
+TmpNum = 1          #Overwriten by numbers if needed
+TxHlPref = "RESET"  #Text highlighting preference
+TxClPref = "RESET"  #Text Color preference
+TxBrPref = "NORMAL" #Text brightness preference 
 
-def ResBGen():  #Generates 2nd resource (This is the exact same as ResB)
-    ResBSlotNo = SlotNo       #Ammount of slots 
-    global ResBName
-    ResBName  = "UNKNOWN"     #NoTE:So I havce no idea how inventory should work but here is an idea it looks inside a folder called inventory for whatever ResAName when collected it adds the ammount to the number in it if it doesnt exist create it
-    TempFile = DataPath + "\\ResB.txt"
-    global ResBNum
-    ResBName = linecache.getline(TempFile,ResBSlotNo)
-    ResBNum = random.randint(0,10)   #Rewrite this one day to make it harder to get higher numbers like rolling a 1 rerolls between 1 and 2 and if its a 2 on roll 1 then it rerolls between 2 and 3 ect.
-    global LoadStage
-    LoadStage = LoadStage + 1
-    Generation()
+def Menu(): #Handles the mainmenu
+    global BuildNumber
+    global Debug
 
-def Creature():  #Sorts out Hostiles
-    global TempFile
-    global SlotNo
-    global LoadStage
-    global Terrain
-    global Enemy
-    global EMMana
-    global EMHealth
-    global EMAttack
-    TempFile = DataPath + "\\slots.txt"              #Writes the full path to slots.txt to TempFile
-    CreatureSlots = int( linecache.getline(TempFile, 2) )
-    SlotNo = random.randint(1,CreatureSlots)         #Picks a random number between 1 and how many slots are in line 1 of slots.txt
-    TempFile = DataPath + "\\hostile.txt"            #Path to hostile.txt
-    Enemy = linecache.getline(TempFile,SlotNo)     #Gets hostile
-    LoadStage = LoadStage + 1
-    EMMana = random.randint(1, PLMXMana*1.5)
-    EMHealth = random.randint(1, PLMXHealth*1.5)
-    EMAttack = random.randint(1, PLMXAttack*1.5)
-    Generation()
+    print("Rougalike Game\n\n1) Play\n2) Exit\n\n\nCreated by TMAltair\nGet updates here: http://bit.ly/Rougalike \n\nPress the number/letter in brackets to select your options ")
+    if Debug == 1:
+        print("BuildNumber = " + BuildNumber)
 
-def display():
-    global Turn
-    Turn = Turn + 1
-    print("You are in",Terrain)
-    global ResAName
-    global ResBName
-    print("There are",ResANum,ResAName)
-    print("There are",ResBNum,ResBName)
-    PlayerTurn()
+    while TmpNum == 1:
+        if keyboard.is_pressed("1"): 
+            WorldGen()
+        elif keyboard.is_pressed("2"):
+            exit()
 
-def PlayerTurn():   #Player turn
-    global Turn
-    global Character
-    print("There is a",Enemy)
-    print("Turn: ",Turn)
-    print("Actions:\nMove\nWait\nBattle")
-    Select = input()
-    Select = Select.upper()
-    if Select == "WAIT":
-        display()
-    elif Select == "MOVE":
-        Move()
-    elif Select == "BATTLE":
-        Battle()
-    else:
-        print("Invalid command.")
-        PlayerTurn()
-
-def Move(): #Remember Add map Perminance
-    #Add a check for a file with the maps name
+def WorldGen():
+    global TxBrPref
+    global TxClPref
+    global TxHlPref
+    global WorldText
+    global PlayerStats
+    global EnemyStats
     global MapX
     global MapY
-    Select = input("Move in what direction:\nNorth, South, East & West: ")
-    Select = Select.upper()
-    if Select == "NORTH":
-        MapY = MapY + 1
-    elif Select == "SOUTH":
-        MapY = MapY - 1
-    elif Select == "EAST":
-        MapX = MapX + 1
-    elif Select == "WEST":
-        MapX = MapX - 1
-    else:
-        print("Invalid Command")
-        Move()
-    LoadInit()
+    global EnemyText
+    if Debug == 1:
+        time.sleep(0)
+    else:  
+        os.system("cls")
+
+    TerrainSlots = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Slots.txt", 1))    #Gets total ammount of terrain
+    TerrainID   = random.randint(1,TerrainSlots) #Line Number of Terrain
+    Terrain     = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Terrain.txt", TerrainID )       #Rolls Terrain
+    TerrainBr   = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Brightness.txt", TerrainID)     #Gets brightness
+    TerrainCl   = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Color.txt", TerrainID)          #Gets color
+    TerrainIcon = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\MapIcon.txt", TerrainID)        #Gets map letter
+    TerrainIcon = TerrainIcon.strip()
+    TerrainIcon = TerrainIcon[0]       #Makes sure its only 1 letter
+    TerrainIcon = TerrainIcon.upper()
+    Terrain     = Terrain.strip()      #Removes \n
+    TerrainBr   = TerrainBr.strip()    #Removes \n
+    TerrainCl   = TerrainCl.strip()    #Removes \n
+    TerrainText = Fore.__getattribute__(TxClPref) + Back.__getattribute__(TxHlPref) + Style.__getattribute__(TxBrPref) + "You are " + Fore.__getattribute__(TerrainCl) + Style.__getattribute__(TerrainBr) + Terrain + "." + Fore.__getattribute__(TxClPref) + Back.__getattribute__(TxHlPref) + Style.__getattribute__(TxBrPref)
+
+    ResourceSlots = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Slots.txt", 2))   #Gets total ammount of resource
+    Resource1ID = random.randint(1,ResourceSlots) #Rolls Resource
+    Resource1Ammount = random.randint(0,10)       #Rolls 
+    Resource1 = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Resources\\Resources.txt",Resource1ID)    #Gets resource      
+    Resource1Br = linecache.getline(os.path.dirname(os.path.abspath(__file__))  + "\\Data\\Resources\\Brightness.txt",Resource1ID) #Gets brightness
+    Resource1Cl = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Resources\\Color.txt",Resource1ID)       #Gets color
+    Resource1   = Resource1.strip()     #Removes \n
+    Resource1Br = Resource1Br.strip()   #Removes \n
+    Resource1Cl = Resource1Cl.strip()   #Removes \n
+    Resource1Text = Fore.__getattribute__(TxClPref) + Back.__getattribute__(TxHlPref) + Style.__getattribute__(TxBrPref) + "There are " + Style.__getattribute__(Resource1Br) + Fore.__getattribute__(Resource1Cl) + str(Resource1Ammount)  + " " + Resource1 + Fore.__getattribute__(TxClPref) + Back.__getattribute__(TxHlPref) + Style.__getattribute__(TxBrPref)  + " here."
+    if Resource1Ammount == 0:
+        Resource1Text = ""
+
+    EnemySlots = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Slots.txt",3))
+    EnemyID = random.randint(1,EnemySlots)
+    EnemyName = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Enemys.txt",EnemyID)
+    EnemyName = EnemyName.strip()
+    EnemyStats = [random.randint(round(PlayerStats[0]/2),PlayerStats[0]),random.randint(round(PlayerStats[1]/4),round(PlayerStats[1]/4*3)),random.randint(round(PlayerStats[2]/2),PlayerStats[2]),random.randint(round(PlayerStats[3]/2),PlayerStats[3]), random.randint(1,2)]
+    #EnemyStats index = 0 - Health  1-Attack  2-Defence  3-Speed  4-Magic(1)/Physical(2)
+    EnemyText = Fore.RESET + "There is a " + Fore.RED + EnemyName + Fore.RESET + " here."
+
+    WorldText = str(TerrainText) + "\n" + str(Resource1Text) + "\n" + str(EnemyText)
+    Display()
+
+def Display():
+    global WorldText
+    print(WorldText)
+    PlayerTurn()
+ 
+def PlayerTurn():
+    global PlayerInventory
+    global PlayerInventoryAmmount
+    global Resource1
+    global Resource1Ammount
+    print("\n\nOptions:")
+    print("1) Battle     2) Move        3) Collect items  4)Inventory")
+    print("5) Save/Load  6) Statistics  7) Settings       8) Quit")
+    time.sleep(1)
+    a = 1
+    while a == 1:
+        if keyboard.is_pressed("1"):
+            Battle()
+        elif keyboard.is_pressed("2"):
+            Move()
+        elif keyboard.is_pressed("3"):
+            print("Collect:\n 1) " + Resource1)
+            b = 1
+            TmpNum = 0
+            time.sleep(1)
+            while b == 1:
+                if keyboard.is_pressed("1"):
+                    print("Collected " + str(Resource1Ammount) + " " + str(Resource1))
+                    try:
+                        PlayerInventory.index(Resource1)    #Checks if player has allready collected this resource
+                    except ValueError:
+                        TmpNum = 1
+                    b = 0
+            if TmpNum == 1:
+                PlayerInventory = PlayerInventory.append(Resource1)
+                PlayerInventoryAmmount = PlayerInventoryAmmount.append(Resource1Ammount)
+            else:
+                TmpNum = PlayerInventory.index(Resource1)
+                PlayerInventoryAmmount[TmpNum] = PlayerInventoryAmmount[TmpNum] + Resource1Ammount
+                Display()
+
+        elif keyboard.is_pressed("4"):
+            print("You currently have: " + str(PlayerInventory))
+        elif keyboard.is_pressed("5"):
+            a=1#link to stats
+        elif keyboard.is_pressed("6"):
+            a=1#link to stats/achivements
+        elif keyboard.is_pressed("7"):
+            a=1#link to settings
+        elif keyboard.is_pressed("8"):
+            a=1#quit
 
 def Battle():
-    global PLMana
-    global PLHealth
-    global PLAttack
-    global PLMXMana
-    global PLMXHealth
-    global PLMXAttack
-    global EMMana
-    global EMHealth
-    global EMAttack
-    global EXP
-    global Enemy
-    PLMana = PLMXMana
-    PLHealth = PLMXHealth
-    PLAttack = PLMXAttack
-    print("There is a",Enemy," Attack / Defend / Flee\n\n Your HP:",PLHealth,"\nEnemy HP:",EMHealth)
-    Select = input()
-    Select = Select.upper()
-    if Select == "ATTACK":
-        EMHealth = EMHealth - random.randint(PLAttack/2,PLAttack*2)
-        PLHealth = PLHealth - EMAttack
-    elif Select == "DEFEND":
-        PLHealth = PLHealth - EMHealth / 2
-    elif Select == "FLEE":
-        display()
-    else:
-        print("Invalid Command.")
+    global EnemyText
+    global PlayerStats
+    global EnemyStats
+    global Gold
+    global XP
+    PlayerBattleStats = PlayerStats
+    EnemyBattleStats = EnemyStats
+    if Debug == 1:
+        time.sleep(0.000000000000000001)
+    else:  
+        os.system("cls")
+    
+    print("Your HP: " + str(PlayerStats[0]) + "  Enemy HP: " + str(EnemyStats[0]))
+    print(EnemyText + "\n1) Battle  2) Run \n")
+    time.sleep(1)
 
-    if EMHealth <= 0 :
-        print("Congratulations! You defeated",Enemy)
-        MX = EMAttack + EMMana / 2
-        EXP = EXP + MX
-        display()
-    elif PLHealth <= 0:
-        print("You died. Press enter to restart")
-        input()
-        LoadInit()
-    else:
-        Battle2()
+    a = 1
+    while a == 1:
+        if keyboard.is_pressed("1"):
+            a = 2
+        elif keyboard.is_pressed("2"):
+            BootCheck()
 
-def Battle2():
-    global PLMana
-    global PLHealth
-    global PLAttack
-    global PLMXMana
-    global PLMXHealth
-    global PLMXAttack
-    global EMMana
-    global EMHealth
-    global EMAttack
-    global EXP
-    global Enemy
-    print("There is a",Enemy," Attack / Defend / Flee\n\n Your HP:",PLHealth,"\nEnemy HP:",EMHealth)
-    Select = input()
-    Select = Select.upper()
-    if Select == "ATTACK":
-        EMHealth = EMHealth - random.randint(PLAttack/2,PLAttack*2)
-        PLHealth = PLHealth - EMAttack
-    elif Select == "DEFEND":
-        PLHealth = PLHealth - EMHealth / 2
-    elif Select == "FLEE":
-        display()
-    else:
-        print("Invalid Command.")
+    BattleLoop = 1
+    while BattleLoop == 1:
+        print("\n1) Attack  2) Magic  3) Defend\n4) Items   5) Run    6) Inspect")
+        time.sleep(1)
+        AttackLoop = 1
+        while AttackLoop == 1:
+            if keyboard.is_pressed("1"):    #Attack Command
+                AttackLoop = 0
+                print("You used a melee attack")
+                if EnemyBattleStats[4] == 2:
+                    EnemyBattleStats[0] = EnemyBattleStats[0] - random.randint(round(PlayerBattleStats[1] / 2), round(PlayerBattleStats[1] * 2)) - EnemyBattleStats[2]
+                    print("You were attacked by the enemy.")
+                    PlayerBattleStats[0] = PlayerBattleStats[0] - random.randint(round(EnemyBattleStats[1] / 2), round(EnemyBattleStats[1] * 2)) - PlayerBattleStats[2]                
+                else:
+                    EnemyBattleStats[0] = EnemyBattleStats[0] - round(PlayerBattleStats[1] / 4)
+                    print("You were attacked by the enemy.")
+                    PlayerBattleStats[0] = PlayerBattleStats[0] - random.randint(round(EnemyBattleStats[1] / 2), round(EnemyBattleStats[1] * 2)) - PlayerBattleStats[2]
+            elif keyboard.is_pressed("2"):  #Magic  Command
+                print("You used a magic attack")
+                AttackLoop = 0
+                if EnemyBattleStats[4] == 1:
+                    EnemyBattleStats[0] = EnemyBattleStats[0] - random.randint(round(PlayerBattleStats[1] / 2), round(PlayerBattleStats[1] * 2)) - EnemyBattleStats[2]
+                    print("You were attacked by the enemy.")
+                    PlayerBattleStats[0] = PlayerBattleStats[0] - random.randint(round(EnemyBattleStats[1] / 2), round(EnemyBattleStats[1] * 2)) - PlayerBattleStats[2]                
+                else:
+                    EnemyBattleStats[0] = EnemyBattleStats[0] - round(PlayerBattleStats[1] / 4)
+                    print("You were attacked by the enemy.")
+                    PlayerBattleStats[0] = PlayerBattleStats[0] - random.randint(round(EnemyBattleStats[1] / 2), round(EnemyBattleStats[1] * 2)) - PlayerBattleStats[2]
+            elif keyboard.is_pressed("3"):  #Defend Command
+                AttackLoop = 0
+                Defence = PlayerBattleStats[2] * 1.5
+                print("You were attacked by the enemy.")
+                PlayerBattleStats[0] = PlayerBattleStats[0] - random.randint(round(EnemyBattleStats[1] / 2), round(EnemyBattleStats[1] * 2)) - PlayerBattleStats[2]
+            elif keyboard.is_pressed("4"):
+                BattleLoop = 1#put inventory here
+            elif keyboard.is_pressed("5"):  #Run     Command
+                Display()
+            elif keyboard.is_pressed("6"):  #Inspect Command
+                AttackLoop = 0
+                print("\n       You: HP: " + str(PlayerStats[0]) + "   Attack: " + str(PlayerStats[1]) + "  Defence: " + str(PlayerStats[2]) + " Speed: " + str(PlayerStats[3]))
+                print("     Enemy: HP: " + str(EnemyStats[0])  + "    Attack: " + str(EnemyStats[1])  + "   Defence: " + str(EnemyStats[2])  + "  Speed: " + str(EnemyStats[3]))
+                print("Difference: HP: " + str(PlayerStats[0] - EnemyStats[0]) + "    Attack: " + str(PlayerStats[1] - EnemyStats[1]) + "   Defence: "+ str(PlayerStats[2] - EnemyStats[2]) + "  Speed: " + str(PlayerStats[3] - EnemyStats[3]))
+                time.sleep(1)
+                print("You were attacked by the enemy.")
+                PlayerBattleStats[0] = PlayerBattleStats[0] - random.randint(round(EnemyBattleStats[1] / 2), round(EnemyBattleStats[1] * 2)) - PlayerBattleStats[2]
 
-    if EMHealth <= 0 :
-        print("Congratulations! You defeated",Enemy)
-        MX = EMAttack + EMMana / 2
-        EXP = EXP + MX
-        display()
-    elif PLHealth <= 0:
-        print("You died. Press enter to restart")
-        input()
-        LoadInit()
-    else:
-        Battle2()
+        if EnemyBattleStats[0] <= 0:
+            if PlayerBattleStats[0] <= 0:
+                PlayerBattleStats[0] = 1
+            EnemyBattleStats[0]  = 0     
+            print("Your HP: " + str(PlayerStats[0]) +  " Enemy HP: " + str(EnemyStats[0]))
+            input("You won!\nPress enter to continue")
+            BattleLoop = 0
+        elif int(PlayerBattleStats[0]) <= 0:
+            print("Your HP: " + str(PlayerStats[0]) +  " Enemy HP: " + str(EnemyStats[0]))
+            input("You died.\n\nPress enter to restart")
+            Menu()
+        else:
+            print("Your HP: " + str(PlayerStats[0]) +  " Enemy HP: " + str(EnemyStats[0]))
+            AttackLoop = 1
+    
+    Gold = Gold + random.randint(0,1000)
+    XP = XP + random.randint(100,250)
+    WorldGen()
 
-
-
-MainMenu()
+def Move():
+    global MapX
+    global MapY
+    print("Select a direction to move\n         (1)\n        North\n(4) West     East (2)\n        South\n         (3)")
+    time.sleep(1)
+    a = 1
+    while a == 1:
+        if keyboard.is_pressed("1"):
+            MapY = MapY + 1
+            a = 0
+        elif keyboard.is_pressed("2"):
+            MapX = MapX + 1
+            a = 0
+        elif keyboard.is_pressed("3"):
+            MapY = MapY - 1
+            a = 0
+        elif keyboard.is_pressed("4"):
+            MapX = MapX - 1
+            a = 0
+    WorldGen()
+    
+Menu()
