@@ -8,6 +8,16 @@ To play all you need is a version of rougalike.py and the data folder
 - Setlements
 - Shops
 - Statistics
+- Better UI
+- Difficulty
+- Guide
+- Rewrite of code
+- Mapping
+
+Posibilties
+-Temporary removal of /Data/ in favour of other solutions
+- Moduless mode (Keyboard and Colorama)
+- Color preferences
 
 # To Do list
 - Maps
