@@ -4,7 +4,7 @@ Rougalike RPG is a text based rougalike RPG, you start in the middle of nowhere,
 To play all you need is a version of rougalike.py and the data folder
 
 
-# Coming soon
+# Coming in the 0.7.0 update
 - Setlements
 - Shops
 - Statistics
