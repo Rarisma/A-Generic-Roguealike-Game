@@ -4,32 +4,24 @@ RougalikeRPG is a text based rougalike RPG, you start in the middle of nowhere, 
 To play all you need is a version of rougalike.py and the data folder
 
 
-# Coming in the 0.7.0 update
-- Setlements
-- Shops
-- Statistics
-- Better UI
-- Difficulty
-- Guide
-- Rewrite of code
+# Coming in the 0.8 update
 - Mapping
-
-
+- World Perminance
+- Weather
+- Color preferences
+- No clear mode / battle log
+- More info on saves before loading
+- Add framework for quests
+- Add more weapons
+- Make crafting more like equiping armor (ID Based)
+- Change battle chance when moving or may not spawn at all
 __Release date:  End of December__
 
 Posibilties:
-
--Temporary removal of /Data/ in favour of other solutions
-- Moduless mode (Keyboard and Colorama)
-- Color preferences
 - Auto Updating / Version Selector / Persudo Launcher
 
 # To Do list
 - Maps
-- Stats
 - Magic
-- World Perminance
-- Armour and Weaponry
 - Magic
-- Weather
 - Remove required modules
