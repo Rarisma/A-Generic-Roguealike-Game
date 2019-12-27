@@ -5,8 +5,8 @@ To play all you need is a version of rougalike.py and the data folder
 
 
 # Coming in the 0.8 update
-- Mapping
 - World Perminance
+- Mapping
 - Weather
 - Color preferences
 - No clear mode / battle log
@@ -21,7 +21,5 @@ Posibilties:
 - Auto Updating / Version Selector / Persudo Launcher
 
 # To Do list
-- Maps
-- Magic
 - Magic
 - Remove required modules
