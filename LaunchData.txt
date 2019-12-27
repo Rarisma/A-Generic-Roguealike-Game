@@ -5,5 +5,4 @@ Latest Launcher Version
 0.1.0
 
 Latest Version
-0.7.0
-
+0.7.1
