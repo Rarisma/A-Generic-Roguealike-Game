@@ -1,0 +1,2 @@
+#If you are a user looking at this file, it's for the auto updating feature, feel free to delete this file as it does nothing
+#If you are a dev looking at this in a repo, Just put the latest version in line 3.
