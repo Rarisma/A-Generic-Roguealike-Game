@@ -18,7 +18,7 @@ To play all you need is a version of rougalike.py and the data folder
 __Release date:  January__
 
 Posibilties:
-- [ ]Auto Updating / Version Selector / Persudo Launcher 
+- [ ] Auto Updating / Version Selector / Persudo Launcher 
 
 # To Do list
 - Magic
