@@ -6,7 +6,7 @@ To play all you need is a version of rougalike.py and the data folder
 
 # Coming in the 0.8 update
 - [x] World Perminance
-- [ ] Mapping
+- [x] Mapping
 - [ ] Weather
 - [ ] Color preferences
 - [ ] No clear mode / battle log
