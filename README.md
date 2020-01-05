@@ -1,4 +1,4 @@
-# Roguelike-RPG
+# Roguealike-RPG
 RougalikeRPG is a text based rougalike RPG, you start in the middle of nowhere, with every turn giving a new challenge.
 
 To play all you need is a version of rougalike.py and the data folder
