@@ -9,14 +9,14 @@ To play all you need is a version of rougalike.py and the data folder
 - [x] Mapping
 - [ ] Weather
 - [ ] Color preferences
-- [ ] No clear mode / battle log
+- [x] Battle log
 - [ ] More info on saves before loading
 - [ ] Add framework for quests
 - [ ] Add more weapons
 - [ ] Make crafting more like equiping armor (ID Based)
 - [x] Change battle chance when moving or may not spawn at all
 
-__Release date:  January__
+__Release date:  January 12-16__
 
 Posibilties:
 - [x] Auto Updating
