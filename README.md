@@ -10,7 +10,6 @@ Needed for release:
 - [ ] Color preferences
 - [ ] More info on saves before loading
 - [ ] Add framework for quests
-- [ ] Add more weapons
 - [ ] Make crafting more like equiping armor (ID Based)
 
 Complete:
@@ -19,6 +18,9 @@ Complete:
 - [x] Change battle chance when moving or may not spawn at all
 - [x] Auto Updating
 - [x] Battle log
+- [x] Add more weapons
+- [x] Fixes to Villages
+
 
 __Release date:  January 12-16__
 
