@@ -6,9 +6,7 @@ To play all you need is a version of rougalike.py and the data folder
 
 # Coming in the 0.8 update
 Needed for release:
-- [ ] Weather
-- [ ] Color preferences
-- [ ] More info on saves before loading
+
 - [ ] Add framework for quests
 - [ ] Make crafting more like equiping armor (ID Based)
 
@@ -20,10 +18,9 @@ Complete:
 - [x] Battle log
 - [x] Add more weapons
 - [x] Fixes to Villages
+- [x] Weather
+- [x] Color preferences
+- [x] More info on saves before loading
 
 
-__Release date:  January 12-16__
-
-# To Do list
-- Magic
-- Remove required modules
+__Release date:  January 17-20__
