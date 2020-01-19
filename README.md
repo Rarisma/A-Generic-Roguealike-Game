@@ -8,9 +8,9 @@ To play all you need is a version of rougalike.py and the data folder
 Needed for release:
 
 - [ ] Add framework for quests
-- [ ] Make crafting more like equiping armor (ID Based)
 
 Complete:
+- [x] Make crafting more like equiping armor (ID Based)
 - [x] World Perminance
 - [x] Mapping
 - [x] Change battle chance when moving or may not spawn at all
