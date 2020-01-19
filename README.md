@@ -3,24 +3,29 @@ RougalikeRPG is a text based rougalike RPG, you start in the middle of nowhere, 
 
 To play all you need is a version of rougalike.py and the data folder
 
+# Coming in update 0.9
+- Multistage crafting
+- Rebalancing of stats
+- Rebalancing of Enemys
+- Rebalancing of caves
+- New metals
+- New Areas
+- New items
+- Quests
+- Full intergration of alternate terrains (eg villages) and the world space
+- Map icons
+- Text Highlighting
+- Achivements
+- Cave types
+- Dungeons
+- Bosses
+- Magic
+- Enemy Drops
+- New Weapons types
+- Weapon &  Armor improvement (Village Forging)
+- Multiple Resources in 1 area
+- Stat gems
+- Respawning at Villages
 
-# Coming in the 0.8 update
-Needed for release:
 
-- [ ] Add framework for quests
-
-Complete:
-- [x] Make crafting more like equiping armor (ID Based)
-- [x] World Perminance
-- [x] Mapping
-- [x] Change battle chance when moving or may not spawn at all
-- [x] Auto Updating
-- [x] Battle log
-- [x] Add more weapons
-- [x] Fixes to Villages
-- [x] Weather
-- [x] Color preferences
-- [x] More info on saves before loading
-
-
-__Release date:  January 17-20__
+__Release date:  Febuary 14-21th__
