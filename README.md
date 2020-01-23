@@ -13,24 +13,24 @@ To play all you need is a version of rougalike.py and the data folder
 - [ ] Updates to
   - [ ] Areas
   - [ ] Items
-  - [ ] Enemys
+  - [x] Enemys
   - [ ] Bosses
 
-- Multistage crafting
-- Quests
-- Full intergration of alternate terrains (eg villages) and the world space
-- Map icons
-- Text Highlighting
-- Achivements
-- Cave types
-- Dungeons
-- Magic
-- Enemy Drops
-- New Weapons types
-- Weapon &  Armor improvement (Village Forging)
-- Multiple Resources in 1 area
-- Stat gems
-- Respawning at Villages
+  - [ ] Multistage crafting
+  - [ ] Quests
+  - [ ] Full intergration of alternate terrains (eg villages) and the world space
+  - [ ] Map icons
+  - [ ] Text Highlighting
+  - [ ] Achivements
+  - [ ] Cave types
+  - [ ] Dungeons
+  - [ ] Magic
+  - [ ] Enemy Drops
+  - [ ] New Weapons types
+  - [ ] Weapon &  Armor improvement (Village Forging)
+  - [ ] Multiple Resources in a area
+  - [ ] Stat gems
+  - [ ] Respawning at Villages
 
 
 __Release date:  Febuary 14-21th__
