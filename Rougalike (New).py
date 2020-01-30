@@ -1,7 +1,9 @@
-import sys
 import os
+import Data.AutoUpdater
+import Data.Config
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__) + "\Data\\") # Allows modules in \data\ to be imported  
+if Data.Config.AutoUpdaterEnabled is True: # Checks if AutoUpdate is enabled
+    UpdateCheck = Data.AutoUpdater.ConnectionCheck()
 
-import Data.TestModule
-TestModule.TMAltair()
+print(Data.AutoUpdater.Version)
+print(UpdateCheck)
