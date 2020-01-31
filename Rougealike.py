@@ -3,8 +3,12 @@ import os
 import time
 import urllib.request
 import zipfile
-import colorama
+from colorama import Fore, Back, Style, init
+import keyboard
+import pickle
 SystemInfo = ["Build Version: 1/2/2020","1.0"]
+init(convert=True)
+a = 10
 
 def Intialise():
     global SystemInfo
@@ -35,8 +39,8 @@ def Intialise():
         Menu()
 
     try:
-        urllib.request.urlretrieve("https://raw.githubusercontent.com/TMAltair/RougalikeRPG/master/metadata.txt",os.path.dirname(os.path.abspath(__file__)) + "\\Data\\meta.txt")
-        LatestVer = str(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\meta.txt",3))
+        urllib.request.urlretrieve("https://raw.githubusercontent.com/TMAltair/RougalikeRPG/master/metadata.txt",os.path.dirname(os.path.abspath(__file__)) + "\\meta.txt")
+        LatestVer = str(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\meta.txt",3))
     except:
         LatestVer = "Failed"
     LatestVer = LatestVer.strip()
@@ -57,18 +61,24 @@ def Intialise():
                     os.mkdir("Rougalike " + LatestVer)
                 except:
                     time.sleep(0)
-                urllib.request.urlretrieve("https://raw.githubusercontent.com/TMAltair/RougalikeRPG/master/Rougalike.py",os.path.dirname(os.path.abspath(__file__)) + "\\Rougalike " + LatestVer +"\\Rougalike " + LatestVer + ".py")
+                urllib.request.urlretrieve("https://raw.githubusercontent.com/TMAltair/RougalikeRPG/master/Rougealike.py",os.path.dirname(os.path.abspath(__file__)) + "\\Rougalike " + LatestVer +"\\Rougalike " + LatestVer + ".py")
                 urllib.request.urlretrieve("https://raw.githubusercontent.com/TMAltair/RougalikeRPG/master/Data.zip",os.path.dirname(os.path.abspath(__file__)) + "\\Rougalike " + LatestVer +"\\Data.zip")
                 with zipfile.ZipFile(os.path.dirname(os.path.abspath(__file__)) + "\\Rougalike " + LatestVer + "\\Data.zip", 'r') as zip_ref:
                     zip_ref.extractall(os.path.dirname(os.path.abspath(__file__)) + "\\Rougalike " + LatestVer)
                 os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\Rougalike " + LatestVer + "\\Data.zip")
-                input("\n" + Colorama.Fore.GREEN + "Update Complete!" + Colorama.Fore.__getattribute__(PlayerPrefs[0]) + "\nTo run the latest version look for the folder called Rougalike " + LatestVer + "\n\nPress enter to close.")
+                input("\n" + Fore.GREEN + "Update Complete!" + Fore.RESET + "\nTo run the latest version look for the folder called Rougalike " + LatestVer + "\n\nPress enter to close.\n")
                 exit()
             elif keyboard.is_pressed("n"):
                 Menu()
     Menu()
 
 def Menu():
-    print("Nice")
+    print("\nRougealike RPG by TMAltair\n1) Play\n2) Load\nQ) Quit\n\nVersion " + str(SystemInfo[1]) + "\n(" + str(SystemInfo[0]) + ")")
+    Loop = 1
+    while Loop == 1:
+        if keyboard.is_pressed("1"):
+
+        if keyboard.is_pressed("2"):
+
 
 Intialise()
