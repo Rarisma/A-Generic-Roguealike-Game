@@ -955,6 +955,203 @@ def AlternateTerrains():
                 elif keyboard.is_pressed("3"):
                     WorldGen()
 
+def Move():
+    print("move")
+
+def Battle():
+    global PlayerMaxStats
+    global WorldStats
+    global PlayerGeneral
+    global Z
+    global EnemyStats
+    global PlayerHealingItems
+    global PlayerHealingItemsAmmount
+    global EquipedArmourDef
+    global EquipedWeapon
+    global EquipedWeaponatk
+    global EquipedWeaponcrt
+    global EquipedWeaponhit
+    global EquipedWeaponres 
+    global EquipedArmour
+    global EquipedArmourDef
+    global EquipedArmourRes
+    global EnemyText
+    global BattleLog
+    global PlayerHP
+    global WeatherID
+
+    if EnemyText == "":
+        print("There is no enemy to battle.\n")
+        time.sleep(2.5)
+        PlayerTurn()
+
+    if SystemStats != 1:
+        os.system("cls")
+
+    PlayerAttack = PlayerMaxStats[1]
+    PlayerDefence = PlayerMaxStats[2]
+    if Z != 1:
+        EnemyStats = [random.randint(round(PlayerMaxStats[0]/2),PlayerMaxStats[0] * 2),random.randint(round(PlayerMaxStats[1]/2),PlayerMaxStats[1] * 2),random.randint(round(PlayerMaxStats[2]/2),PlayerMaxStats[2] * 2)]    
+    #0-HP 1-Attack 2-Defence
+    A = 1
+    while A == 1:
+        print("Your HP: " + str(PlayerHP) + "  Enemy HP: " + str(EnemyStats[0]) + "\n1) Attack  2) Defend\n3) Items   4) Run\n")
+        B = 1
+        time.sleep(1)
+        while B == 1:
+            Attack = 0
+            Defence = 0
+            F = 0
+            if keyboard.is_pressed("1"): # attack
+                Attack = PlayerAttack + EquipedWeaponatk
+                if random.randint(0,100) > EquipedWeaponhit:
+                    Attack = 0
+                    B = 0
+                    print("You missed!")
+                if random.randint(0,100) <= EquipedWeaponcrt:
+                    Attack = round(Attack * 2)
+                if EquipedWeapon != "Hands":
+                    EquipedWeaponres = EquipedWeaponres - 1
+                    if EquipedWeaponres <= 0: 
+                        print(EquipedWeapon + " broke.")
+                        EquipedWeapon = "Hands"
+                        EquipedWeaponatk = 0
+                        EquipedWeaponcrt = 0
+                        EquipedWeaponhit = 100
+                        EquipedWeaponres = 0 
+
+                Defence = PlayerDefence
+                if EquipedArmour != "Nothing":
+                    EquipedArmourRes = EquipedArmourRes - 1
+                    if EquipedArmourRes <= 0:
+                        print(EquipedArmour + " broke.")
+                        EquipedArmour = "Nothing"
+                        EquipedArmourDef = 0
+                        EquipedArmourRes = 0
+                B = 0
+                Defence = random.randint(Defence,Defence * 2)
+            elif keyboard.is_pressed("2"):  #defence
+                Defence = PlayerDefence * 2
+                B = 0
+            elif keyboard.is_pressed("3"):
+                print("1) Basic Healing Potion (+ 50HP) You have: " + str(PlayerHealingItemsAmmount[0]) + "\n2) Advanced Healing Potion (+ 250HP) You have: " + str(PlayerHealingItemsAmmount[1]) + "\n3) Go back")
+                C = 1
+                time.sleep(1)
+                while C == 1:
+                    if keyboard.is_pressed("1"):
+                        C = 0
+                        B = 0
+                        if PlayerHealingItemsAmmount[0] > 0:
+                            PlayerHP = PlayerHP + 50
+                            PlayerHealingItemsAmmount[0] = PlayerInventoryAmmount[0] - 1
+                        else:
+                            print("You don't have enough potions")
+
+                    if keyboard.is_pressed("2"):
+                        C = 0
+                        B = 0
+                        if PlayerHealingItemsAmmount[1] > 0:
+                            PlayerHP = PlayerHP + 250
+                            PlayerHealingItemsAmmount[1] = PlayerInventoryAmmount[1] - 1
+                        else:
+                            print("You don't have enough potions")
+                            
+                    if keyboard.is_pressed("3"):
+                        C = 0
+                        B = 0
+                        EnAttack = 0
+                        F = 1
+
+            elif keyboard.is_pressed("4"):
+                if WeatherID == 4 and random.randint(1,2) == 1: # Wind 
+                    BattleLog[5] = "Got blown away by the wind from X:" + str(WorldStats[0]) + " Y:" + str(WorldStats[1])
+                    WorldStats[0] = random.randint(-2147483500,2147483500)
+                    WorldStats[1] = random.randint(-2147483500,2147483500)
+                    BattleLog[5] = BattleLog[5] + " To X:" + str(WorldStats[0]) + " Y:" + str(WorldStats[1])
+                    WorldGen()
+                if random.randint(0,1) == 0:
+                    WorldGen()
+                else:
+                    print("Couldn't run!")
+                    B = 0
+        
+        atkmult = WorldStats[2] * 10
+        EnAttack = EnemyStats[1] + atkmult - random.randint(round(Defence/2),Defence)
+        
+        Attack = Attack - EnemyStats[2] + atkmult
+        if EnAttack <= 0:
+            EnAttack = 0
+        if Attack <= 0:
+            Attack = 0
+        
+        if F == 1:
+            EnAttack = 0
+        
+        EnemyStats[0] = EnemyStats[0] - random.randint(Attack,round(Attack * 1.5))
+        PlayerHP = PlayerHP - EnAttack
+        print("\nYour attack did: " + str(Attack) + "\nEnemy Attack did: " + str(EnAttack))
+
+        if WeatherID == 3 and EquipedArmour != "Nothing":
+            print("You also took " + str(round(PlayerMaxStats[0] / 5)) + " from the hot weather!")
+            PlayerHP = PlayerHP - round(PlayerMaxStats[0] / 5)
+
+        if WeatherID == 5 and EquipedArmour == "Nothing":
+            print("You also took " + str(round(PlayerMaxStats[0] / 5)) + " from the cold weather!")
+            PlayerHP = PlayerHP - round(PlayerMaxStats[0] / 5)
+
+        if EnemyStats[0] <= 0:
+            BattleLog[5] = "Won a battle" 
+            if PlayerGeneral[0] >= PlayerGeneral[2] * 1000:
+                print("You leveled up!")
+                LevelUpBonu13s = random.randint(1,50)
+                PlayerMaxStats[0] = PlayerMaxStats[0] + LevelUpBonus
+                PlayerHP = PlayerMaxStats[0]
+                print("HP Increased by " + str(LevelUpBonus))
+                LevelUpBonus = random.randint(1,50)
+                PlayerAttack = PlayerAttack + LevelUpBonus
+                print("Attack Increased by" + str(LevelUpBonus))
+                LevelUpBonus = random.randint(1,50)
+                PlayerDefence = PlayerDefence + LevelUpBonus
+                print("Defence Increased by" + str(LevelUpBonus))
+                PlayerGeneral[2] + 1
+                input("Press enter to continue...")
+                PlayerTurn()
+            else:
+                input("Press enter to continue...")
+                PlayerTurn()
+        elif PlayerHP <= 0:
+            input("You died.\nPress enter to restart")
+            Menu()
+
+def Collect():
+    global PlayerInventory
+    global PlayerInventoryAmmount
+    global Resource1
+    global Resource1Ammount
+    global Resource1Text
+    global WorldStats
+    global BattleLog
+
+    CurrentCoords = "x" + str(WorldStats[0]) + "y" + str(WorldStats[1])
+
+    if Resource1Text == "":
+        print("Theres nothing here to collect!\n")
+        PlayerTurn()
+
+    BattleLog[5] = "Collected " + str(Resource1Ammount) + " " + str(Resource1)
+
+    if Resource1 in PlayerInventory:
+        PlayerInventoryAmmount[PlayerInventory.index(Resource1)] = PlayerInventoryAmmount[PlayerInventory.index(Resource1)] + Resource1Ammount
+    else:
+        PlayerInventoryAmmount.append(Resource1Ammount)
+        PlayerInventory.append(Resource1)
+
+    WorldFile = open(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + CurrentCoords + ".txt","w")
+    WorldFile.write(str(TerrainID) + "\n0\n0")
+    WorldFile.close()
+
+    WorldGen()
+
 def Save():
     global PlayerInventory
     global PlayerInventoryAmmount
@@ -1299,203 +1496,6 @@ def Load():
 
     print("Loaded " + str(SlotNo) +"\n\n")
     WorldGen()    
-
-def Battle():
-    global PlayerMaxStats
-    global WorldStats
-    global PlayerGeneral
-    global Z
-    global EnemyStats
-    global PlayerHealingItems
-    global PlayerHealingItemsAmmount
-    global EquipedArmourDef
-    global EquipedWeapon
-    global EquipedWeaponatk
-    global EquipedWeaponcrt
-    global EquipedWeaponhit
-    global EquipedWeaponres 
-    global EquipedArmour
-    global EquipedArmourDef
-    global EquipedArmourRes
-    global EnemyText
-    global BattleLog
-    global PlayerHP
-    global WeatherID
-
-    if EnemyText == "":
-        print("There is no enemy to battle.\n")
-        time.sleep(2.5)
-        PlayerTurn()
-
-    if SystemStats != 1:
-        os.system("cls")
-
-    PlayerAttack = PlayerMaxStats[1]
-    PlayerDefence = PlayerMaxStats[2]
-    if Z != 1:
-        EnemyStats = [random.randint(round(PlayerMaxStats[0]/2),PlayerMaxStats[0] * 2),random.randint(round(PlayerMaxStats[1]/2),PlayerMaxStats[1] * 2),random.randint(round(PlayerMaxStats[2]/2),PlayerMaxStats[2] * 2)]    
-    #0-HP 1-Attack 2-Defence
-    A = 1
-    while A == 1:
-        print("Your HP: " + str(PlayerHP) + "  Enemy HP: " + str(EnemyStats[0]) + "\n1) Attack  2) Defend\n3) Items   4) Run\n")
-        B = 1
-        time.sleep(1)
-        while B == 1:
-            Attack = 0
-            Defence = 0
-            F = 0
-            if keyboard.is_pressed("1"): # attack
-                Attack = PlayerAttack + EquipedWeaponatk
-                if random.randint(0,100) > EquipedWeaponhit:
-                    Attack = 0
-                    B = 0
-                    print("You missed!")
-                if random.randint(0,100) <= EquipedWeaponcrt:
-                    Attack = round(Attack * 2)
-                if EquipedWeapon != "Hands":
-                    EquipedWeaponres = EquipedWeaponres - 1
-                    if EquipedWeaponres <= 0: 
-                        print(EquipedWeapon + " broke.")
-                        EquipedWeapon = "Hands"
-                        EquipedWeaponatk = 0
-                        EquipedWeaponcrt = 0
-                        EquipedWeaponhit = 100
-                        EquipedWeaponres = 0 
-
-                Defence = PlayerDefence
-                if EquipedArmour != "Nothing":
-                    EquipedArmourRes = EquipedArmourRes - 1
-                    if EquipedArmourRes <= 0:
-                        print(EquipedArmour + " broke.")
-                        EquipedArmour = "Nothing"
-                        EquipedArmourDef = 0
-                        EquipedArmourRes = 0
-                B = 0
-                Defence = random.randint(Defence,Defence * 2)
-            elif keyboard.is_pressed("2"):  #defence
-                Defence = PlayerDefence * 2
-                B = 0
-            elif keyboard.is_pressed("3"):
-                print("1) Basic Healing Potion (+ 50HP) You have: " + str(PlayerHealingItemsAmmount[0]) + "\n2) Advanced Healing Potion (+ 250HP) You have: " + str(PlayerHealingItemsAmmount[1]) + "\n3) Go back")
-                C = 1
-                time.sleep(1)
-                while C == 1:
-                    if keyboard.is_pressed("1"):
-                        C = 0
-                        B = 0
-                        if PlayerHealingItemsAmmount[0] > 0:
-                            PlayerHP = PlayerHP + 50
-                            PlayerHealingItemsAmmount[0] = PlayerInventoryAmmount[0] - 1
-                        else:
-                            print("You don't have enough potions")
-
-                    if keyboard.is_pressed("2"):
-                        C = 0
-                        B = 0
-                        if PlayerHealingItemsAmmount[1] > 0:
-                            PlayerHP = PlayerHP + 250
-                            PlayerHealingItemsAmmount[1] = PlayerInventoryAmmount[1] - 1
-                        else:
-                            print("You don't have enough potions")
-                            
-                    if keyboard.is_pressed("3"):
-                        C = 0
-                        B = 0
-                        EnAttack = 0
-                        F = 1
-
-            elif keyboard.is_pressed("4"):
-                if WeatherID == 4 and random.randint(1,2) == 1: # Wind 
-                    BattleLog[5] = "Got blown away by the wind from X:" + str(WorldStats[0]) + " Y:" + str(WorldStats[1])
-                    WorldStats[0] = random.randint(-2147483500,2147483500)
-                    WorldStats[1] = random.randint(-2147483500,2147483500)
-                    BattleLog[5] = BattleLog[5] + " To X:" + str(WorldStats[0]) + " Y:" + str(WorldStats[1])
-                    WorldGen()
-                if random.randint(0,1) == 0:
-                    WorldGen()
-                else:
-                    print("Couldn't run!")
-                    B = 0
-        
-        atkmult = WorldStats[2] * 10
-        EnAttack = EnemyStats[1] + atkmult - random.randint(round(Defence/2),Defence)
-        
-        Attack = Attack - EnemyStats[2] + atkmult
-        if EnAttack <= 0:
-            EnAttack = 0
-        if Attack <= 0:
-            Attack = 0
-        
-        if F == 1:
-            EnAttack = 0
-        
-        EnemyStats[0] = EnemyStats[0] - random.randint(Attack,round(Attack * 1.5))
-        PlayerHP = PlayerHP - EnAttack
-        print("\nYour attack did: " + str(Attack) + "\nEnemy Attack did: " + str(EnAttack))
-
-        if WeatherID == 3 and EquipedArmour != "Nothing":
-            print("You also took " + str(round(PlayerMaxStats[0] / 5)) + " from the hot weather!")
-            PlayerHP = PlayerHP - round(PlayerMaxStats[0] / 5)
-
-        if WeatherID == 5 and EquipedArmour == "Nothing":
-            print("You also took " + str(round(PlayerMaxStats[0] / 5)) + " from the cold weather!")
-            PlayerHP = PlayerHP - round(PlayerMaxStats[0] / 5)
-
-        if EnemyStats[0] <= 0:
-            BattleLog[5] = "Won a battle" 
-            if PlayerGeneral[0] >= PlayerGeneral[2] * 1000:
-                print("You leveled up!")
-                LevelUpBonu13s = random.randint(1,50)
-                PlayerMaxStats[0] = PlayerMaxStats[0] + LevelUpBonus
-                PlayerHP = PlayerMaxStats[0]
-                print("HP Increased by " + str(LevelUpBonus))
-                LevelUpBonus = random.randint(1,50)
-                PlayerAttack = PlayerAttack + LevelUpBonus
-                print("Attack Increased by" + str(LevelUpBonus))
-                LevelUpBonus = random.randint(1,50)
-                PlayerDefence = PlayerDefence + LevelUpBonus
-                print("Defence Increased by" + str(LevelUpBonus))
-                PlayerGeneral[2] + 1
-                input("Press enter to continue...")
-                PlayerTurn()
-            else:
-                input("Press enter to continue...")
-                PlayerTurn()
-        elif PlayerHP <= 0:
-            input("You died.\nPress enter to restart")
-            Menu()
-
-def Collect():
-    global PlayerInventory
-    global PlayerInventoryAmmount
-    global Resource1
-    global Resource1Ammount
-    global Resource1Text
-    global WorldStats
-    global BattleLog
-
-    CurrentCoords = "x" + str(WorldStats[0]) + "y" + str(WorldStats[1])
-
-    if Resource1Text == "":
-        print("Theres nothing here to collect!\n")
-        PlayerTurn()
-
-    BattleLog[5] = "Collected " + str(Resource1Ammount) + " " + str(Resource1)
-
-    if Resource1 in PlayerInventory:
-        PlayerInventoryAmmount[PlayerInventory.index(Resource1)] = PlayerInventoryAmmount[PlayerInventory.index(Resource1)] + Resource1Ammount
-    else:
-        PlayerInventoryAmmount.append(Resource1Ammount)
-        PlayerInventory.append(Resource1)
-
-    WorldFile = open(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + CurrentCoords + ".txt","w")
-    WorldFile.write(str(TerrainID) + "\n0\n0")
-    WorldFile.close()
-
-    WorldGen()
-
-def Move():
-
 
 def Quests(): # Unused for now
     global QuestName
