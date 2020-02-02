@@ -1,0 +1,13 @@
+- Changed Auto-Update
+- Modules can now be installed Automatically
+- Completly rewrote code
+- Added Multiple resources (upto 4 in 1 area)
+- Realised that Amubush is usually triggered unless you are lighting fast becuase it was looping
+- Made enemys now generate in 3 parts, this drastically increases the ammount of unique enemy names (This can also result in stupid names aswell!)
+- Made weather effects sun and clouds work and display correctly and capped the multiplier at 5 rarther than 10
+
+
+ToDo:
+-make prefixes suffixes rarer
+-make prefix and suffix buff enemy
+-make sunny and cloudy weather only gen on new terrain (Terrain thats been genned that turn)

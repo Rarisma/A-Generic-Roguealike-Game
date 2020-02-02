@@ -6,5 +6,5 @@ That said you can see the latest features that may or may not be in Rougalike
 
 Current Version in Devleopment: 1.0
 Release Date: March 1st
-Percent done: 4%
+Percent done: 6%
 Current feature in developement: Code Refactor

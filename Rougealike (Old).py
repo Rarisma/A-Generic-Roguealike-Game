@@ -1495,38 +1495,7 @@ def Collect():
     WorldGen()
 
 def Move():
-    global WorldStats
 
-    print("\nSelect a direction to move\n         (1)\n        North\n(4) West     East (2)\n        South\n         (3)")
-    time.sleep(1)
-    a = 1
-    while a == 1:
-        if random.randint(1,10) == 1:
-            os.system("cls")
-            print("You were ambushed!")
-            BattleLog[5] = "You tryed to move but you were ambushed!"
-            time.sleep(1)
-            Battle()
-
-        if keyboard.is_pressed("1"):
-            WorldStats[1] = WorldStats[1] + 1
-            a = 0
-            BattleLog[5] = "Moved North"
-        elif keyboard.is_pressed("2"):
-            WorldStats[0] = WorldStats[0] + 1
-            a = 0
-            BattleLog[5] = "Moved East"
-        elif keyboard.is_pressed("3"):
-            WorldStats[1] = WorldStats[1] - 1
-            a = 0
-            BattleLog[5] = "Moved South"
-        elif keyboard.is_pressed("4"):
-            WorldStats[0] = WorldStats[0] - 1
-            a = 0
-            BattleLog[5] = "Moved West"
-    
-    
-    WorldGen()
 
 def Quests(): # Unused for now
     global QuestName
