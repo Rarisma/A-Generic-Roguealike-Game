@@ -1,0 +1,2 @@
+
+                    Resource[TempInt] = -1

@@ -11,3 +11,24 @@ ToDo:
 -make prefixes suffixes rarer
 -make prefix and suffix buff enemy
 -make sunny and cloudy weather only gen on new terrain (Terrain thats been genned that turn)
+
+idk if anyone will see this but hello to anyone reading this from the code vault! this is a prealpha version! I dont know much about how this code thing works but should any data get cut from any version
+I'll give a quick run down on how to make it work again
+1) get a release or the latest file (Release would probably be better)
+2) Get a data pack (Preferably that version 1.0 and forward don't have data packs as their built in)
+if the ver is less than 1.0
+    3) this needs running on python 3.x (I wrote this on 3.8)
+    4) Should a data pack not exist look at the latest dev or 1.x py file
+    5) create \data\ (this uses windows format paths)
+    6) Search for every linecache call in that binary
+    7) go to the py file and look for WorldData variables 
+    8) Move the WorldData Variables into the files
+    9) These must be without \n and " and also 1 line per entry
+    10) Create a Slots.txt in \Data\ and look for a readme.txt that should detail how slots.txt is suposed to look like
+        should a readme not exist look for all instances of slots in the py file and see which line in slots.txt they are calling
+        after this put the ammount of lines in this slots.txt lines (20 terrain lines? put 20 in the line slots is looking for)
+else
+3) play
+4) play Path Of A New Dawn
+5) Look for other stuff made from me?
+    - hopefully its not as lackluster

@@ -11,7 +11,7 @@ init(convert=True)
 
 SystemInfo  = ["Build Version: 1/2/2020","1.0"]
 LatestVer   = "ERROR"
-PlayerInfo  = [0,0,0,0]
+PlayerInfo  = [0,0,0,0,50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0] #name,difficulty,x,y,hp,atk,def,level,exp,gold,EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty
 TerrainType = 0
 TerrainTypeMeta = 0
 Terrain  = 0
@@ -60,7 +60,9 @@ def Intialise():    #Starts the game, Checks reqired modules are installed and r
             exit()
 
     print("Trying to check update servers...\n\nTired of seeing this?\nChange the autoupdater setting in Config.txt\nThis shouldn't take more than 30 seconds")
-    if str(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "Config.txt",3)) == "False":  #Checks if AutoUpdate is disabled if so then it goes to the menu
+    TempStr = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Config.txt",3)
+    TempStr = TempStr.strip()
+    if TempStr == "False":  #Checks if AutoUpdate is disabled if so then it goes to the menu
         Menu()
 
     try:    #Tries to get check github
@@ -117,7 +119,10 @@ def Menu(): #  Menu
     Loop = 1
     while Loop == 1:
         if keyboard.is_pressed("1"):
-            PlayerInfo = [input("Enter a name: "),-1,0,0]
+            PlayerInfo[0] = str(input("Enter a name: "))
+            PlayerInfo[1] = -1
+            PlayerInfo[2] = 0
+            PlayerInfo[3] = 0
             os.system("cls")
             Loop2 = 1
             print("Select a difficulty:\n1) Easy\nEnemies have less HP and do more damage\n\n2) Normal\nBattles should be fun\n\n3) Hard\nBattles require merticulous planning of healing and equipment\n\n4) Insane\n\"Good for short people who want to do somthing.\"")
@@ -164,6 +169,11 @@ def WorldGeneration(): # Loads or generates terrain
 
         Resource = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",3)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",5)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",7)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",9))]
         ResourceAmmount = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",4)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",6)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",8)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",10))]
+       
+        if random.randint(1,5) > 0:
+            Weather = random.randint(1,2)
+        else:
+            Weather = 0  
     else:   #Generates Terrain
         if random.randint(1,25) == 25: # 4% Chance 
             TerrainType = random.randint(1,4) # Terrain isn't needed to be generated
@@ -181,27 +191,35 @@ def WorldGeneration(): # Loads or generates terrain
             WorldFile.write(str(TerrainType) + "\n" + str(TerrainTypeMeta) + "\n" + str(Resource[0]) + "\n" + str(ResourceAmmount[0]) +  "\n" + str(Resource[1]) + "\n" + str(ResourceAmmount[1]) + "\n" +  str(Resource[2]) + "\n" + str(ResourceAmmount[2]) + "\n" + str(Resource[3]) + "\n" + str(ResourceAmmount[3]))
         WorldFile.close()
 
+        if random.randint(1,5) > 0:
+            Weather = random.randint(1,2)
+            if Weather == 1:
+                ResourceAmmount[0] = ResourceAmmount[0] * random.randint(1,5)
+                ResourceAmmount[1] = ResourceAmmount[1] * random.randint(1,5)
+                ResourceAmmount[2] = ResourceAmmount[2] * random.randint(1,5)
+                ResourceAmmount[3] = ResourceAmmount[3] * random.randint(1,5)
+            elif Weather == 2:
+                ResourceAmmount[0] = round(ResourceAmmount[0] / random.randint(1,5))
+                ResourceAmmount[1] = round(ResourceAmmount[1] / random.randint(1,5))
+                ResourceAmmount[2] = round(ResourceAmmount[2] / random.randint(1,5))
+                ResourceAmmount[3] = round(ResourceAmmount[3] / random.randint(1,5))
+        else:
+            Weather = 0
+
+
     Enemy = [random.randint(0,1),random.randint(-1,len(WorldDataEnemyPrefix)-1),random.randint(0,len(WorldDataEnemyName)-1),random.randint(-1,len(WorldDataEnemySuffix)-1)] #0- 0/1 1 is enabled    1-Prefix (-1 if disabled)   2-Enemy name    3-Suffix (-1 if disabled) 
-    if random.randint(1,5) > 0:
-        Weather = random.randint(1,2)
-        if Weather == 1:
-            ResourceAmmount[0] = ResourceAmmount[0] * random.randint(1,5)
-            ResourceAmmount[1] = ResourceAmmount[1] * random.randint(1,5)
-            ResourceAmmount[2] = ResourceAmmount[2] * random.randint(1,5)
-            ResourceAmmount[3] = ResourceAmmount[3] * random.randint(1,5)
-        elif Weather == 2:
-            ResourceAmmount[0] = round(ResourceAmmount[0] / random.randint(1,5))
-            ResourceAmmount[1] = round(ResourceAmmount[1] / random.randint(1,5))
-            ResourceAmmount[2] = round(ResourceAmmount[2] / random.randint(1,5))
-            ResourceAmmount[3] = round(ResourceAmmount[3] / random.randint(1,5))
-    else:
-        Weather = 0
+
 
     World()
 
 def World(): # Handles terrain and Player choices
     global PlayerInfo
     global BattleLog
+    global PlayerInventory
+    global PlayerInventoryAmmount
+    global Resource
+    global ResourceAmmount
+
     os.system("cls")
     BattleLog[0] = BattleLog[1] 
     BattleLog[1] = BattleLog[2]
@@ -242,7 +260,7 @@ def World(): # Handles terrain and Player choices
         elif TerrainType == 4 and TerrainTypeMeta == 1:
             print("You are at a destroyed outpost.")
 
-    ResourceText = Fore.RESET + "There are "
+    ResourceText = "There are "
     if Resource[0] >= 0:
         ResourceText = ResourceText + str(Fore.__getattribute__(WorldDataResourceColor[Resource[0]]) + Style.__getattribute__(WorldDataResourceBrightness[Resource[0]]) + str(ResourceAmmount[0]) + " " + str(WorldDataResource[Resource[0]]) + Fore.RESET + ", ")
     if Resource[1] >= 0:
@@ -251,10 +269,10 @@ def World(): # Handles terrain and Player choices
         ResourceText = ResourceText + str(Fore.__getattribute__(WorldDataResourceColor[Resource[2]]) + Style.__getattribute__(WorldDataResourceBrightness[Resource[2]]) + str(ResourceAmmount[2]) + " " + str(WorldDataResource[Resource[2]]) + Fore.RESET + ", ")
     if Resource[3] >= 0:
         ResourceText = ResourceText + str(Fore.__getattribute__(WorldDataResourceColor[Resource[3]]) + Style.__getattribute__(WorldDataResourceBrightness[Resource[3]]) + str(ResourceAmmount[3]) + " " + str(WorldDataResource[Resource[3]]))
-    if len(ResourceText) <= 10:
+    if ResourceText == "There are ":
         time.sleep(0)
     else:
-        print(str(ResourceText) + Fore.RESET + ".")
+        print(Fore.RESET + str(ResourceText) + Fore.RESET + ".")
 
     EnemyText = ""
     if Enemy[0] == 0:
@@ -284,7 +302,7 @@ def World(): # Handles terrain and Player choices
     Loop = 1
     time.sleep(1)
     while Loop == 1:
-        if keyboard.is_pressed("1"): # Battle
+        if keyboard.is_pressed("1"):   # Battle
             if Enemy[0] == 1:
                 print("There's no enemy to battle!")
                 time.sleep(2.5)
@@ -319,14 +337,46 @@ def World(): # Handles terrain and Player choices
                     PlayerInfo[2] = PlayerInfo[2] - 1
                     BattleLog[5] = "Moved West"
                     WorldGeneration()
-        elif keyboard.is_pressed("3"):
-            print("") 
-        elif keyboard.is_pressed("4"):
-            print("Character")
+        elif keyboard.is_pressed("3"): # Collection
+            TempInt = 0
+            while TempInt <= int(len(Resource) - 1): #Just in case resource gets increased at some point
+                print("loop")
+                if Resource[TempInt] >= 0:
+                    if WorldDataResource[Resource[TempInt]] in PlayerInventory:
+                        PlayerInventoryAmmount[PlayerInventory.index(WorldDataResource[Resource[TempInt]])] = PlayerInventoryAmmount[PlayerInventory.index(WorldDataResource[Resource[TempInt]])] + ResourceAmmount[TempInt]
+                    else:
+                        PlayerInventory.append(WorldDataResource[Resource[TempInt]])
+                        PlayerInventoryAmmount.append(ResourceAmmount[TempInt])
+                    Resource[TempInt] = -1
+                    ResourceAmmount[TempInt] = 0
+                TempInt = TempInt + 1
+            WorldFile = open(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt","w")
+            if TerrainType == 0:
+                WorldFile.write(str(TerrainType) + "\n" + str(Terrain) + "\n" + str(Resource[0]) + "\n" + str(ResourceAmmount[0]) +  "\n" + str(Resource[1]) + "\n" + str(ResourceAmmount[1]) + "\n" +  str(Resource[2]) + "\n" + str(ResourceAmmount[2]) + "\n" + str(Resource[3]) + "\n" + str(ResourceAmmount[3]))
+            else:
+                WorldFile.write(str(TerrainType) + "\n" + str(TerrainTypeMeta) + "\n" + str(Resource[0]) + "\n" + str(ResourceAmmount[0]) +  "\n" + str(Resource[1]) + "\n" + str(ResourceAmmount[1]) + "\n" +  str(Resource[2]) + "\n" + str(ResourceAmmount[2]) + "\n" + str(Resource[3]) + "\n" + str(ResourceAmmount[3]))
+            print(str(TerrainType) + "\n" + str(TerrainTypeMeta) + "\n" + str(Resource[0]) + "\n" + str(ResourceAmmount[0]) +  "\n" + str(Resource[1]) + "\n" + str(ResourceAmmount[1]) + "\n" +  str(Resource[2]) + "\n" + str(ResourceAmmount[2]) + "\n" + str(Resource[3]) + "\n" + str(ResourceAmmount[3]))
+            WorldFile.close()   #This rewrites the world file to stop infinte resources
+            World()
+        elif keyboard.is_pressed("4"): 
+            TempStr = "Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[0]) + "/" + str(PlayerInfo[7] * 100) +")"+ "\n" 
+            TempStr = TempStr + "Max HP: " + str(PlayerInfo[4]) + "  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[3]) + " Y:" + str(PlayerInfo[4]) + "  Gold:" + str(PlayerInfo[9]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12])
+            TempStr = TempStr + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nArmour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17])
+            print(str(TempStr))
+            time.sleep(10)
         elif keyboard.is_pressed("5"):
-            print("SaveLoad")
+            SaveLoad()
         elif keyboard.is_pressed("6"):
-            print("quit")
+            print(Fore.RED + "Unless you have saved all data will be lost." + Fore.RESET + "\nAre you sure? (Y/N)")
+            Loop3 = 1
+            while Loop3 == 1:
+                if keyboard.is_pressed("Y"):
+                    exit()
+                elif keyboard.is_pressed("N"):
+                    World()
+
+def SaveLoad():
+    print("SaveLoad")
 
 def Battle():
     print("Battle")
