@@ -584,6 +584,14 @@ def PlayerTurn():
                 elif keyboard.is_pressed("N"):
                     PlayerTurn()
 
+def Collect()
+
+def Move():
+
+
+
+    
+
 def AlternateTerrains():
     global AlternateTerrain
     global PlayerMaxStats
@@ -955,9 +963,6 @@ def AlternateTerrains():
                 elif keyboard.is_pressed("3"):
                     WorldGen()
 
-def Move():
-    print("move")
-
 def Battle():
     global PlayerMaxStats
     global WorldStats
@@ -1123,7 +1128,7 @@ def Battle():
             input("You died.\nPress enter to restart")
             Menu()
 
-def Collect():
+
     global PlayerInventory
     global PlayerInventoryAmmount
     global Resource1

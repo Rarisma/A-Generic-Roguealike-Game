@@ -20,8 +20,16 @@ ResourceAmmount = 0
 Enemy   = [""]
 Weather = 0
 BattleLog = ["","","","","",""]
-PlayerInventory = []
-PlayerInventoryAmmount = []
+PlayerInventory = ["Pendant of life"]
+PlayerInventoryAmmount = [1]
+PlayerInventoryArmourDur = [0]
+PlayerInventoryArmour    = ["Nothing"]
+PlayerInventoryArmourDef = [0]
+PlayerInventoryWeapon    = ["Hands"]
+PlayerInventoryWeaponAtk = [0]
+PlayerInventoryWeaponDur = [0]
+PlayerInventoryWeaponCrt = [0]
+PlayerInventoryWeaponHit = [100]
 #WorldData Variables SHOULD NOT be modifyed instead unless its for a master branch (USE THE MOD API)
 WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside"]
 WorldDataTerrainColor       = ["GREEN","RESET","WHITE","RESET","RESET","RED","GREEN","WHITE","CYAN","BLUE","YELLOW","RESET","WHITE","GREEN","GREEN","GREEN","RESET","CYAN","YELLOW","YELLOW","YELLOW","BLUE","RESET","WHITE","WHITE","CYAN"]
@@ -63,6 +71,7 @@ def Intialise():    #Starts the game, Checks reqired modules are installed and r
     TempStr = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Config.txt",3)
     TempStr = TempStr.strip()
     if TempStr == "False":  #Checks if AutoUpdate is disabled if so then it goes to the menu
+        LatestVer = "DISABLED"
         Menu()
 
     try:    #Tries to get check github
@@ -115,10 +124,12 @@ def Menu(): #  Menu
         print("Update available!\nPress U) to update!")
     elif LatestVer == "ERROR": #If auto update is not changed for some reason
         print("An Error occured in the update.")
-
+    elif LatestVer == "DISABLED": # If autoupdate is disabled in the Config.txt
+        print("AutoUpdate is disabled.")
     Loop = 1
     while Loop == 1:
         if keyboard.is_pressed("1"):
+            os.system("cls")
             PlayerInfo[0] = str(input("Enter a name: "))
             PlayerInfo[1] = -1
             PlayerInfo[2] = 0
@@ -206,7 +217,6 @@ def WorldGeneration(): # Loads or generates terrain
         else:
             Weather = 0
 
-
     Enemy = [random.randint(0,1),random.randint(-1,len(WorldDataEnemyPrefix)-1),random.randint(0,len(WorldDataEnemyName)-1),random.randint(-1,len(WorldDataEnemySuffix)-1)] #0- 0/1 1 is enabled    1-Prefix (-1 if disabled)   2-Enemy name    3-Suffix (-1 if disabled) 
 
 
@@ -219,6 +229,14 @@ def World(): # Handles terrain and Player choices
     global PlayerInventoryAmmount
     global Resource
     global ResourceAmmount
+    global PlayerInventoryArmourDur
+    global PlayerInventoryArmour
+    global PlayerInventoryArmourDef
+    global PlayerInventoryWeapon
+    global PlayerInventoryWeaponAtk
+    global PlayerInventoryWeaponDur
+    global PlayerInventoryWeaponCrt
+    global PlayerInventoryWeaponHit
 
     os.system("cls")
     BattleLog[0] = BattleLog[1] 
@@ -272,7 +290,7 @@ def World(): # Handles terrain and Player choices
     if ResourceText == "There are ":
         time.sleep(0)
     else:
-        print(Fore.RESET + str(ResourceText) + Fore.RESET + ".")
+        print(Fore.RESET + str(ResourceText) + Fore.RESET)
 
     EnemyText = ""
     if Enemy[0] == 0:
@@ -358,15 +376,104 @@ def World(): # Handles terrain and Player choices
             print(str(TerrainType) + "\n" + str(TerrainTypeMeta) + "\n" + str(Resource[0]) + "\n" + str(ResourceAmmount[0]) +  "\n" + str(Resource[1]) + "\n" + str(ResourceAmmount[1]) + "\n" +  str(Resource[2]) + "\n" + str(ResourceAmmount[2]) + "\n" + str(Resource[3]) + "\n" + str(ResourceAmmount[3]))
             WorldFile.close()   #This rewrites the world file to stop infinte resources
             World()
-        elif keyboard.is_pressed("4"): 
-            TempStr = "Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[0]) + "/" + str(PlayerInfo[7] * 100) +")"+ "\n" 
-            TempStr = TempStr + "Max HP: " + str(PlayerInfo[4]) + "  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[3]) + " Y:" + str(PlayerInfo[4]) + "  Gold:" + str(PlayerInfo[9]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12])
-            TempStr = TempStr + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nArmour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17])
-            print(str(TempStr))
-            time.sleep(10)
-        elif keyboard.is_pressed("5"):
+        elif keyboard.is_pressed("4"): # Character
+            Loop3 = 1
+            while Loop3 == 1:
+                os.system("cls")
+                print("Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[0]) + "/" + str(PlayerInfo[7] * 100) +")"+ "\n"+ "Max HP: " + str(PlayerInfo[4]) + "  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[3]) + " Y:" + str(PlayerInfo[4]) + "  Gold:" + str(PlayerInfo[9]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12]) + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nArmour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17]) + "\n\n1) Equip Armor   2) Equip Weapons   3) View Items   Q) Go Back")
+                Loop2 = 1
+                time.sleep(1.5)
+                while Loop2 == 1:
+                    if keyboard.is_pressed("1"):  #Equip armor
+                        TempInt = 0
+                        while TempInt <= int(len(PlayerInventoryArmour) - 1):
+                            print(PlayerInventoryArmour[TempInt] + "  Defence: " + str(PlayerInventoryArmourDef[TempInt]) + "  Durability: " + str(PlayerInventoryArmourDur[TempInt]) + "  ID: " + str(TempInt))
+                            TempInt = TempInt + 1
+                        TempStr = input("\n\nEquiped: " + str(PlayerInfo[15]) + "  Defence: " + str(PlayerInfo[16]) + "  Durability: " + str(PlayerInfo[17]) + "Type the id of an armor to equip it (or type leave with no capitals to leave)\n")
+                        TempInt = 0 
+
+                        if TempStr == "leave":
+                            World()
+
+                        try:
+                            TempStr = int(TempStr)
+                        except:
+                            TempInt = 1 #Raises a flag to prevent a str from being interpreted
+                        else:
+                            TempInt = 0 
+                            int(TempStr) #You either die a String or live long enough to become a interger
+
+                        if TempInt == 0 and int(len(PlayerInventoryArmour)-1) >= TempStr:
+                            PlayerInventoryArmour.append(PlayerInfo[15]) #Adds Equipped Armor to PlayerInventory
+                            PlayerInventoryArmourDef.append(PlayerInfo[16])
+                            PlayerInventoryArmourDur.append(PlayerInfo[17])
+                            PlayerInfo[15] = PlayerInventoryArmour[TempStr] #Sets new Armor as Equiped
+                            PlayerInfo[16] = PlayerInventoryArmourDef[TempStr]
+                            PlayerInfo[17] = PlayerInventoryArmourDur[TempStr]
+                            PlayerInventoryArmour.pop(TempStr)  #Removes new armor from inventory
+                            PlayerInventoryArmourDef.pop(TempStr)
+                            PlayerInventoryArmourDur.pop(TempStr)
+                            print("Equipped " + str(PlayerInfo[15]))
+                            time.sleep(1)
+                            Loop2 = 0
+                        else:
+                            print("an error occured while processing your ID, please use numbers only for IDs and your ID exists.")
+
+                    elif keyboard.is_pressed("2"): #Equip Weapons
+                        Loop2 = 1
+                        while Loop2 == 1:
+                            os.system("cls")
+                            TempInt = 0
+                            while TempInt <= int(len(PlayerInventoryWeapon)-1):
+                                print(str(PlayerInventoryWeapon[TempInt]) + "  Attack: " + str(PlayerInventoryWeaponAtk[TempInt]) + "  Durability: " + str(PlayerInventoryWeaponDur[TempInt]) + "  Critical Rate: " + str(PlayerInventoryWeaponCrt[TempInt]) + "%   Hit Rate: " + str(PlayerInventoryWeaponHit[TempInt]) +   "%   ID: " + str(TempInt))
+                                TempInt = TempInt + 1    
+
+                            TempStr = input("You have curently equiped: " + PlayerInfo[10] + "  Attack: " + str(PlayerInfo[11]) + "  Durability: " + str(PlayerInfo[14]) + "  Critical Rate: " + str(PlayerInfo[13]) + "%  Hit Rate: " + str(PlayerInfo[12]) + "%\nType the id of an armour to equip it (or type leave with no capitals to leave)\n")
+                            TempInt = 0
+                            if TempStr == "leave":
+                                World()
+                            try:
+                                TempStr = int(TempStr)  #Ironic
+                            except:
+                                TempInt = 1
+                            else:
+                                TempInt = 0
+                                int(TempStr)
+
+                            if TempInt == 0 and int(len(PlayerInventoryWeapon)-1) >= TempStr:
+                                PlayerInventoryWeapon.append(PlayerInfo[10])
+                                PlayerInventoryWeaponAtk.append(PlayerInfo[11])
+                                PlayerInventoryWeaponDur.append(PlayerInfo[14])
+                                PlayerInventoryWeaponHit.append(PlayerInfo[12])
+                                PlayerInventoryWeaponCrt.append(PlayerInfo[13])
+                                PlayerInfo[10] = PlayerInventoryWeapon[TempStr]
+                                PlayerInfo[11] = PlayerInventoryWeaponAtk[TempStr]
+                                PlayerInfo[14] = PlayerInventoryWeaponDur[TempStr]
+                                PlayerInfo[13] = PlayerInventoryWeaponCrt[TempStr]
+                                PlayerInfo[12] = PlayerInventoryWeaponHit[TempStr]              
+                                PlayerInventoryWeapon.pop(TempStr)
+                                PlayerInventoryWeaponAtk.pop(TempStr)
+                                PlayerInventoryWeaponDur.pop(TempStr)
+                                PlayerInventoryWeaponCrt.pop(TempStr)
+                                PlayerInventoryWeaponHit.pop(TempStr)
+                                print("Equipped: " + str(PlayerInfo[10]))
+                                time.sleep(1.5)
+                                World()
+                            else:
+                                print("an error occured while processing your ID, please use numbers only for IDs and your ID exists.")
+        
+                    elif keyboard.is_pressed("3"): #Items
+                        TempInt = 0
+                        while TempInt <= int(len(PlayerInventory)-1):
+                            print(str(PlayerInventory[TempInt]) + "  (" + str(PlayerInventoryAmmount[TempInt]) +")")
+                            TempInt = TempInt + 1
+                        input("Press enter to continue\n")
+                        Loop2 = 0
+                    elif keyboard.is_pressed("Q"):
+                        World()
+        elif keyboard.is_pressed("5"):  # Saves and load
             SaveLoad()
-        elif keyboard.is_pressed("6"):
+        elif keyboard.is_pressed("6"):  # Quit
             print(Fore.RED + "Unless you have saved all data will be lost." + Fore.RESET + "\nAre you sure? (Y/N)")
             Loop3 = 1
             while Loop3 == 1:

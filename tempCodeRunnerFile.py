@@ -1,2 +1,1 @@
-
-                    Resource[TempInt] = -1
+TempInt
