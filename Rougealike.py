@@ -11,7 +11,7 @@ init(convert=True)
 
 SystemInfo  = ["Build Version: 1/2/2020","1.0"]
 LatestVer   = "ERROR"
-PlayerInfo  = [0,0,0,0,50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0] #name,difficulty,x,y,hp,atk,def,level,exp,gold,EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty
+PlayerInfo  = [0,0,0,0,50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0,50,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count (19)
 TerrainType = 0
 TerrainTypeMeta = 0
 Terrain  = 0
@@ -20,7 +20,7 @@ ResourceAmmount = 0
 Enemy   = [""]
 Weather = 0
 BattleLog = ["","","","","",""]
-PlayerInventory = ["Pendant of life"]
+PlayerInventory = ["Pendant"]
 PlayerInventoryAmmount = [1]
 PlayerInventoryArmourDur = [0]
 PlayerInventoryArmour    = ["Nothing"]
@@ -41,6 +41,11 @@ WorldDataEnemyPrefix        = ["Angry","Armoured","Beserk","Crazed","Demonic","E
 WorldDataEnemyName          = ["Archer","Artifact","Beast","Bull","Centaur","Demon","Dog","Elf","Fire","Fox","Giant","Goblin","God","Hunter","Ice","Madman","Ogre","Orc","Phantom","Rat","Relic","Robot","Skeleton","Soldier","Spider","Spirit","Troll","Villager","Warrior","Wolf","Zombie"]
 WorldDataEnemySuffix        = ["Lord","Monster","King","Creature"]
 WorldDataWeather            = ["Sunny","Cloudy","Hot","Cold","Windy"]
+WorldDataMonolithSpell      = ["Heal I","Bolt","Risma","Aquious","Ignis","Terra","Heal II","Rarisma","Taifau","Odurzony","hladan","Tembung","Heal III"]#These are just words in other langauges
+WorldDataMonolithSpellType  = ["HEAL","DAMAGE","DAMAGE","DAMAGE","DAMAGE","DAMAGE","HEAL", "DAMAGE","DAMAGE", "DAMAGE", "DAMAGE","DAMAGE",  "HEAL"]
+WorldDataMonolithSpellValue = [10,20,25,25,35,30,30,50,60,50,80,100,100,250]
+WorldDataMonolithSpellCost  =  [5,15,25,20,40,20,10,75,40,10,75,90,60,100]
+
 
 def Intialise():    #Starts the game, Checks reqired modules are installed and runs AutoUpdate if enabled
     global SystemInfo
@@ -126,6 +131,8 @@ def Menu(): #  Menu
         print("An Error occured in the update.")
     elif LatestVer == "DISABLED": # If autoupdate is disabled in the Config.txt
         print("AutoUpdate is disabled.")
+    elif LatestVer == "GLOBALLY DISABLED":
+        print("AutoUpdate is disabled globally for now.")
     Loop = 1
     while Loop == 1:
         if keyboard.is_pressed("1"):
@@ -217,7 +224,7 @@ def WorldGeneration(): # Loads or generates terrain
         else:
             Weather = 0
 
-    Enemy = [random.randint(0,1),random.randint(-1,len(WorldDataEnemyPrefix)-1),random.randint(0,len(WorldDataEnemyName)-1),random.randint(-1,len(WorldDataEnemySuffix)-1)] #0- 0/1 1 is enabled    1-Prefix (-1 if disabled)   2-Enemy name    3-Suffix (-1 if disabled) 
+    Enemy = [random.randint(0,1),random.randint(-10,len(WorldDataEnemyPrefix)-1),random.randint(0,len(WorldDataEnemyName)-1),random.randint(-10,len(WorldDataEnemySuffix)-1)] #0- 0/1 1 is enabled    1-Prefix (-1 if disabled)   2-Enemy name    3-Suffix (-1 if disabled) 
 
 
     World()
@@ -295,11 +302,11 @@ def World(): # Handles terrain and Player choices
     EnemyText = ""
     if Enemy[0] == 0:
         EnemyText = Fore.RED + "There is a "
-    if Enemy[1] != -1:
+    if Enemy[1] >= 0:
         EnemyText = EnemyText + WorldDataEnemyPrefix[Enemy[1]] + " "
     if Enemy[0] == 0:
         EnemyText = EnemyText + WorldDataEnemyName[Enemy[2]] + " "
-    if Enemy[3]!= -1:
+    if Enemy[3] >= 0:
         EnemyText = EnemyText + WorldDataEnemySuffix[Enemy[3]]
     if Enemy[0] == 0:
         print(EnemyText + " here.")
@@ -326,7 +333,7 @@ def World(): # Handles terrain and Player choices
                 time.sleep(2.5)
                 World()
             else:
-                print("Battle") 
+                Battle()
         elif keyboard.is_pressed("2"): # Movement
             print("\nSelect a direction to move\n         (1)\n        North\n(4) West     East (2)\n        South\n         (3)")
             time.sleep(1)
@@ -380,7 +387,7 @@ def World(): # Handles terrain and Player choices
             Loop3 = 1
             while Loop3 == 1:
                 os.system("cls")
-                print("Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[0]) + "/" + str(PlayerInfo[7] * 100) +")"+ "\n"+ "Max HP: " + str(PlayerInfo[4]) + "  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[3]) + " Y:" + str(PlayerInfo[4]) + "  Gold:" + str(PlayerInfo[9]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12]) + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nArmour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17]) + "\n\n1) Equip Armor   2) Equip Weapons   3) View Items   Q) Go Back")
+                print("Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[0]) + "/" + str(PlayerInfo[7] * 100) +")\nHP: " + str(PlayerCurrentStats[0])+ "/" + str(PlayerInfo[4]) + "  Mana: " + str(PlayerInfo[18]) + "/" + str(PlayerCurrentStats[1]) +"  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[3]) + " Y:" + str(PlayerInfo[4]) + "  Gold:" + str(PlayerInfo[9]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12]) + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nEquipped Armour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17]) + "\n\n1) Equip Armor   2) Equip Weapons   3) View Items   Q) Go Back")
                 Loop2 = 1
                 time.sleep(1.5)
                 while Loop2 == 1:
@@ -486,7 +493,53 @@ def SaveLoad():
     print("SaveLoad")
 
 def Battle():
-    print("Battle")
+    EnemyMult = float(len(WorldDataEnemyName[Enemy[2]]) / 20)
+    if Enemy[0] >= 0:
+        EnemyMult = EnemyMult + float(len(WorldDataEnemyPrefix[Enemy[1]]) / 2)
+    if Enemy[3] >= 0:
+        EnemyMult = EnemyMult + float(len(WorldDataEnemySuffix[Enemy[3]]) / 2)
+
+    EnemyHP = random.randint(round(0.8 * PlayerInfo[4]),round(EnemyMult * PlayerInfo[4]))
+    EnemyMAX = EnemyHP
+    EnemyATK = random.randint(round(0.8 * PlayerInfo[5]),round(EnemyMult * PlayerInfo[5]))
+    EnemyDEF = random.randint(round(0.8 * PlayerInfo[6]),round(EnemyMult * PlayerInfo[6]))
+    PlayerCurrentStats[1] = PlayerInfo[17]    #Maxes Mana
+    Loop1 = 1
+    while Loop1 == 1:#hp,atk,def
+        print("HP: " + str(PlayerCurrentStats[0]) + "/" + str(PlayerInfo[4]) + "         Mana: " + str(PlayerCurrentStats[1]) + "/" + str(PlayerInfo[17]) + "\nEnemy HP: " + str(EnemyHP) + "/" + str(EnemyMAX) + "\n\n1) Attack      2) Magic\n3) Defend      4) Run")
+        Loop2 = 1
+        while Loop2 == 1:
+            Def = PlayerInfo[6]
+
+            if keyboard.is_pressed("1"):    #10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty
+                Attack = PlayerInfo[5] + PlayerInfo[11]
+
+                if PlayerInfo[10] != "Hands":
+                    PlayerInfo[14] = PlayerInfo[14] - random.randint(0,1)
+
+                if PlayerInfo[14] >= 0 or random.randint(1,100) <= PlayerInfo[13]:
+                    Attack = PlayerInfo[5]
+                    print("You landed a critical hit.")
+
+                if PlayerInfo[14] <= 0 or random.randint(1,100) <= PlayerInfo[12]:
+                    Attack = 0
+                    print("Your attack missed.")
+
+                Attack = Attack - EnemyDEF
+                if Attack <= 0:
+                    Attack = 0 #Prevents enemy being healed from a attack
+                
+                Loop2 = 0
+            elif keyboard.is_pressed("2"):
+                print("Magic")
+            elif keyboard.is_pressed("3"):
+                Def = Def * 2
+            elif keyboard.is_pressed("4"):
+                if random.randint(0,1) == 0:
+                    WorldGen()
+                else:
+                    print("Couldn't run!")
+                    B = 0
 
 
 Intialise() #Starts the game after all functions are declared
