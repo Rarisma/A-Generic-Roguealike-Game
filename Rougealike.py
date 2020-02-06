@@ -31,10 +31,10 @@ PlayerInventoryWeaponDur = [0]
 PlayerInventoryWeaponCrt = [0]
 PlayerInventoryWeaponHit = [100]
 PlayerCurrentStats = [50,50] #HP,Mana
-PlayerMagic      = ["Wait","Phonon"]   # Name of magic
-PlayerMagicType  = ["Damage","Damage"]   # HEAL - Vaule heals Damage - Damages the enemy
-PlayerMagicValue = [0,10]   # Damage of spell
-PlayerMagicCost  = [0,5]   # How much does the spell cost to cast
+PlayerMagic      = ["Wait","Phonon","Panacea"]   # Name of magic
+PlayerMagicType  = ["Damage","Damage","Heal"]   # HEAL - Vaule heals Damage - Damages the enemy
+PlayerMagicValue = [0,10,25]   # Damage of spell
+PlayerMagicCost  = [0,5,5]   # How much does the spell cost to cast
 
 #WorldData Variables SHOULD NOT be modifyed instead unless its for a master branch (USE THE MOD API)
 WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside"]
@@ -482,6 +482,7 @@ def World(): # Handles terrain and Player choices
                             TempInt = TempInt + 1
                         input("Press enter to continue\n")
                         Loop2 = 0
+                    
                     elif keyboard.is_pressed("Q"):
                         World()
         elif keyboard.is_pressed("5"):  # Saves and load
@@ -499,19 +500,23 @@ def SaveLoad():
     print("SaveLoad")
 
 def Battle():
-    EnemyMult = float(len(WorldDataEnemyName[Enemy[2]]) / 20)
+    EnemyMult = int(round(len(WorldDataEnemyName[Enemy[2]]) / random.randint(1,25)))
     if Enemy[0] >= 0:
-        EnemyMult = EnemyMult + float(len(WorldDataEnemyPrefix[Enemy[1]]) / 2)
+        EnemyMult = EnemyMult + int(round(len(WorldDataEnemyPrefix[Enemy[1]]) / 10))
     if Enemy[3] >= 0:
-        EnemyMult = EnemyMult + float(len(WorldDataEnemySuffix[Enemy[3]]) / 2)
+        EnemyMult = EnemyMult + int(round(len(WorldDataEnemySuffix[Enemy[3]]) / 10))
 
-    EnemyHP = random.randint(round(0.8 * PlayerInfo[4]),round(EnemyMult * PlayerInfo[4]))
+    if EnemyMult > 1:
+        EnemyMult = 2
+
+    EnemyHP = random.randint(int(round(0.8 * PlayerInfo[4])),int(round(EnemyMult * PlayerInfo[4])))
     EnemyMAX = EnemyHP  # for display   
     EnemyATK = random.randint(round(0.8 * PlayerInfo[5]),round(EnemyMult * PlayerInfo[5]))
     EnemyDEF = random.randint(round(0.8 * PlayerInfo[6]),round(EnemyMult * PlayerInfo[6]))
     PlayerCurrentStats[1] = PlayerInfo[18]    #Maxes Mana
     
     Loop1 = 1
+    while Loop1 == 1:#Battle Loop
         print("\n\nHP: " + str(PlayerCurrentStats[0]) + "/" + str(PlayerInfo[4]) + "         Mana: " + str(PlayerCurrentStats[1]) + "/" + str(PlayerInfo[18]) + "\nEnemy HP: " + str(EnemyHP) + "/" + str(EnemyMAX) + "\n\n1) Attack      2) Magic\n3) Defend      4) Run\n\n")
         Loop2 = 1
         time.sleep(1)
@@ -548,6 +553,7 @@ def Battle():
                     try:
                         TempStr = int(TempStr)
                         test = PlayerMagic[TempStr]
+                        test = test
                     except:
                         print("That was a invalid ID, make sure the ID is valid and is a number")
                     else:
@@ -576,8 +582,35 @@ def Battle():
                 else:
                     print("Couldn't run!")
                     Loop2 = 0
+        
+        EnemyAttack = EnemyATK + random.randint(-10 * PlayerInfo[7],10 * PlayerInfo[7])
+        EnemyAttack = EnemyAttack - PlayerInfo[6]
+        EnemyHP = EnemyHP - Attack
+        if EnemyAttack <= 0:
+            EnemyAttack = 0
+        PlayerCurrentStats[0] = PlayerCurrentStats[0] - EnemyAttack
 
+        if EnemyHP <= 0:
+            #PlayerInfo  = [0,0,0,0,50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0,50,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count (19)
+            PlayerInfo[8] = PlayerInfo[8] + random.randint(0,250) #XP
+            PlayerInfo[9] = PlayerInfo[9] + random.randint(random.randint(1,250),300) # Gold
+            if PlayerInfo[8] > PlayerInfo[7] * 1000:
+                print("You Leveled up!")
+                PlayerInfo[7] = PlayerInfo[7] + 1
+                PlayerInfo[8] = 0
+                PlayerInfo[4] = PlayerInfo[4] + random.randint(1,25)
+                PlayerInfo[5] = PlayerInfo[5] + random.randint(1,25)
+                PlayerInfo[6] = PlayerInfo[6] + random.randint(1,25)
+                time.sleep(5)
+            else:
+                print("")
+            World()
+            
+        if PlayerCurrentStats[0] <= 0:
+            Death()
 
-
+def Death():
+    print("You died.")
+    time.sleep(100)
 
 Intialise() #Starts the game after all functions are declared
