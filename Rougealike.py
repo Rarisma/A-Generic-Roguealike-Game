@@ -30,6 +30,12 @@ PlayerInventoryWeaponAtk = [0]
 PlayerInventoryWeaponDur = [0]
 PlayerInventoryWeaponCrt = [0]
 PlayerInventoryWeaponHit = [100]
+PlayerCurrentStats = [50,50] #HP,Mana
+PlayerMagic      = ["Wait","Phonon"]   # Name of magic
+PlayerMagicType  = ["Damage","Damage"]   # HEAL - Vaule heals Damage - Damages the enemy
+PlayerMagicValue = [0,10]   # Damage of spell
+PlayerMagicCost  = [0,5]   # How much does the spell cost to cast
+
 #WorldData Variables SHOULD NOT be modifyed instead unless its for a master branch (USE THE MOD API)
 WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside"]
 WorldDataTerrainColor       = ["GREEN","RESET","WHITE","RESET","RESET","RED","GREEN","WHITE","CYAN","BLUE","YELLOW","RESET","WHITE","GREEN","GREEN","GREEN","RESET","CYAN","YELLOW","YELLOW","YELLOW","BLUE","RESET","WHITE","WHITE","CYAN"]
@@ -42,7 +48,7 @@ WorldDataEnemyName          = ["Archer","Artifact","Beast","Bull","Centaur","Dem
 WorldDataEnemySuffix        = ["Lord","Monster","King","Creature"]
 WorldDataWeather            = ["Sunny","Cloudy","Hot","Cold","Windy"]
 WorldDataMonolithSpell      = ["Heal I","Bolt","Risma","Aquious","Ignis","Terra","Heal II","Rarisma","Taifau","Odurzony","hladan","Tembung","Heal III"]#These are just words in other langauges
-WorldDataMonolithSpellType  = ["HEAL","DAMAGE","DAMAGE","DAMAGE","DAMAGE","DAMAGE","HEAL", "DAMAGE","DAMAGE", "DAMAGE", "DAMAGE","DAMAGE",  "HEAL"]
+WorldDataMonolithSpellType  = ["HEAL","Damage","Damage","Damage","Damage","Damage","HEAL", "Damage","Damage", "Damage", "Damage","Damage",  "HEAL"]
 WorldDataMonolithSpellValue = [10,20,25,25,35,30,30,50,60,50,80,100,100,250]
 WorldDataMonolithSpellCost  =  [5,15,25,20,40,20,10,75,40,10,75,90,60,100]
 
@@ -500,14 +506,15 @@ def Battle():
         EnemyMult = EnemyMult + float(len(WorldDataEnemySuffix[Enemy[3]]) / 2)
 
     EnemyHP = random.randint(round(0.8 * PlayerInfo[4]),round(EnemyMult * PlayerInfo[4]))
-    EnemyMAX = EnemyHP
+    EnemyMAX = EnemyHP  # for display   
     EnemyATK = random.randint(round(0.8 * PlayerInfo[5]),round(EnemyMult * PlayerInfo[5]))
     EnemyDEF = random.randint(round(0.8 * PlayerInfo[6]),round(EnemyMult * PlayerInfo[6]))
-    PlayerCurrentStats[1] = PlayerInfo[17]    #Maxes Mana
+    PlayerCurrentStats[1] = PlayerInfo[18]    #Maxes Mana
+    
     Loop1 = 1
-    while Loop1 == 1:#hp,atk,def
-        print("HP: " + str(PlayerCurrentStats[0]) + "/" + str(PlayerInfo[4]) + "         Mana: " + str(PlayerCurrentStats[1]) + "/" + str(PlayerInfo[17]) + "\nEnemy HP: " + str(EnemyHP) + "/" + str(EnemyMAX) + "\n\n1) Attack      2) Magic\n3) Defend      4) Run")
+        print("\n\nHP: " + str(PlayerCurrentStats[0]) + "/" + str(PlayerInfo[4]) + "         Mana: " + str(PlayerCurrentStats[1]) + "/" + str(PlayerInfo[18]) + "\nEnemy HP: " + str(EnemyHP) + "/" + str(EnemyMAX) + "\n\n1) Attack      2) Magic\n3) Defend      4) Run\n\n")
         Loop2 = 1
+        time.sleep(1)
         while Loop2 == 1:
             Def = PlayerInfo[6]
 
@@ -517,11 +524,11 @@ def Battle():
                 if PlayerInfo[10] != "Hands":
                     PlayerInfo[14] = PlayerInfo[14] - random.randint(0,1)
 
-                if PlayerInfo[14] >= 0 or random.randint(1,100) <= PlayerInfo[13]:
+                if PlayerInfo[14] >= 0 and random.randint(1,100) <= PlayerInfo[13] and PlayerInfo[10] != "Hands":
                     Attack = PlayerInfo[5]
                     print("You landed a critical hit.")
 
-                if PlayerInfo[14] <= 0 or random.randint(1,100) <= PlayerInfo[12]:
+                if PlayerInfo[14] <= 0 and PlayerInfo[10] != "Hands" and random.randint(1,100) <= PlayerInfo[12] :#if any1 lands a critical miss message me
                     Attack = 0
                     print("Your attack missed.")
 
@@ -531,15 +538,46 @@ def Battle():
                 
                 Loop2 = 0
             elif keyboard.is_pressed("2"):
-                print("Magic")
+                TempInt = 0
+                while TempInt <= int(len(PlayerMagic)-1):
+                    print(str(PlayerMagic[TempInt]) + "  Cost: " + str(PlayerMagicCost[TempInt]) + " Effect: " + str(PlayerMagicValue[TempInt]) + " " + str(PlayerMagicType[TempInt]) + " ID: " + str(TempInt))
+                    TempInt = TempInt + 1
+                Loop3 = 1
+                while Loop3 == 1:
+                    TempStr = input("Type an ID of a spell to cast, then press enter\n")
+                    try:
+                        TempStr = int(TempStr)
+                        test = PlayerMagic[TempStr]
+                    except:
+                        print("That was a invalid ID, make sure the ID is valid and is a number")
+                    else:
+                        TempStr = int(TempStr)
+                        if PlayerCurrentStats[1] - PlayerMagicCost[TempStr] <= 0:
+                            print("Not enough mana")
+                        else:
+                            Loop2 = 0
+                            Loop3 = 0
+                            PlayerCurrentStats[1] = PlayerCurrentStats[1] - PlayerMagicCost[TempStr]
+                            if PlayerMagicType[TempStr].upper() == "DAMAGE":
+                                print("\nYou casted " + str(PlayerMagic[TempStr]))
+                                Attack = PlayerMagicValue[TempStr]
+                            elif PlayerMagicType[TempStr].upper() == "HEAL":
+                                print("\nYou casted " + str(PlayerMagic[TempStr]))
+                                PlayerCurrentStats[0] = PlayerCurrentStats[0] + PlayerMagicValue[TempStr]   
+                                if PlayerInfo[4] < PlayerCurrentStats[0]:
+                                    PlayerCurrentStats[0] = PlayerInfo[4]
+
             elif keyboard.is_pressed("3"):
                 Def = Def * 2
+                Loop2 = 0
             elif keyboard.is_pressed("4"):
                 if random.randint(0,1) == 0:
-                    WorldGen()
+                    World()
                 else:
                     print("Couldn't run!")
-                    B = 0
+                    Loop2 = 0
+
+
 
 
 Intialise() #Starts the game after all functions are declared
