@@ -10,16 +10,15 @@ Furthermore I will be releasing several alpha versions of the 1.0 before the rel
 
 # Coming in update 1.0
 Done:
-- [x] Weapon differences
-- [x] Full intergration of alternate terrains (eg villages) and the world space
+
 
 - Updates to:
   - [x] Enemys
 
 To do: (In order of RELATIVE importance)
-- [ ] Clean and fix code
+- [x] Clean and fix code
+- [x] Full intergration of alternate terrains (eg villages) and the world space
 - [ ] Remove dependcies
-- [ ] Modulize code
 - [ ] Mod support
 - [ ] Logging
 - [ ] Weight limit
@@ -34,6 +33,7 @@ To do: (In order of RELATIVE importance)
 - [ ] Map showing 100 x 100 
 - [ ] Player Turn shows a 3x3 map
 - [ ] Quests
+- [x] Weapon differences
 - [ ] Level based crafing
 - [ ] Death concequences (Eg lose money and items)
 - [ ] Fast Travel
@@ -43,7 +43,6 @@ To do: (In order of RELATIVE importance)
 - [ ] Reputation
 - [ ] Multistage crafting
 - [ ] Map icons
-- [ ] Text Highlighting
 - [ ] Achivements
 - [ ] Cave types
 - [ ] Dungeons
