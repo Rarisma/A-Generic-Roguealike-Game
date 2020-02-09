@@ -1,7 +1,5 @@
-# Alpha 1.0
-Alpha 1.0 will release between 12-4PM GMT tomorrow this version will introduce some new features but not many,newer features include Magic, the removal of \data\ and a complete rewrite of the code, which was the main feature of this update and (hopefull) the last complete rewrite.
-
-Lots of new things will be introduced in Beta 1.0 which will be sometime next week.
+#This the development branch!
+Current percent done: 10%
 
 # Note on 1.0
 After atempting to work on 0.9 it became increasingly clear that a complete rewrite of the code is needed which would take too much time to release before Febuary 14th so instead im moving the release date back to March 1st and taking this time to properly document features and clean the ever increasing bodged code I will also be including way more features, terrains, resources and enemys
