@@ -1,8 +1,3 @@
-# Roguealike-RPG
-RougalikeRPG is a text based rougalike RPG, you start in the middle of nowhere, with every turn giving a new challenge.
-
-To play all you need is a version of rougalike.py and the data folder
-
 # Alpha 1.0
 Alpha 1.0 will release between 12-4PM GMT tomorrow this version will introduce some new features but not many,newer features include Magic, the removal of \data\ and a complete rewrite of the code, which was the main feature of this update and (hopefull) the last complete rewrite.
 

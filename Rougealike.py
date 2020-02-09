@@ -1,998 +1,872 @@
-SystemStats = [0,"0.8","Jan/19/1/20"] # 0 - Debug  1 - BuildDate/Version
-def BootCheck():    #Starts up and checks required modules are installed
-    try:
-        import keyboard
-        from colorama import Fore, Back, Style, init
-    except ImportError:
-        input("You are missing the required modules\nPlease run this command to in Powershell or Command Prompt to continue.")
-    
-    if SystemStats[0] == 1:
-        print("\nYou are in developer mode.\nScreens will not be cleared\nDO NOT SUBMIT BUG REPORTS WITH THIS ENABLED\nTo disable developer mode change SystemStats[0] to 0\n\n")
-
-BootCheck()
-import time
-import keyboard
-import random
-import os      
 import linecache
-import json
-import threading
-from colorama import Fore, Back, Style, init    #C O L O U R
+import os
+import time
 import urllib.request
 import zipfile
-init(convert=True)  #Allows CMD and Powershell to display colors instead of the acsii codes
+from colorama import Fore, Back, Style, init
+import keyboard
+import random
+import json
+import threading
+init(convert=True)
+#chess pieces!
 
-#random.randint(-2147483500,2147483500)
-WorldStats = [0,0,1]    #0-X coord 1- Y coord  2 - Difficulty
-EnemyStats  = [50,50,50,50,3]
-PlayerInventory = [""]
-PlayerInventoryAmmount = [""]
-PlayerGeneral = [0,0,1] # 0 - XP   1 - Gold   2 - Level
-PlayerMaxStats = [50,50,50]  #0-HP 1-Attack 2-Defence
-EnemyStats = [0,0,0]
-SaveInfo = ["Unknown","Unknown"] #Latest Version 1- Last saved to
-Resource1Ammount = 0
-TurnCount        = 0
-AlternateTerrain = 0
-TerrainID        = 0
-WorldText     = "ERROR"
-EnemyText     = "ERROR"
-Resource1Text = "ERROR"
-Resource1     = "ERROR"
-PlayerHealingItems = ["Basic Healing Potion","Advanced Healing Potion"]
-PlayerHealingItemsAmmount = [0,0]
-Z = 0
-PlayerInventoryArmourRes = []
-PlayerInventoryArmour    = []
-PlayerInventoryArmourDef = []
-PlayerInventoryWeapon    = []
-PlayerInventoryWeaponAtk = []
-PlayerInventoryWeaponRes = []
-PlayerInventoryWeaponCrt = []
-PlayerInventoryWeaponhit = []
-PlayerPrefs              = [linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Prefs.ini",6),linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Prefs.ini",10),linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Prefs.ini",14)] #0 - Color  1 - Brightness 2 Autoupdate
-PlayerPrefs[0] = PlayerPrefs[0].strip()
-PlayerPrefs[1] = PlayerPrefs[1].strip()
-PlayerPrefs[2] = PlayerPrefs[2].strip()
-EquipedArmour = "Nothing"   #Name of armour
-EquipedArmourDef = 0 #Defence increase
-EquipedArmourRes = 0 #Durabilty
-EquipedWeapon = "Hands"
-EquipedWeaponhit = 100
-EquipedWeaponatk = 0
-EquipedWeaponcrt = 0
-EquipedWeaponres = 0
-SaveUI = 1  #0- Player has a chance to select a slot 1- disables UI and forces auto save
-BattleLog = ["","","","","","",""]
-QuestName = ["","QuestTest1","QuestTest2 -  Triple Darkness","QuestTest3","Quest test 3 - Connectivity"] # name of the quest
-QuestDescription = ["","Quest test!","This is a quest to test","Beast drops?","Who is this guy?"]
-QuestReq1Ammount = ["",20,5,10,5]
-QuestReq1Item = ["","Iron Bar","Branches","Beast Hide","Sword of gods"]
-QuestReward = ["",1000]
-PlayerHP = 50
-#I'm fairly Local, I've been around, I've seen the streets you're walking down
+SystemInfo  = ["Build Version: 8/2/2020","1.0"]
+LatestVer   = "ERROR"
+Save = 0
+#Below is Varaibles that are saved
+PlayerInfo  = [0,0,0,0,50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0,50,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count (19)
+TerrainType = 0
+TerrainTypeMeta = 0
+Terrain  = 0
+Resource = 0
+ResourceAmmount = 0
+Enemy   = [""]
+Weather = 0
+BattleLog = ["","","","","",""]
+PlayerInventory = ["Pendant","Iron Bar"]
+PlayerInventoryAmmount = [1,1000000]
+PlayerInventoryArmourDur = [0]
+PlayerInventoryArmour    = ["Nothing"]
+PlayerInventoryArmourDef = [0]
+PlayerInventoryWeapon    = ["Hands"]
+PlayerInventoryWeaponAtk = [0]
+PlayerInventoryWeaponDur = [0]
+PlayerInventoryWeaponCrt = [0]
+PlayerInventoryWeaponHit = [100]
+PlayerCurrentStats = [50,50] #HP,Mana
+PlayerMagic      = ["Wait","Phonon","Panacea"]   # Name of magic
+PlayerMagicType  = ["Damage","Damage","Heal"]   # HEAL - Vaule heals Damage - Damages the enemy
+PlayerMagicValue = [1,10,40]   # Damage of spell
+PlayerMagicCost  = [0,5,5]   # How much does the spell cost to cast
 
-def UpdateCheck():               
-    global SystemStats
-    global PlayerPrefs
 
-    print("Trying to check update servers...\n\nTired of seeing this?\nChange the autoupdater setting in Prefs.ini\nThis shouldn't take more than 30 seconds")
 
-    if PlayerPrefs[2] == "0":
+#WorldData Variables SHOULD NOT be modifyed instead unless its for a master branch (USE THE MOD API)
+WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside"]
+WorldDataTerrainColor       = ["GREEN","RESET","WHITE","RESET","RESET","RED","GREEN","WHITE","CYAN","BLUE","YELLOW","RESET","WHITE","GREEN","GREEN","GREEN","RESET","CYAN","YELLOW","YELLOW","YELLOW","BLUE","RESET","WHITE","WHITE","CYAN"]
+WorldDataTerrainBrightness  = ["BRIGHT","NORMAL","BRIGHT","NORMAL","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","NORMAL","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","BRIGHT","BRIGHT","DIM"]
+WorldDataResource           = ["Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches","Spruce logs"]
+WorldDataResourceColor      = ["RED","WHITE","RED","BLUE","GREEN","GREEN","GREEN","YELLOW","WHITE","GREEN","YELLOW","WHITE","GREEN","CYAN","MAGENTA","GREEN","GREEN","WHITE","YELLOW","GREEN","BLUE","RED","RED","RED","GREEN","CYAN","RESET","YELLOW","YELLOW","MAGENTA","YELLOW","RED","RED","GREEN","CYAN","CYAN"]
+WorldDataResourceBrightness = ["BRIGHT","DIM","BRIGHT","BRIGHT","DIM","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","DIM","DIM","DIM","BRIGHT","BRIGHT","BRIGHT","BRIGHT","BRIGHT","DIM","DIM","NORMAL","NORMAL","DIM","DIM"]
+WorldDataEnemyPrefix        = ["Angry","Armoured","Beserk","Crazed","Demonic","Enemy","Enraged","Fallen","Frenzied","Giant","Greater","Infested","Leaping","Lesser","Possessed","Skeleton"]
+WorldDataEnemyName          = ["Archer","Artifact","Beast","Bull","Centaur","Demon","Dog","Elf","Fire","Fox","Giant","Goblin","God","Hunter","Ice","Madman","Ogre","Orc","Phantom","Rat","Relic","Robot","Skeleton","Soldier","Spider","Spirit","Troll","Villager","Warrior","Wolf","Zombie"]
+WorldDataEnemySuffix        = ["Lord","Monster","King","Creature"]
+WorldDataWeather            = ["","Sunny","Cloudy","Hot","Cold","Windy"]
+
+WorldDataMonolithSpell      = ["Heal I","Bolt","Risma","Aquious","Ignis","Terra","Heal II","Rarisma","Taifau","Odurzony","hladan","Tembung","Heal III"]#These are just words in other langauges
+WorldDataMonolithSpellType  = ["HEAL","Damage","Damage","Damage","Damage","Damage","HEAL", "Damage","Damage", "Damage", "Damage","Damage",  "HEAL"]
+WorldDataMonolithSpellValue = [80,20,25,25,35,30,30,110,60,50,80,100,100,200]
+WorldDataMonolithSpellCost  = [5,15,25,20,40,20,10,75,40,10,75,90,60,100]
+WorldDataCaveMetal          = ["Iron Ore","Coal","Uncut Rubies","Uncut Emeralds","Uncut Saphires","Uncut Topaz","Copper Ore","Potassium Ore","Magnesium Ore","Steel","Urainium Ore","Malachite Ore","Stone","Clay","Uncut Diamonds","Silicon","Boron Ore","Carbon","Dawnite Ore","Uncut OpalQuartz Ore","Rolton Ore","Vibrainum Ore","Yosmite Ore","Yunotium Ore","Gallium Ore","Jabraca Ore","Platnum Ore","Cronite Ore","Adamite Ore","Ironite Ore"]
+
+WorldDataCraftMetalReq      = ["Iron Ore","Copper Ore","Potassium Ore","Magnesium Ore","Urainium Ore","Malachite Ore","Boron Ore","Dawnite Ore","Quartz Ore","Rolton Ore","Vibrainum Ore","Yosmite Ore","Yunotium Ore","Gallium Ore","Jabraca Ore","Platnum Ore","Cronite Ore","Adamite Ore","Ironite Ore"]
+WorldDataCraftMetalProd     = ["Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar"]
+WorldDataCraftMetalAmm      = [3,3,3,3,5,5,2,10,1,5,3,5,5,5,5,5,3,10,5]
+
+WorldDataCraftGemReq        = ["Uncut Rubies","Uncut Emeralds","Uncut Saphires","Uncut Topaz","Uncut Diamonds","Uncut Opal"]
+WorldDataCraftGemProd       = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal"]
+WorldDataCraftGemAmm        = [1,1,1,1,1,1,1]
+
+WorldDataCraftWeaponAxeReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
+WorldDataCraftWeaponAxeProd = ["Copper Axe","Iron Axe","Magnesium Axe","Boron Axe","Gallium Axe","Rolton Axe","Yosmite Axe","Yunotium Axe","Jabraca Axe","Ironite Axe","Platnum Axe","Cronite Axe","Adamite Axe","Dawnite Axe","Malachite Axe","Axe of Legends"]
+WorldDataCraftWeaponAxeAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76,84]
+
+WorldDataCraftWeaponBowProd = ["Copper Bow","Iron Bow","Magnesium Bow","Boron Bow","Gallium Bow","Rolton Bow","Yosmite Bow","Yunotium Bow","Jabraca Bow","Ironite Bow","Platnum Bow","Cronite Bow","Adamite Bow","Dawnite Bow","Malachite Bow","Bow of Legends"]
+WorldDataCraftWeaponBowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
+WorldDataCraftWeaponBowAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76,84]
+
+WorldDataCraftWeaponLanProd = ["Copper Lance","Iron Lance","Magnesium Lance","Boron Lance","Gallium Lance","Rolton Lance","Yosmite Lance","Yunotium Lance","Jabraca Lance","Ironite Lance","Platnum Lance","Cronite Lance","Adamite Lance","Dawnite Lance","Malachite Lance","Lance of Legends"]
+WorldDataCraftWeaponLanReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
+WorldDataCraftWeaponLanAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76,84]
+
+WorldDataCraftWeaponMacProd = ["Copper Mace","Iron Mace","Magnesium Mace","Boron Mace","Gallium Mace","Rolton Mace","Yosmite Mace","Yunotium Mace","Jabraca Mace","Ironite Mace","Platnum Mace","Cronite Mace","Adamite Mace","Dawnite Mace","Malachite Mace","Mace of Legends"]
+WorldDataCraftWeaponMacReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
+WorldDataCraftWeaponMacAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76,84]
+
+WorldDataCraftWeaponSwoProd = ["Copper Sword","Iron Sword","Magnesium Sword","Boron Sword","Gallium Sword","Rolton Sword","Yosmite Sword","Yunotium Sword","Jabraca Sword","Ironite Sword","Platnum Sword","Cronite Sword","Adamite Sword","Dawnite Sword","Malachite Sword","Sword of Legends"]
+WorldDataCraftWeaponSwoReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
+WorldDataCraftWeaponSwoAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76,84]
+
+WorldDataCraftArmorProd     = ["Iron Armour","Quartz Armour","Rolton Armour","Jabraca Armour","Platnum Armour","Adamite Armour","Malachite Armour","Dawnite Armour"]
+WorldDataCraftArmorReq      = ["Iron Bar","Quartz Bar","Rolton Bar","Jabraca Bar","Platnum Bar","Adamite Bar","Malachite Bar","Dawnite Bar"]
+WorldDataCraftArmorAmm      = [25,32,35,40,48,55,59,66,70,78]
+
+WorldDataTradeProd          = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal","Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar","Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches"]
+WorldDataTradePrice         = [50,70,80,100,150,250,500,250,50,245,750,5000,9500,4500,10000,100,100,500,100,3000,1000,1675,1500,750,2500,1000,10,5,25,35,5,5,5,50,10,65,15,75,250,150,15,20,100,1000,500,250,100,500,750,100,5,250,1000,100,100,2500,100,150,250,50,100,150]
+
+def Intialise():    #Starts the game, Checks reqired modules are installed and runs AutoUpdate if enabled
+    global SystemInfo
+    global LatestVer
+
+    try:
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData"): 
+            time.sleep(0)
+        else:
+            os.mkdir(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData")
+
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData"): 
+            time.sleep(0)
+        else:
+            os.mkdir(os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData")
+
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\Slot1"): 
+            time.sleep(0)
+        else:
+            os.mkdir(os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\Slot1")
+
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\Slot2"): 
+            time.sleep(0)
+        else:
+            os.mkdir(os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\Slot2")
+
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\Slot3"): 
+            time.sleep(0)
+        else:
+            os.mkdir(os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\Slot3")
+
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\Slot4"): 
+            time.sleep(0)
+        else:
+            os.mkdir(os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\Slot4")
+
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\Slot15"): 
+            time.sleep(0)
+        else:
+            os.mkdir(os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\Slot5")
+    except:
+        print()
+
+
+    try:    #Checks if modules are installed
+        import keyboard
+        import colorama
+    except: #Tries to Auto-Install modules
+        print("You are missing required modules,\nWould you like to attempt to Auto-Install them?\n\nThis may fail if you are not an admin.\n(Y/N)")
+        Select = input()
+        Loop = 1
+        while Loop == 1:
+            if str(Select.upper()) == "Y":
+                os.system("pip install colorama keyboard")
+                Loop = 0
+            elif str(Select.upper()) == "N":
+                input("Very well then,\nPress enter to close the program")
+                exit()  #Terminates if declines to install
+        try:
+            import keyboard
+            import colorama 
+        except:
+            input("Failed to Auto-Install required modules...\nPlease open a Command Prompt (Preferably as admin) and type the following command\npip install colorama keyboard\n\nPress enter to leave.")
+            exit()
+
+    print("Trying to check update servers...\n\nTired of seeing this?\nChange the autoupdater setting in Config.txt\nThis shouldn't take more than 30 seconds")
+    TempStr = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Config.txt",3)
+    TempStr = TempStr.strip()
+    if TempStr == "False":  #Checks if AutoUpdate is disabled if so then it goes to the menu
+        LatestVer = "DISABLED"
         Menu()
 
-    try:
-        urllib.request.urlretrieve("https://raw.githubusercontent.com/TMAltair/RougalikeRPG/master/metadata.txt",os.path.dirname(os.path.abspath(__file__)) + "\\Data\\meta.txt")
-        LatestVer = str(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\meta.txt",3))
-    except:
+    try:    #Tries to get check github
+        urllib.request.urlretrieve("https://raw.githubusercontent.com/TMAltair/RougalikeRPG/master/metadata.txt",os.path.dirname(os.path.abspath(__file__)) + "\\meta.txt")
+        LatestVer = str(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\meta.txt",3))
+    except: #Upon any type of failure it skips AutoUpdate
         LatestVer = "Failed"
+        Menu()
     LatestVer = LatestVer.strip()
     
-    try:
+    try: # Tries to delete meta.txt if it exists
         os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\meta.txt")
     except:
-        time.sleep(0)
+        time.sleep(0) 
     
     os.system("cls")
-    if LatestVer != SystemStats[1] and not LatestVer == "Failed": #Autoupdater code
-        print("You are on version " + str(SystemStats[1]) + "\nVersion " + str(LatestVer) + " is available\n\nUpdate? (Y/N)")
-        b = 1
-        while b == 1:
+    if LatestVer != SystemInfo[1] and not LatestVer == "Failed": #Autoupdater code
+        print("You are on version " + str(SystemInfo[1]) + "\nVersion " + str(LatestVer) + " is available\n\nUpdate? (Y/N)")
+        Loop = 1
+        while Loop == 1:
             if keyboard.is_pressed("y"):
-                print("Downloading latest version from github (1/4)")
+                print("Starting update!\nThis shouldn't take more than 2 minutes")
                 try:
                     os.mkdir("Rougalike " + LatestVer)
                 except:
-                    a = 0
-                urllib.request.urlretrieve("https://raw.githubusercontent.com/TMAltair/RougalikeRPG/master/Rougalike.py",os.path.dirname(os.path.abspath(__file__)) + "\\Rougalike " + LatestVer +"\\Rougalike " + LatestVer + ".py")
-                print("Downloading Latest data files (2/4)")
+                    time.sleep(0)
+                urllib.request.urlretrieve("https://raw.githubusercontent.com/TMAltair/RougalikeRPG/master/Rougealike.py",os.path.dirname(os.path.abspath(__file__)) + "\\Rougalike " + LatestVer +"\\Rougalike " + LatestVer + ".py")
                 urllib.request.urlretrieve("https://raw.githubusercontent.com/TMAltair/RougalikeRPG/master/Data.zip",os.path.dirname(os.path.abspath(__file__)) + "\\Rougalike " + LatestVer +"\\Data.zip")
-                print("Extracting data files (3/4)")
                 with zipfile.ZipFile(os.path.dirname(os.path.abspath(__file__)) + "\\Rougalike " + LatestVer + "\\Data.zip", 'r') as zip_ref:
                     zip_ref.extractall(os.path.dirname(os.path.abspath(__file__)) + "\\Rougalike " + LatestVer)
-                print("Deleting Data.zip (4/4)")
                 os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\Rougalike " + LatestVer + "\\Data.zip")
-                print("\n" + Fore.GREEN + "Complete!" + Fore.__getattribute__(PlayerPrefs[0]) + "\nTo run the latest version look for the folder called Rougalike " + LatestVer)
-                input("Press enter to close\n")
+                input("\n" + Fore.GREEN + "Update Complete!" + Fore.RESET + "\nTo run the latest version look for the folder called Rougalike " + LatestVer + "\n\nPress enter to close.\n")
                 exit()
             elif keyboard.is_pressed("n"):
+                LatestVer = "Declined"
                 Menu()
+    LatestVer = "Up to date"
     Menu()
 
-def Menu(): #Handles the mainmenu   
-    global SystemStats
-    global WorldStats
+def Menu(): #  Menu
+    global LatestVer
+    global PlayerInfo
 
-    os.system("cls")
-    print("RoguelikeRPG by TMAltair\n\n1) Play\n2) Load\n3) Exit\n\nPress the number in brackets to select your options \nSupport the project at: http://bit.ly/Rougalike")
-    if SystemStats[0] == 1:
-        print(Fore.RED+ "YOU ARE IN DEVELOPER MODE.\nBuildNumber = " + str(SystemStats[2]) + Fore.__getattribute__(PlayerPrefs[0]))
-
-    A = 1
-    while A == 1:
+    os.system("cls") #clears screen
+    print("Rougealike RPG by TMAltair\n1) Play\n2) Load\nQ) Quit\n\nVersion " + str(SystemInfo[1]) + " (" + str(SystemInfo[0]) + ")")
+    if LatestVer == "Failed": #If an error occurs prints this
+        print("Could not talk to the AutoUpdate webpage.\nTo see if Rougealike has an update go to\nhttps://github.com/TMAltair/Roguealike/")
+    elif LatestVer == "Declined": #If update is declined 
+        print("Update available!\nPress U) to update!")
+    elif LatestVer == "ERROR": #If auto update is not changed for some reason
+        print("An Error occured in the update.")
+    elif LatestVer == "DISABLED": # If autoupdate is disabled in the Config.txt
+        print("AutoUpdate is disabled.")
+    elif LatestVer == "GLOBALLY DISABLED":
+        print("AutoUpdate is disabled globally for now.")
+    Loop = 1
+    while Loop == 1:
         if keyboard.is_pressed("1"):
-            
-            if SystemStats[0] != 1:
-                os.system("cls")
-            else:
-                WorldGen()
-
-            print("Select your difficulty:\n1) Easy\n2) Medium\n3) Hard")
-            time.sleep(1)
-            B = 1
-            while B == 1:
+            os.system("cls")
+            PlayerInfo[0] = str(input("Enter a name: "))
+            PlayerInfo[1] = -1
+            PlayerInfo[2] = 0
+            PlayerInfo[3] = 0
+            os.system("cls")
+            Loop2 = 1
+            print("Select a difficulty:\n1) Easy\nEnemies have less HP and do more damage\n\n2) Normal\nBattles should be fun\n\n3) Hard\nBattles require merticulous planning of healing and equipment\n\n4) Insane\n\"Good for short people who want to do somthing.\"")
+            while Loop2 == 1:
                 if keyboard.is_pressed("1"):
-                    WorldStats[2] = 1
-                    B = 0
+                    PlayerInfo[1] = 1
+                    Loop2 = 2
                 elif keyboard.is_pressed("2"):
-                    WorldStats[2] = 2
-                    B = 0
+                    PlayerInfo[1] = 2
+                    Loop2 = 2
                 elif keyboard.is_pressed("3"):
-                    WorldStats[2] = 3
+                    PlayerInfo[1] = 3
+                    Loop2 = 2
+                elif keyboard.is_pressed("4"):
+                    PlayerInfo[1] = 4
+                    Loop2 = 2
 
-            while B == 0:
-                if SystemStats[0] != 1:
-                    os.system("cls")
-                
-                Name = input("Name your character: ")
-                B = 1
-            TimerStart = time.time()
-            WorldGen()
 
+            PlayerInfo[2] = 0   #X Coord
+            PlayerInfo[3] = 0   #Y Coord 
+            WorldGeneration()
         elif keyboard.is_pressed("2"):
-            Load()
-        elif keyboard.is_pressed("3"):
-            exit()
+            SaveLoad()
+        elif keyboard.is_pressed("u"):
+            Intialise()
 
-def WorldGen(): #generates Terrain
-    global WorldText
-    global EnemyStats
-    global WorldStats
-    global EnemyText
-    global Resource1
-    global Resource1Ammount
-    global Resource1Text
-    global AlternateTerrain
-    global WorldStats #0-X coord 1- Y coord  2 - Difficulty
-    global TerrainID
-    global EnemyText
+def WorldGeneration(): # Loads or generates terrain
+    global PlayerInfo
+    global TerrainType
+    global TerrainTypeMeta
+    global Terrain
+    global Resource
+    global ResourceAmmount
+    global Enemy
     global Weather
-    global WeatherID
-    global SaveUI
-    global TurnCount
-    
-    AlternateTerrain = random.randint(1,50)
-    if AlternateTerrain <= 4:
-        AlternateTerrains()
 
-    CurrentCoords = "x" + str(WorldStats[0]) + "y" + str(WorldStats[1])
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + CurrentCoords + ".txt"): # Terrain that exists
-        TerrainID    = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + CurrentCoords + ".txt",1)
-        TerrainID    = int(TerrainID.strip())
-        Terrain      = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Terrain.txt", TerrainID)       #Rolls Terrain
-        TerrainBr    = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Brightness.txt", TerrainID)     #Gets brightness
-        TerrainCl    = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Color.txt", TerrainID)          #Gets color
-        Terrain      = Terrain.strip()      #Removes \n
-        TerrainBr    = TerrainBr.strip()    #Removes \n
-        TerrainCl    = TerrainCl.strip()    #Removes \n
-        try:    #Stops crashes
-            TerrainText  = "You are " + Fore.__getattribute__(TerrainCl) + Style.__getattribute__(TerrainBr) + Terrain + "." + Fore.__getattribute__(PlayerPrefs[0]) + Back.RESET
-        except AttributeError:
-            WorldGen()
-        TerrainText  = "You are " + Fore.__getattribute__(TerrainCl) + Style.__getattribute__(TerrainBr) + Terrain + "." + Fore.__getattribute__(PlayerPrefs[0]) + Back.RESET
-
-        Resource1ID = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + CurrentCoords + ".txt",2)) #Rolls Resource
-        if Resource1ID > 0:
-            Resource1Ammount = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + CurrentCoords + ".txt",3)) 
-            Resource1 = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Resources\\Resources.txt",Resource1ID)    #Gets resource      
-            Resource1Br = linecache.getline(os.path.dirname(os.path.abspath(__file__))  + "\\Data\\Resources\\Brightness.txt",Resource1ID) #Gets brightness
-            Resource1Cl = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Resources\\Color.txt",Resource1ID)       #Gets color
-            Resource1   = Resource1.strip()     #Removes \n
-            Resource1Br = Resource1Br.strip()   #Removes \n
-            Resource1Cl = Resource1Cl.strip()   #Removes \n
-
-            try:    #Stops crashes
-                Resource1Text = "There are " + Style.__getattribute__(Resource1Br) + Fore.__getattribute__(Resource1Cl) + str(Resource1Ammount)  + " " + Resource1 +  " here."
-            except AttributeError:
-                WorldGen()
-            Resource1Text = "There are " + Style.__getattribute__(Resource1Br) + Fore.__getattribute__(Resource1Cl) + str(Resource1Ammount)  + " " + Resource1 +  " here."
-            
-            if Resource1Ammount == 0:
-                Resource1Text = ""
-        else:
-            Resource1Text = ""
-
-        EnemySlots = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Slots.txt",3))
-        EnemyID = random.randint(1,EnemySlots)
-        EnemyName = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Enemys.txt",EnemyID)
-        EnemyText = Fore.__getattribute__(PlayerPrefs[0]) + "There is a " + Fore.RED + str(EnemyName.strip()) + Fore.__getattribute__(PlayerPrefs[0]) + " here."
-
-        WorldText = str(TerrainText) + "\n" + str(Resource1Text) + "\n" + str(EnemyText)
-        if Resource1Text == "":
-            WorldText = str(TerrainText) + "\n" + str(EnemyText)                                        
-    else: #Terrain that needs to be generated
-        TerrainSlots = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Slots.txt", 1))    #Gets total ammount of terrain
-        TerrainID    = random.randint(1,TerrainSlots) #Line Number of Terrain
-        Terrain      = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Terrain.txt", TerrainID)       #Rolls Terrain
-        TerrainBr    = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Brightness.txt", TerrainID)     #Gets brightness
-        TerrainCl    = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Color.txt", TerrainID)          #Gets color
-        Terrain      = Terrain.strip()      #Removes \n
-        TerrainBr    = TerrainBr.strip()    #Removes \n
-        TerrainCl    = TerrainCl.strip()    #Removes \n
-        try:    #Stops crashes
-            TerrainText  = "You are " + Fore.__getattribute__(TerrainCl) + Style.__getattribute__(TerrainBr) + Terrain + "." + Fore.__getattribute__(PlayerPrefs[0]) + Back.RESET
-        except AttributeError:
-            WorldGen()
-        TerrainText  = "You are " + Fore.__getattribute__(TerrainCl) + Style.__getattribute__(TerrainBr) + Terrain + "." + Fore.__getattribute__(PlayerPrefs[0]) + Back.RESET
-
-        ResourceSlots = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Slots.txt", 2))   #Gets total ammount of resource
-        Resource1ID = random.randint(1,ResourceSlots) #Rolls Resource
-        Resource1Ammount = random.randint(0,10)       #Rolls 
-        Resource1 = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Resources\\Resources.txt",Resource1ID)    #Gets resource      
-        Resource1Br = linecache.getline(os.path.dirname(os.path.abspath(__file__))  + "\\Data\\Resources\\Brightness.txt",Resource1ID) #Gets brightness
-        Resource1Cl = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Resources\\Color.txt",Resource1ID)       #Gets color
-        Resource1   = Resource1.strip()     #Removes \n
-        Resource1Br = Resource1Br.strip()   #Removes \n
-        Resource1Cl = Resource1Cl.strip()   #Removes \n
-
-        try:    #Stops crashes
-            Resource1Text = "There are " + Style.__getattribute__(Resource1Br) + Fore.__getattribute__(Resource1Cl) + str(Resource1Ammount)  + " " + Resource1 +  " here."
-        except AttributeError:
-            WorldGen()
-        Resource1Text = "There are " + Style.__getattribute__(Resource1Br) + Fore.__getattribute__(Resource1Cl) + str(Resource1Ammount)  + " " + Resource1 +  " here."
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt"):  #Terrain that needs to be generated
+        TerrainType = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",1))
         
-        if Resource1Ammount == 0:
-            Resource1Text = ""
-            Resource1ID = 0
+        if TerrainType == 0:    #For standards
+            Terrain = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",2))
+        else:   #For non standard Terrains
+            TerrainTypeMeta = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",2))
 
-        if random.randint(0,2) > 0:
-            EnemySlots = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Slots.txt",3))
-            EnemyID = random.randint(1,EnemySlots)
-            EnemyName = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Enemys.txt",EnemyID)
-            EnemyText = Fore.__getattribute__(PlayerPrefs[0]) + "There is a " + Fore.RED + str(EnemyName.strip()) + Fore.__getattribute__(PlayerPrefs[0]) + " here."
+        Resource = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",3)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",5)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",7)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",9))]
+        ResourceAmmount = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",4)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",6)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",8)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",10))]
+       
+        if random.randint(-50,5) > 0:
+            Weather = random.randint(3,5)
         else:
-            EnemyText = ""
+            Weather = 0  
+    else:   #Generates Terrain
+        if random.randint(1,25) == 25: # 4% Chance 
+            TerrainType = random.randint(1,4) # Terrain isn't needed to be generated
+            TerrainTypeMeta = 0
+        else:
+            TerrainType = 0 # 0 is Normal Terrain
+            Terrain  = random.randint(0,len(WorldDataTerrain)-1) # gets terrain
+        Resource = [random.randint(-1,len(WorldDataResource)-1),random.randint(-10,len(WorldDataResource)-1),random.randint(-20,len(WorldDataResource)-1),random.randint(-30,len(WorldDataResource)-1)]
+        ResourceAmmount = [random.randint(random.randint(1,5),random.randint(5,10)),random.randint(random.randint(1,5),random.randint(5,10)),random.randint(random.randint(1,5),random.randint(5,10)),random.randint(random.randint(1,5),random.randint(5,10))]
+            
+        with open(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt","w") as WorldFile:
+            if TerrainType == 0:
+                WorldFile.write(str(TerrainType) + "\n" + str(Terrain) + "\n" + str(Resource[0]) + "\n" + str(ResourceAmmount[0]) +  "\n" + str(Resource[1]) + "\n" + str(ResourceAmmount[1]) + "\n" +  str(Resource[2]) + "\n" + str(ResourceAmmount[2]) + "\n" + str(Resource[3]) + "\n" + str(ResourceAmmount[3]))
+            else:
+                WorldFile.write(str(TerrainType) + "\n" + str(TerrainTypeMeta) + "\n" + str(Resource[0]) + "\n" + str(ResourceAmmount[0]) +  "\n" + str(Resource[1]) + "\n" + str(ResourceAmmount[1]) + "\n" +  str(Resource[2]) + "\n" + str(ResourceAmmount[2]) + "\n" + str(Resource[3]) + "\n" + str(ResourceAmmount[3]))
+            WorldFile.close()
 
-        WorldText = str(TerrainText)
+        if random.randint(-50,5) > 0:
+            Weather = random.randint(1,2)
+            if Weather == 1:
+                ResourceAmmount[0] = ResourceAmmount[0] * random.randint(1,5)
+                ResourceAmmount[1] = ResourceAmmount[1] * random.randint(1,5)
+                ResourceAmmount[2] = ResourceAmmount[2] * random.randint(1,5)
+                ResourceAmmount[3] = ResourceAmmount[3] * random.randint(1,5)
+            elif Weather == 2:
+                ResourceAmmount[0] = round(ResourceAmmount[0] / random.randint(1,5))
+                ResourceAmmount[1] = round(ResourceAmmount[1] / random.randint(1,5))
+                ResourceAmmount[2] = round(ResourceAmmount[2] / random.randint(1,5))
+                ResourceAmmount[3] = round(ResourceAmmount[3] / random.randint(1,5))
+        else:
+            Weather = 0
 
-        if Resource1Text != "":
-            WorldText = WorldText + "\n" + str(Resource1Text)
+    Enemy = [random.randint(0,1),random.randint(-10,len(WorldDataEnemyPrefix)-1),random.randint(0,len(WorldDataEnemyName)-1),random.randint(-10,len(WorldDataEnemySuffix)-1)] #0- 0/1 1 is enabled    1-Prefix (-1 if disabled)   2-Enemy name    3-Suffix (-1 if disabled) 
 
-        if EnemyText != "":
-            WorldText = WorldText + "\n" + str(EnemyText)
 
-        WorldFile = open(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + CurrentCoords + ".txt","w")
-        WorldFile.write(str(TerrainID) + "\n" + str(Resource1ID) + "\n" + str(Resource1Ammount))
-        WorldFile.close()
+    World()
 
-    WeatherID = random.randint(1,55)
-    if WeatherID <= 5:
-        Weather = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Weather.txt",WeatherID)
-        Weather = Weather.strip()
-        if WeatherID == 1: # sunny weather makes res1 * 1-10
-            Resource1Ammount = Resource1Ammount * random.randint(1,10)
-        elif WeatherID == 2:
-            Resource1Ammount = round(Resource1Ammount / 2) + 1
-        elif WeatherID == 3:
-            time.sleep(0)
-        elif WeatherID == 4:
-            time.sleep(0)
-        elif WeatherID == 5:
-            time.sleep(0)
-
-    PlayerTurn()
-
-def PlayerTurn():
+def World(): # Handles terrain and Player choices
+    global PlayerInfo
+    global BattleLog
     global PlayerInventory
     global PlayerInventoryAmmount
-    global Resource1
-    global Resource1Ammount
-    global TurnCount
-    global WorldText
-    global EquipedArmour
-    global EquipedArmourDef
-    global EquipedArmourRes
-    global EquipedWeapon
-    global EquipedWeaponatk
-    global EquipedWeaponres
-    global EquipedWeaponcrt
-    global EquipedWeaponhit
-    global BattleLog
-    global PlayerPrefs
-    global WeatherID
-    global Weather
-    global PlayerHP
-    global PlayerMaxStats
-    global SaveUI
+    global Resource
+    global ResourceAmmount
+    global PlayerInventoryArmourDur
+    global PlayerInventoryArmour
+    global PlayerInventoryArmourDef
+    global PlayerInventoryWeapon
+    global PlayerInventoryWeaponAtk
+    global PlayerInventoryWeaponDur
+    global PlayerInventoryWeaponCrt
+    global PlayerInventoryWeaponHit
+    global Save
 
-    if PlayerHP < 0:
-        PlayerHP = 1
-
-    if SystemStats != 1:
-        os.system("cls")
-    
-    if SaveUI == 1:
-        Save()
-    else:
-        SaveUI = 1
-
+    os.system("cls")
     BattleLog[0] = BattleLog[1] 
     BattleLog[1] = BattleLog[2]
     BattleLog[2] = BattleLog[3]
     BattleLog[3] = BattleLog[4]
     BattleLog[4] = BattleLog[5]
     BattleLog[5] = ""
+    if BattleLog[0] != "":
+        print(BattleLog[0])
+    if BattleLog[1] != "":
+        print(BattleLog[1])
+    if BattleLog[2] != "":
+        print(BattleLog[2])
+    if BattleLog[3] != "":
+        print(BattleLog[3])
+    if BattleLog[4] != "":
+        print(BattleLog[4])
+    if BattleLog[5] != "":
+        print(BattleLog[5])
 
-    print(str(BattleLog[0]) + "\n" + str(BattleLog[1]) + "\n" + str(BattleLog[2]) + "\n" + str(BattleLog[3]) + "\n" + str(BattleLog[4]) + "\n" + str(BattleLog[5]))
+    if TerrainType == 0:
+        print(Fore.__getattribute__(WorldDataTerrainColor[Terrain]) + Style.__getattribute__(WorldDataTerrainBrightness[Terrain]) + "You are " + str(WorldDataTerrain[Terrain]) + ".")
+    else:
+        if TerrainType == 1 and TerrainTypeMeta == 0:
+            print("You are at a monolith.")
+        elif TerrainType == 2 and TerrainTypeMeta == 0:
+            print("You are at a cave.")
+        elif TerrainType == 3 and TerrainTypeMeta == 0:
+            print("You are at a village.")
+        elif TerrainType == 4 and TerrainTypeMeta == 0:
+            print("You are at a trader outpost.")
 
-    TurnCount = TurnCount + 1
-    print(Style.__getattribute__(PlayerPrefs[1]) + Fore.__getattribute__(PlayerPrefs[0]) + "Turn: " + str(TurnCount))
-    if PlayerHP < PlayerMaxStats[0]:
-        print("HP: " + str(round(PlayerHP / PlayerMaxStats[0] * 100)) + "%")
+    ResourceText = "There are "
+    if Resource[0] >= 0:
+        ResourceText = ResourceText + str(Fore.__getattribute__(WorldDataResourceColor[Resource[0]]) + Style.__getattribute__(WorldDataResourceBrightness[Resource[0]]) + str(ResourceAmmount[0]) + " " + str(WorldDataResource[Resource[0]]) + Fore.RESET + ", ")
+    if Resource[1] >= 0:
+        ResourceText = ResourceText + str(Fore.__getattribute__(WorldDataResourceColor[Resource[1]]) + Style.__getattribute__(WorldDataResourceBrightness[Resource[1]]) + str(ResourceAmmount[1]) + " " + str(WorldDataResource[Resource[1]]) + Fore.RESET + ", ")
+    if Resource[2] >= 0:
+        ResourceText = ResourceText + str(Fore.__getattribute__(WorldDataResourceColor[Resource[2]]) + Style.__getattribute__(WorldDataResourceBrightness[Resource[2]]) + str(ResourceAmmount[2]) + " " + str(WorldDataResource[Resource[2]]) + Fore.RESET + ", ")
+    if Resource[3] >= 0:
+        ResourceText = ResourceText + str(Fore.__getattribute__(WorldDataResourceColor[Resource[3]]) + Style.__getattribute__(WorldDataResourceBrightness[Resource[3]]) + str(ResourceAmmount[3]) + " " + str(WorldDataResource[Resource[3]]))
+    if ResourceText == "There are ":
+        time.sleep(0)
+    else:
+        print(Fore.RESET + str(ResourceText) + Fore.RESET)
 
-    print("\n" + WorldText + Fore.__getattribute__(PlayerPrefs[0]) + Style.__getattribute__(PlayerPrefs[1]) + "\n\n\nOptions:\n1) Battle     2) Move  3) Collect items  4) Inventory\n5) Save/Load  6) Map   7) Quest log      8) Quit")
-  
-    if WeatherID <= 5:
-        print(Fore.YELLOW + "Weather Warning: Very " + Weather + "!" + Fore.__getattribute__(PlayerPrefs[0]))
+    EnemyText = ""
+    if Enemy[0] == 0:
+        EnemyText = Fore.RED + "There is a "
+    if Enemy[1] >= 0:
+        EnemyText = EnemyText + WorldDataEnemyPrefix[Enemy[1]] + " "
+    if Enemy[0] == 0:
+        EnemyText = EnemyText + WorldDataEnemyName[Enemy[2]] + " "
+    if Enemy[3] >= 0:
+        EnemyText = EnemyText + WorldDataEnemySuffix[Enemy[3]]
+    if Enemy[0] == 0:
+        print(EnemyText + " here.")
 
+    if Weather > 0:
+        print(Fore.YELLOW + "It is also very " + WorldDataWeather[Weather] + "." + Fore.RESET)
+
+    print(Fore.RESET + "\n\n1) Battle    2) Move      3) Collect Items\n4) Character 5) Save/Load 6) Quit")
+    if TerrainType == 1 and TerrainTypeMeta == 0:
+        print("7) Use Monolith")
+    elif TerrainType == 2 and TerrainTypeMeta == 0:
+        print("7) Mine")
+    elif TerrainType == 3 and TerrainTypeMeta == 0:
+        print("7) Enter Village")
+    elif TerrainType == 4 and TerrainTypeMeta == 0:
+        print("7) Trade")
+    
+    Loop = 1
     time.sleep(1)
-    a = 1
-    while a == 1:
-        if keyboard.is_pressed("1"):
-            Battle()
-        
-        elif keyboard.is_pressed("2"):
-            Move()
-        
-        elif keyboard.is_pressed("3"):
-            Collect()
-        
-        elif keyboard.is_pressed("4"):
-            if SystemStats != 1:
-                 os.system("cls")
-            print("Select a catagory to display:\n\n1) Items    3) Armor\n2) Potions  4) Weapons")
-            c = 1
+    while Loop == 1:
+        if keyboard.is_pressed("1"):   # Battle
+            if Enemy[0] == 1:
+                print("There's no enemy to battle!")
+                time.sleep(2.5)
+                World()
+            else:
+                Battle()
+        elif keyboard.is_pressed("2"): # Movement
+            print("\nSelect a direction to move\n         (1)\n        North\n(4) West     East (2)\n        South\n         (3)")
             time.sleep(1)
-            while c == 1:
+
+            if random.randint(1,10) == 1:   #Ambush code
+                os.system("cls")
+                print("You were ambushed!")
+                BattleLog[5] = "You tryed to move but you were ambushed!"
+                time.sleep(1)
+                Battle()
+            Loop = 1
+            while Loop == 1: # Move code
                 if keyboard.is_pressed("1"):
-                    a = len(PlayerInventory)
-                    b = 0
-                    c = 0
-                    while b < a:
-                        print(PlayerInventory[b] + " (" + str(PlayerInventoryAmmount[b]) + ")")
-                        b = b + 1
-                    input("Press Enter to continue")
-                    PlayerTurn()
+                    PlayerInfo[3] = PlayerInfo[3] + 1
+                    BattleLog[5] = "Moved North"
+                    WorldGeneration()
                 elif keyboard.is_pressed("2"):
-                    a = len(PlayerHealingItems)
-                    b = 0
-                    c = 0
-                    while b < a:
-                        print(PlayerHealingItems[b] + " (" + str(PlayerHealingItemsAmmount[b]) + ")")
-                        b = b + 1
-                    input("Press Enter to continue")
-                    PlayerTurn()
+                    PlayerInfo[2] = PlayerInfo[2] + 1
+                    BattleLog[5] = "Moved East"
+                    WorldGeneration()
                 elif keyboard.is_pressed("3"):
-                    d = 1
-                    while d == 1:
-                        if SystemStats != 1:
-                            os.system("cls")
-                        a = len(PlayerInventoryArmour)
-                        b = 0
-                        c = 0
-                        while b < a:
-                            print(PlayerInventoryArmour[b] + "  Defence: " + str(PlayerInventoryArmourDef[b]) + "  Durability: " + str(PlayerInventoryArmourRes[b]) + "  ID: " + str(b))
-                            b = b + 1                    
-                        print("You have curently equiped: " + EquipedArmour + "  Defence: " + str(EquipedArmourDef) + "  Durability: " + str(EquipedArmourRes))
-                        armourSelect = input("Type the id of an armor to equip it (or type leave with no capitals to leave)\n")
-                        err = 0
-                        if armourSelect == "leave":
-                            PlayerTurn()
-
-                        try:
-                            armourSelect = int(armourSelect)
-                        except:
-                            err = 1
-                        else:
-                            err = 0
-                            int(armourSelect)
-
-                        if err == 0 and len(PlayerInventoryArmour) >= armourSelect:
-                            PlayerInventoryArmour.append(EquipedArmour)
-                            PlayerInventoryArmourDef.append(EquipedArmourDef)
-                            PlayerInventoryArmourRes.append(EquipedArmourRes)
-
-                            EquipedArmour = PlayerInventoryArmour[armourSelect]
-                            EquipedArmourDef = PlayerInventoryArmourDef[armourSelect]
-                            EquipedArmourRes = PlayerInventoryArmourRes[armourSelect]
-
-                            PlayerInventoryArmour.pop(armourSelect)
-                            PlayerInventoryArmourDef.pop(armourSelect)
-                            PlayerInventoryArmourRes.pop(armourSelect)
-                        else:
-                            print("an error occured while processing your ID, please use numbers only for IDs and your ID exists.")
-                
+                    PlayerInfo[3] = PlayerInfo[3] - 1
+                    BattleLog[5] = "Moved South"
+                    WorldGeneration()
                 elif keyboard.is_pressed("4"):
-                    d = 1
-                    while d == 1:
-                        if SystemStats != 1:
-                            os.system("cls")
-                        a = len(PlayerInventoryWeapon)
-                        b = 0
-                        c = 0
-                        while b < a:
-                            print(str(PlayerInventoryWeapon[b]) + "  Attack: " + str(PlayerInventoryWeaponAtk[b]) + "  Durability: " + str(PlayerInventoryWeaponRes[b]) + "  Critical Rate: " + str(PlayerInventoryWeaponCrt[b]) + "%   Hit Rate: " + str(PlayerInventoryWeaponhit[b]) +   "%   ID: " + str(b))
-                            b = b + 1                    
-                        print("You have curently equiped: " + EquipedWeapon + "  Attack: " + str(EquipedWeaponres) + "  Durability: " + str(EquipedWeaponres) + "  Critical Rate: " + str(EquipedWeaponcrt) + "%  Hit Rate: " + str(EquipedWeaponhit) + "%")
-                        WeaponSelect = input("Type the id of an armour to equip it (or type leave with no capitals to leave)\n")
-                        err = 0
-                        if WeaponSelect == "leave":
-                            PlayerTurn()
+                    PlayerInfo[2] = PlayerInfo[2] - 1
+                    BattleLog[5] = "Moved West"
+                    WorldGeneration()
+        elif keyboard.is_pressed("3"): # Collection
+            TempInt = 0
+            while TempInt <= int(len(Resource) - 1): #Just in case resource gets increased at some point
+                print("loop")
+                if Resource[TempInt] >= 0:
+                    if WorldDataResource[Resource[TempInt]] in PlayerInventory:
+                        PlayerInventoryAmmount[PlayerInventory.index(WorldDataResource[Resource[TempInt]])] = PlayerInventoryAmmount[PlayerInventory.index(WorldDataResource[Resource[TempInt]])] + ResourceAmmount[TempInt]
+                    else:
+                        PlayerInventory.append(WorldDataResource[Resource[TempInt]])
+                        PlayerInventoryAmmount.append(ResourceAmmount[TempInt])
+                    Resource[TempInt] = -1
+                    ResourceAmmount[TempInt] = 0
+                TempInt = TempInt + 1
+
+            with open(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt","w") as WorldFile:
+                if TerrainType == 0:
+                    WorldFile.write(str(TerrainType) + "\n" + str(Terrain) + "\n" + str(Resource[0]) + "\n" + str(ResourceAmmount[0]) +  "\n" + str(Resource[1]) + "\n" + str(ResourceAmmount[1]) + "\n" +  str(Resource[2]) + "\n" + str(ResourceAmmount[2]) + "\n" + str(Resource[3]) + "\n" + str(ResourceAmmount[3]))
+                else:
+                    WorldFile.write(str(TerrainType) + "\n" + str(TerrainTypeMeta) + "\n" + str(Resource[0]) + "\n" + str(ResourceAmmount[0]) +  "\n" + str(Resource[1]) + "\n" + str(ResourceAmmount[1]) + "\n" +  str(Resource[2]) + "\n" + str(ResourceAmmount[2]) + "\n" + str(Resource[3]) + "\n" + str(ResourceAmmount[3]))
+                WorldFile.close()   #This rewrites the world file to stop infinte resources
+            World()
+        elif keyboard.is_pressed("4"): # Character
+            Loop3 = 1
+            while Loop3 == 1:
+                os.system("cls")
+                print("Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[8]) + "/" + str(PlayerInfo[7] * 1000) +")\nHP: " + str(PlayerCurrentStats[0])+ "/" + str(PlayerInfo[4]) + "  Mana: " + str(PlayerInfo[18]) + "/" + str(PlayerCurrentStats[1]) +"  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[3]) + " Y:" + str(PlayerInfo[4]) + "  Gold:" + str(PlayerInfo[9]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12]) + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nEquipped Armour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17]) + "\n\n1) Equip Armor   2) Equip Weapons   3) View Items   Q) Go Back")
+                Loop2 = 1
+                time.sleep(1.5)
+                while Loop2 == 1:
+                    if keyboard.is_pressed("1"):  #Equip armor
+                        TempInt = 0
+                        while TempInt <= int(len(PlayerInventoryArmour) - 1):
+                            print(PlayerInventoryArmour[TempInt] + "  Defence: " + str(PlayerInventoryArmourDef[TempInt]) + "  Durability: " + str(PlayerInventoryArmourDur[TempInt]) + "  ID: " + str(TempInt))
+                            TempInt = TempInt + 1
+                        TempStr = input("\n\nEquiped: " + str(PlayerInfo[15]) + "  Defence: " + str(PlayerInfo[16]) + "  Durability: " + str(PlayerInfo[17]) + "Type the id of an armor to equip it (or type leave with no capitals to leave)\n")
+                        TempInt = 0 
+
+                        if TempStr == "leave":
+                            World()
 
                         try:
-                            WeaponSelect = int(WeaponSelect)
+                            TempStr = int(TempStr)
                         except:
-                            err = 1
+                            TempInt = 1 #Raises a flag to prevent a str from being interpreted
                         else:
-                            err = 0
-                            int(WeaponSelect)
+                            TempInt = 0 
+                            int(TempStr) #You either die a String or live long enough to become a interger
 
-                        if err == 0 and len(PlayerInventoryWeapon) >= WeaponSelect:
-                            PlayerInventoryWeapon.append(EquipedWeapon)
-                            PlayerInventoryWeaponAtk.append(EquipedWeaponatk)
-                            PlayerInventoryWeaponRes.append(EquipedWeaponres)
-                            PlayerInventoryWeaponhit.append(EquipedWeaponhit)
-                            PlayerInventoryWeaponCrt.append(EquipedWeaponcrt)
-
-                            EquipedWeapon = PlayerInventoryWeapon[WeaponSelect]
-                            EquipedWeaponatk = PlayerInventoryWeaponAtk[WeaponSelect]
-                            EquipedWeaponres = PlayerInventoryWeaponRes[WeaponSelect]
-                            EquipedWeaponcrt = PlayerInventoryWeaponCrt[WeaponSelect]
-                            EquipedWeaponhit = PlayerInventoryWeaponhit[WeaponSelect]              
-
-                            PlayerInventoryWeapon.pop(WeaponSelect)
-                            PlayerInventoryWeaponAtk.pop(WeaponSelect)
-                            PlayerInventoryWeaponRes.pop(WeaponSelect)
-                            PlayerInventoryWeaponCrt.pop(WeaponSelect)
-                            PlayerInventoryWeaponhit.pop(WeaponSelect)
+                        if TempInt == 0 and int(len(PlayerInventoryArmour)-1) >= TempStr:
+                            PlayerInventoryArmour.append(PlayerInfo[15]) #Adds Equipped Armor to PlayerInventory
+                            PlayerInventoryArmourDef.append(PlayerInfo[16])
+                            PlayerInventoryArmourDur.append(PlayerInfo[17])
+                            PlayerInfo[15] = PlayerInventoryArmour[TempStr] #Sets new Armor as Equiped
+                            PlayerInfo[16] = PlayerInventoryArmourDef[TempStr]
+                            PlayerInfo[17] = PlayerInventoryArmourDur[TempStr]
+                            PlayerInventoryArmour.pop(TempStr)  #Removes new armor from inventory
+                            PlayerInventoryArmourDef.pop(TempStr)
+                            PlayerInventoryArmourDur.pop(TempStr)
+                            print("Equipped " + str(PlayerInfo[15]))
+                            time.sleep(1)
+                            Loop2 = 0
                         else:
                             print("an error occured while processing your ID, please use numbers only for IDs and your ID exists.")
+
+                    elif keyboard.is_pressed("2"): #Equip Weapons
+                        Loop2 = 1
+                        while Loop2 == 1:
+                            os.system("cls")
+                            TempInt = 0
+                            while TempInt <= int(len(PlayerInventoryWeapon)-1):
+                                print(str(PlayerInventoryWeapon[TempInt]) + "  Attack: " + str(PlayerInventoryWeaponAtk[TempInt]) + "  Durability: " + str(PlayerInventoryWeaponDur[TempInt]) + "  Critical Rate: " + str(PlayerInventoryWeaponCrt[TempInt]) + "%   Hit Rate: " + str(PlayerInventoryWeaponHit[TempInt]) +   "%   ID: " + str(TempInt))
+                                TempInt = TempInt + 1    
+
+                            TempStr = input("You have curently equiped: " + PlayerInfo[10] + "  Attack: " + str(PlayerInfo[11]) + "  Durability: " + str(PlayerInfo[14]) + "  Critical Rate: " + str(PlayerInfo[13]) + "%  Hit Rate: " + str(PlayerInfo[12]) + "%\nType the id of an armour to equip it (or type leave with no capitals to leave)\n")
+                            TempInt = 0
+                            if TempStr == "leave":
+                                World()
+                            try:
+                                TempStr = int(TempStr)  #Ironic
+                            except:
+                                TempInt = 1
+                            else:
+                                TempInt = 0
+                                int(TempStr)
+
+                            if TempInt == 0 and int(len(PlayerInventoryWeapon)-1) >= TempStr:
+                                PlayerInventoryWeapon.append(PlayerInfo[10])
+                                PlayerInventoryWeaponAtk.append(PlayerInfo[11])
+                                PlayerInventoryWeaponDur.append(PlayerInfo[14])
+                                PlayerInventoryWeaponHit.append(PlayerInfo[12])
+                                PlayerInventoryWeaponCrt.append(PlayerInfo[13])
+                                PlayerInfo[10] = PlayerInventoryWeapon[TempStr]
+                                PlayerInfo[11] = PlayerInventoryWeaponAtk[TempStr]
+                                PlayerInfo[14] = PlayerInventoryWeaponDur[TempStr]
+                                PlayerInfo[13] = PlayerInventoryWeaponCrt[TempStr]
+                                PlayerInfo[12] = PlayerInventoryWeaponHit[TempStr]              
+                                PlayerInventoryWeapon.pop(TempStr)
+                                PlayerInventoryWeaponAtk.pop(TempStr)
+                                PlayerInventoryWeaponDur.pop(TempStr)
+                                PlayerInventoryWeaponCrt.pop(TempStr)
+                                PlayerInventoryWeaponHit.pop(TempStr)
+                                print("Equipped: " + str(PlayerInfo[10]))
+                                time.sleep(1.5)
+                                World()
+                            else:
+                                print("an error occured while processing your ID, please use numbers only for IDs and your ID exists.")
         
-        elif keyboard.is_pressed("5"):
-            A = 0
-            print("\n1) Save\n2) Load\n3) Go Back")
-            while A == 0:
-                if keyboard.is_pressed("1"):
-                    Save()
-                elif keyboard.is_pressed("2"):
-                    Load()
-                elif keyboard.is_pressed("3"):
-                    PlayerTurn
-        
-        elif keyboard.is_pressed("6"): 
-            global WorldStats
-            upleft = "x" + str(int(WorldStats[0] - 1)) + "y" + str(int(WorldStats[1] + 1))
-            upmid  = "x" + str(int(WorldStats[0])) + "y" + str(int(WorldStats[1] + 1))
-            uprig = "x" + str(int(WorldStats[0] + 1)) + "y" + str(int(WorldStats[1] + 1))
-            midlef = "x" + str(int(WorldStats[0] - 1)) + "y" + str(int(WorldStats[1]))
-            midmid =  "x" + str(int(WorldStats[0])) + "y" + str(int(WorldStats[1]))
-            midrig = "x" + str(int(WorldStats[0] + 1)) + "y" + str(int(WorldStats[1]))
-            lowlef = "x" + str(int(WorldStats[0] - 1)) + "y" + str(int(WorldStats[1] - 1))
-            lowmid = "x" + str(int(WorldStats[0])) + "y" + str(int(WorldStats[1] - 1))
-            lowrig = "x" + str(int(WorldStats[0] + 1)) + "y" + str(int(WorldStats[1] - 1))
-
-            uprow  = " "
-            midrow = " "
-            lowrow = " "
-
-            if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + upleft + ".txt"):
-                temp1 = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + upleft + ".txt",1))  #Terrainid
-                temp2 = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Terrain.txt", temp1)       #Rolls Terrain
-                uprow = uprow + Fore.__getattribute__(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Color.txt",temp1).strip()) + temp2[0] + " "
-            else:
-                uprow = uprow + Fore.__getattribute__(PlayerPrefs[0]) + "?" + " "
-
-            if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + upmid + ".txt"):
-                temp1 = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + upmid + ".txt",1))  #Terrainid
-                temp2 = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Terrain.txt", temp1)       #Rolls Terrain
-                uprow = uprow + Fore.__getattribute__(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Color.txt",temp1).strip()) + temp2[0] + " "
-            else:
-                uprow = uprow + Fore.__getattribute__(PlayerPrefs[0]) + "?" + " "
-
-            if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + uprig + ".txt"):
-                temp1 = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + uprig + ".txt",1))  #Terrainid
-                temp2 = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Terrain.txt", temp1)       #Rolls Terrain
-                uprow = uprow + Fore.__getattribute__(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Color.txt",temp1).strip()) + temp2[0] + " "
-            else:
-                uprow = uprow + Fore.__getattribute__(PlayerPrefs[0]) + "?" + " " 
-
-            if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + midlef + ".txt"):
-                temp1 = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + midlef + ".txt",1))  #Terrainid
-                temp2 = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Terrain.txt", temp1)       #Rolls Terrain
-                midrow = midrow + Fore.__getattribute__(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Color.txt",temp1).strip()) + temp2[0] + " "
-            else:
-                midrow = midrow + Fore.__getattribute__(PlayerPrefs[0]) + "?" + " " 
-
-            if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + midmid + ".txt"):
-                temp1 = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + midmid + ".txt",1))  #Terrainid
-                temp2 = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Terrain.txt", temp1)       #Rolls Terrain
-                midrow = midrow + Fore.__getattribute__(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Color.txt",temp1).strip()) + temp2[0] + " "
-            else:
-                midrow = midrow + Fore.__getattribute__(PlayerPrefs[0]) + "?" + " " 
-
-            if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + midrig + ".txt"):
-                temp1 = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + midrig + ".txt",1))  #Terrainid
-                temp2 = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Terrain.txt", temp1)       #Rolls Terrain
-                midrow = midrow + Fore.__getattribute__(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Color.txt",temp1).strip()) + temp2[0] + " "
-            else:
-                midrow = midrow + Fore.__getattribute__(PlayerPrefs[0]) + "?" + " " 
-
-            if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + lowlef + ".txt"):
-                temp1 = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + lowlef + ".txt",1))  #Terrainid
-                temp2 = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Terrain.txt", temp1)       #Rolls Terrain
-                lowrow = lowrow + Fore.__getattribute__(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Color.txt",temp1).strip()) + temp2[0] + " "
-            else:
-                lowrow = lowrow + Fore.__getattribute__(PlayerPrefs[0]) + "?" + " " 
-
-            if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + lowmid + ".txt"):
-                temp1 = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + lowmid + ".txt",1))  #Terrainid
-                temp2 = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Terrain.txt", temp1)       #Rolls Terrain
-                lowrow = lowrow + Fore.__getattribute__(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Color.txt",temp1).strip()) + temp2[0] + " "
-            else:
-                lowrow = lowrow + Fore.__getattribute__(PlayerPrefs[0]) + "?" + " " 
-
-            if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + lowrig + ".txt"):
-                temp1 = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + lowrig + ".txt",1))  #Terrainid
-                temp2 = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Terrain.txt", temp1)       #Rolls Terrain
-                lowrow = lowrow + Fore.__getattribute__(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\Color.txt",temp1).strip()) + temp2[0] + " "
-            else:
-                lowrow = lowrow + Fore.__getattribute__(PlayerPrefs[0]) + "?" + " " 
-
-            print("\n\n" + uprow + Fore.__getattribute__(PlayerPrefs[0]) + "Current X Position: " + str(WorldStats[0]) + "\n" + midrow + Fore.__getattribute__(PlayerPrefs[0]) +"Current Y Position: " + str(WorldStats[1]) + "\n" + lowrow + Fore.__getattribute__(PlayerPrefs[0]) )
-            TurnCount = TurnCount - 1
-            input("Press enter to go back...")
-            PlayerTurn()
-
-        elif keyboard.is_pressed("7"):
-            Quests()
-        elif keyboard.is_pressed("8"):
-            print(Fore.RED + "Unless you have saved all data will be lost." + Fore.__getattribute__(PlayerPrefs[0]) + "\nAre you sure? (Y/N)")
-            B = 1
-            while B == 1:
+                    elif keyboard.is_pressed("3"): #Items
+                        TempInt = 0
+                        while TempInt <= int(len(PlayerInventory)-1):
+                            print(str(PlayerInventory[TempInt]) + "  (" + str(PlayerInventoryAmmount[TempInt]) +")")
+                            TempInt = TempInt + 1
+                        input("Press enter to continue\n")
+                        Loop2 = 0
+                    
+                    elif keyboard.is_pressed("Q"):
+                        World()
+        elif keyboard.is_pressed("5"): # Saves and load
+            Save = 0
+            SaveLoad()
+        elif keyboard.is_pressed("6"): # Quit
+            print(Fore.RED + "Unless you have saved all data will be lost." + Fore.RESET + "\nAre you sure? (Y/N)")
+            Loop3 = 1
+            while Loop3 == 1:
                 if keyboard.is_pressed("Y"):
                     exit()
                 elif keyboard.is_pressed("N"):
-                    PlayerTurn()
+                    World()
+        elif keyboard.is_pressed("7"): # Non-Standard terrains
+            if TerrainType == 1 and TerrainTypeMeta == 0:
+                print("You put your hand to the monolith")
+                if PlayerInfo[19] < len(WorldDataMonolithSpell)-1:
+                    print("The monolith shoots a beam into the sky, and seconds later you can use a new spell, " + str(WorldDataMonolithSpell[PlayerInfo[19]]))
+                    PlayerMagic.append(WorldDataMonolithSpell[PlayerInfo[19]])
+                    PlayerMagicCost.append(WorldDataMonolithSpellCost[PlayerInfo[19]])
+                    PlayerMagicType.append(WorldDataMonolithSpellType[PlayerInfo[19]])
+                    PlayerMagicValue.append(WorldDataMonolithSpellValue[PlayerInfo[19]])
+                    PlayerInfo[19] = PlayerInfo[19] + 1
 
-def AlternateTerrains():
-    global AlternateTerrain
-    global PlayerMaxStats
-    global PlayerInventory
-    global PlayerInventoryAmmount
-    global EnemyStats
-    global PlayerGeneral
-    global PlayerHealingItems
-    global PlayerHealingItemsAmmount
-    global Z
-    global PlayerInventoryArmourRes
-    global PlayerInventoryArmour
-    global PlayerInventoryArmourDef
-    global BattleLog
-    global PlayerPrefs
-    Loop = 1
+                    os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
+                    WorldGeneration()
+                else:                   
+                    print("The monlith seems to have no more infomation to bestow upon you.\nIt fears you have have grown too powerful.")
+            
+            elif TerrainType == 2 and TerrainTypeMeta == 0:
+                    CaveResource =  random.randint(0,len(WorldDataCaveMetal) - 1)
+                    CaveAmmount = random.randint(1,10)
+                    print("Mined " + str(CaveAmmount) + " " + str(WorldDataCaveMetal[CaveResource]))
+                    time.sleep(2.5)
 
-    if SystemStats != 1:
-        os.system("cls")
-
-    if AlternateTerrain == 1:   #Monolith
-        TerrainMonolith = random.randint(1,50)         #Stat increase
-        TerrainMonolithType = random.randint(1,110)  #Abilitys of monolith
-        print(Fore.__getattribute__(PlayerPrefs[0]) + "You are at a monolith.\n1) Read the monolith")
-        BattleLog[5] = "You visted a monolith"
-        if PlayerGeneral[2] >= 25:
-            print(Fore.__getattribute__(PlayerPrefs[0]) + "You feel you could unlock the power of the monolith.\n2) Unlock the monothlith")
-        
-        time.sleep(1)
-
-        A = 1
-        while A == 1:
-            if keyboard.is_pressed("1"):
-                PlayerMaxStats[0] = PlayerMaxStats[0] + random.randint(1,20)
-                PlayerMaxStats[1] = PlayerMaxStats[1] + random.randint(1,20)
-                PlayerMaxStats[2] = PlayerMaxStats[2] + random.randint(1,20)
-                print("Your stats have improved.")
-                input("Press enter to continue...")
-                WorldGen()
-            elif keyboard.is_pressed("2") and PlayerGeneral[2] >= 25:
-                Z = 1
-                EnemyStats = [10000,750,750]
-                print("You are about fight a really strong foe\nAre you sure\n1) Yes\n2) No")
-                a = 1
-                while a == 1:
-                    if keyboard.is_pressed("1"):
-                        a = 0
-                    elif keyboard.is_pressed("2"):
-                        Z = 0
-                        WorldGen()
-                Battle()
-    #0-HP 1-Attack 2-Defence
-    elif AlternateTerrain == 2: #Caves
-        Risk = 0
-        RskTxt = "None"
-        LayersDeep = 0
-        BattleLog[5] = "You explored a cave"
-        while Loop == 1:
-            CaveResources = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\Data\Terrain\AlternateTerrains\Caves\Resources.txt",1))]
-            CaveResources.append(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\Data\Terrain\AlternateTerrains\Caves\Resources.txt",random.randint(2,CaveResources[0])))
-            CaveResources.append(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\Data\Terrain\AlternateTerrains\Caves\Resources.txt",random.randint(2,CaveResources[0])))
-            CaveResources.append(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\Data\Terrain\AlternateTerrains\Caves\Resources.txt",random.randint(2,CaveResources[0])))
-            CaveResources.append(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\Data\Terrain\AlternateTerrains\Caves\Resources.txt",random.randint(2,CaveResources[0])))
-            CaveResources.append(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\Data\Terrain\AlternateTerrains\Caves\Resources.txt",random.randint(2,CaveResources[0])))  
-            CaveResources.append(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\Data\Terrain\AlternateTerrains\Caves\Resources.txt",random.randint(2,CaveResources[0])))  
-            CaveResources[1] = CaveResources[1].strip()
-            CaveResources[2] = CaveResources[2].strip()
-            CaveResources[3] = CaveResources[3].strip()
-            CaveResources[4] = CaveResources[4].strip()
-            CaveResources[5] = CaveResources[5].strip()
-            CaveResourcesAmmount = [random.randint(1,random.randint(1,5 + LayersDeep)),random.randint(1,random.randint(1,5 + LayersDeep)),random.randint(1,random.randint(1,5 + LayersDeep)),random.randint(1,random.randint(1,5 + LayersDeep)),random.randint(1,random.randint(1,5 + LayersDeep)),random.randint(1,random.randint(1,5 + LayersDeep)),random.randint(1,random.randint(1,5 + LayersDeep))]
-            #CaveRes    = 0-Works like Slots.txt, 1-5 Resources
-            #CaveResAmm = 0 - blank number ,      1-5 ammounts
-            if Risk >= 90:
-                RskTxt = Fore.RED + "COLASPE IMMINENT." + Fore.__getattribute__(PlayerPrefs[0])
-            elif Risk >= 75:
-                RskTxt ="Risk: " + Fore.RED + "High" + Fore.__getattribute__(PlayerPrefs[0])
-            elif Risk >= 50:
-                RskTxt ="Risk: " + Fore.YELLOW + "Medium" + Fore.__getattribute__(PlayerPrefs[0])
-            elif Risk >= 25:
-                RskTxt ="Risk: " + Fore.BLUE + "Low" + Fore.__getattribute__(PlayerPrefs[0])
-            elif Risk >= 0: 
-                RskTxt ="Risk: " + Fore.CYAN + "None" + Fore.__getattribute__(PlayerPrefs[0])
-            print(Fore.__getattribute__(PlayerPrefs[0]) + "\nYou are in a cave\n\nThere are: \n" + str(CaveResourcesAmmount[1]) + " KG of " + CaveResources[1] + "\n" + str(CaveResourcesAmmount[2]) + " KG of " + CaveResources[2] + "\n" + str(CaveResourcesAmmount[3]) + " KG of " + CaveResources[3] + "\n" + str(CaveResourcesAmmount[4]) + " KG of " + CaveResources[4] + "\n" + str(CaveResourcesAmmount[5]) + " KG of " + CaveResources[5] + "\n" + RskTxt + "\n\nOptions:\n1) Collect\n2) Explore deeper\n3) Leave\n4) Guide")
-            time.sleep(1)
-            TurnLoop = 1 
-            while TurnLoop == 1:
-                if keyboard.is_pressed("1"):    #Collects items
-                    Risk = Risk + random.randint(5,10)
-                    if Risk >= 100:
-                        input("The cave collasped.\nPress enter to continue ")
-                        WorldGen()
-                    elif Risk < 0:
-                        Risk = 0
-
-                    if CaveResources[1] in PlayerInventory: #Collects Item #1
-                        PlayerInventoryAmmount[PlayerInventory.index(CaveResources[1])] = PlayerInventoryAmmount[PlayerInventory.index(CaveResources[1])] + CaveResourcesAmmount[1]
+                    if WorldDataCaveMetal[CaveResource] in PlayerInventory:
+                        PlayerInventoryAmmount[PlayerInventory.index(WorldDataCaveMetal[CaveResource])] = PlayerInventoryAmmount[PlayerInventory.index(WorldDataCaveMetal[CaveResource])] + CaveAmmount
                     else:
-                        PlayerInventoryAmmount.append(CaveResourcesAmmount[1]) 
-                        PlayerInventory.append(CaveResources[1])
-
-                    if CaveResources[2] in PlayerInventory: #Collects Item #2
-                        PlayerInventoryAmmount[PlayerInventory.index(CaveResources[2])] = PlayerInventoryAmmount[PlayerInventory.index(CaveResources[2])] + CaveResourcesAmmount[2]
-                    else:
-                        PlayerInventoryAmmount.append(CaveResourcesAmmount[2]) 
-                        PlayerInventory.append(CaveResources[2])
-
-                    if CaveResources[3] in PlayerInventory: #Collects Item #3
-                        PlayerInventoryAmmount[PlayerInventory.index(CaveResources[3])] = PlayerInventoryAmmount[PlayerInventory.index(CaveResources[3])] + CaveResourcesAmmount[3]
-                    else:
-                        PlayerInventoryAmmount.append(CaveResourcesAmmount[3]) 
-                        PlayerInventory.append(CaveResources[3])
-
-                    if CaveResources[4] in PlayerInventory: #Collects Item #4
-                        PlayerInventoryAmmount[PlayerInventory.index(CaveResources[4])] = PlayerInventoryAmmount[PlayerInventory.index(CaveResources[4])] + CaveResourcesAmmount[4]
-                    else:
-                        PlayerInventoryAmmount.append(CaveResourcesAmmount[4]) 
-                        PlayerInventory.append(CaveResources[4])
-
-                    if CaveResources[5] in PlayerInventory: #Collects Item #5
-                        PlayerInventoryAmmount[PlayerInventory.index(CaveResources[5])] = PlayerInventoryAmmount[PlayerInventory.index(CaveResources[5])] + CaveResourcesAmmount[5]
-                    else:
-                        PlayerInventoryAmmount.append(CaveResourcesAmmount[5]) 
-                        PlayerInventory.append(CaveResources[5])
-
-                    print("Collected items.")
-                    CaveResources[1] = "There is nothing here"
-                    CaveResources[2] = " "
-                    CaveResources[3] = " "
-                    CaveResources[4] = " "
-                    CaveResources[5] = " "
-                    CaveResourcesAmmount[1] = " "
-                    CaveResourcesAmmount[2] = " "
-                    CaveResourcesAmmount[3] = " "
-                    CaveResourcesAmmount[4] = " "
-                    CaveResourcesAmmount[5] = " "                                        
-                    TurnLoop = 0
-                    
-                elif keyboard.is_pressed("2"): 
-                    Risk = Risk - random.randint(-50,5)
-                    LayersDeep = LayersDeep + 1
-                    
-                    if Risk >= 100:
-                        if LayersDeep >= 10:
-                            if random.randint(LayersDeep,100) >= 10:
-                                input("The cave colasped and you didn't make it out in time.\n You died, Press enter to restart.")
-                                Menu()
-                            else:
-                               TurnLoop = 0
-                    else:
-                        TurnLoop = 0
-
-                elif keyboard.is_pressed("3"):
-                    WorldGen()
-                
-                elif keyboard.is_pressed("4"):
-                    print("Collect as many resources as you can!\nBy going deeper you can find way more resources however it may be dangerous.")
-                    TurnLoop = 0
-
-    elif AlternateTerrain == 3: #AstralProjection
-        # Crafting modes 0 -  just add to inventory 1 - Mark as equipable weapon (adds to playerInventoryWeapons) 2- Mark as equipable Armour (PlayerInventoryArmour)
-        if SystemStats[0] != 1:
-            os.system("cls")
-        print(Fore.__getattribute__(PlayerPrefs[0]) + "You are at a village\n1) Use Workbench\n2) Shop\n3) leave")
-        BattleLog[5] = "You visted a Village"        
-        tm = 1
-        time.sleep(1)
-        while tm == 1:
-            if keyboard.is_pressed("1"):    #Workbench code
-                A = 1
-                time.sleep(1)
-                while A == 1: 
-                    if SystemStats[0] != 1:
-                        os.system("cls")
-                    print("What do you want to craft\n1) Items\n2) Armor\n3) Weapons\n")
-                    B = 1
-                    time.sleep(1)
-                    while B == 1:   #Gets crafting group
-                        if keyboard.is_pressed("1"): #Sets opperating mode to 0
-                            C = 1
-                            print("\nCraft:\n1) Metal\n2) Gem\n")
-                            time.sleep(1)
-                            while C == 1:
-                                if keyboard.is_pressed("1"):
-                                    Craft = "Metal"
-                                    CraftMode = 0
-                                    CraftSlotLine = 3
-                                    C = 0
-                                    B = 0 
-                                elif keyboard.is_pressed("2"):
-                                    Craft  = "Gem"
-                                    CraftMode = 0
-                                    CraftSlotLine = 6
-                                    C = 0
-                                    B = 0
-                        elif keyboard.is_pressed("2"): #Sets Opperating mode to 1
-                            C = 0
-                            B = 0
-                            Craft = "Armour"
-                            CraftMode = 1
-                            CraftSlotLine = 9
-                        elif keyboard.is_pressed("3"): #Sets Opperating mode to 1
-                            C = 1
-                            print("\nCraft:\n1) Axe\n2) Sword\n3) Lance\n4) Bow\n5) Mace")
-                            time.sleep(1)
-                            while C == 1:
-                                if keyboard.is_pressed("1"):
-                                    Craft = "Weapon\\Axe"
-                                    CraftMode = 2
-                                    CraftSlotLine = 13
-                                    WeaponType = 1
-                                    C = 0
-                                    B = 0 
-                                elif keyboard.is_pressed("2"):
-                                    Craft  = "Weapon\\Sword"
-                                    CraftMode = 2
-                                    WeaponType = 2
-                                    CraftSlotLine = 16
-                                    C = 0
-                                    B = 0
-                                elif keyboard.is_pressed("3"):
-                                    Craft  = "Weapon\\Lance"
-                                    CraftMode = 2
-                                    WeaponType = 2
-                                    CraftSlotLine = 19
-                                    C = 0
-                                    B = 0
-                                elif keyboard.is_pressed("4"):
-                                    Craft  = "Weapon\\Bow"
-                                    CraftMode = 2
-                                    WeaponType = 2
-                                    CraftSlotLine = 22
-                                    C = 0
-                                    B = 0
-                                elif keyboard.is_pressed("5"):
-                                    Craft  = "Weapon\\Mace"
-                                    CraftMode = 2
-                                    WeaponType = 2
-                                    CraftSlotLine = 25
-                                    C = 0
-                                    B = 0
-
-                    G = 1
-                    while G == 1:
-                        Temp = 1 # What line number to start from (Don't change)
-                        CraftingSlots = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\AlternateTerrains\\Villages\\Slots.txt",int(CraftSlotLine)))
-                        while Temp <= CraftingSlots:    #Gets data
-                            if Temp == 1:
-                                ReqResource = [""] #What Resource Required
-                                Product     = [""]     #What will be given to the player
-                                ReqAmmount  = [""]  #How much of ReqResource is needed
-                                RedText   = []   #Items that cannot be crafted (Internal)
-                                GreenProd = [""] #Items that can be crafted    (Internal)
-                                GreenAmmount  = [""]
-                                GreenResource = [""]
-                                RedTxt   = "" # Text shown to player   (Things that the player has enough of)
-                                Greentxt = "" # Text shown to player (Things that the player has some of)
-                                Redtxt   = "" # Text show to player    (Things that the player has none of)
-
-                            ReqResource.append(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\AlternateTerrains\\Villages\\WorkBench\\" + Craft + "\\Material.txt",int(Temp)))
-                            ReqAmmount.append(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\AlternateTerrains\\Villages\\WorkBench\\" + Craft + "\\Ammount.txt",int(Temp)))
-                            Product.append(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\Terrain\\AlternateTerrains\\Villages\\WorkBench\\" + Craft + "\\Product.txt",int(Temp)))
-
-                            ReqAmmount[Temp] = int(ReqAmmount[Temp].strip()) #Removes \n (Newline character) 
-                            ReqResource[Temp] = ReqResource[Temp].strip() #Removes \n (Newline character)
-                            Product[Temp] = Product[Temp].strip() #Removes \n (Newline character)
-
-                            if ReqResource[Temp] in PlayerInventory: #Checks if player has ReqResource
-                                if ReqAmmount[Temp] <= PlayerInventoryAmmount[PlayerInventory.index(ReqResource[Temp])]: #Checks if player has enough of ReqResource
-                                    GreenProd.append(Product[Temp]) #If both checks pass then they can craft it  (Added to GreenText)
-                                    GreenAmmount.append(ReqAmmount[Temp])
-                                    GreenResource.append(ReqResource[Temp])
-                                    Greentxt = Greentxt + str(len(GreenProd) - 1) + ") " +  Product[Temp] + " - Requires: " + str(ReqResource[Temp]) + " (" + str(PlayerInventoryAmmount[PlayerInventory.index(ReqResource[Temp])]) + " / " + str(ReqAmmount[Temp]) + ")\n"
-                                else:
-                                    RedText.append(ReqResource[Temp]) # If it fails its added to RedText
-                                    RedTxt = RedTxt + Product[Temp] + " - Requires: " + str(ReqResource[Temp]) + " (" + str(PlayerInventoryAmmount[PlayerInventory.index(ReqResource[Temp])]) + " / " + str(ReqAmmount[Temp]) + ")\n"
-                            else:
-                                RedText.append(ReqResource[Temp]) # If it fails its added to RedText
-                                Redtxt = Redtxt + Product[Temp] + " - Requires: " + str(ReqResource[Temp]) + " (0 / " + str(ReqAmmount[Temp]) + ")\n"
-
-                            Temp = Temp + 1 # Increments Temp by 1 to do the next line
+                        PlayerInventory.append(WorldDataCaveMetal[CaveResource])
+                        PlayerInventoryAmmount.append(CaveAmmount)
                         
-                        print(str(Fore.GREEN + Greentxt + Fore.RED + RedTxt + Redtxt + Fore.__getattribute__(PlayerPrefs[0]))) # Displays items in order of craftibilty
-                        E = 1
-                        while E == 1:   # Displays and gets input
-                            Select = input("Type the number in brackets to craft the corresponding item, then press enter\nTo leave press 0\n")
-                            
-                            try: #checks if input is a number
-                                Select = int(Select)
-                            except: #if not a number then it will loop
-                                print("That isn't a number, make sure there is no characters in the input.\n")
-                            else: #if it passes above check then this is executed
-                                try: #Tests that the number is a element in GreenText
-                                    testvar = GreenProd[Select]
-                                except: #If not in list then loop
-                                    print("That number isn't valid, make sure it's a number in the brackets.")
-                                else:
-                                    E = 2
-                        
-                        if Select == 0:
-                            AlternateTerrains()
+                    if random.randint(0,10) == 0:    
+                        os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
+                    WorldGeneration()
 
-                        TempAmmount = PlayerInventoryAmmount[PlayerInventory.index(GreenResource[Select])] - GreenAmmount[Select]
-                        if TempAmmount <= 0: #Removes required resource and if below 0 will remove the resource from the player inventory 
-                            PlayerInventoryAmmount.pop(PlayerInventory.index(GreenResource[Select]))
-                            PlayerInventory.pop(GreenResource[Select])
-                        else:
-                            PlayerInventoryAmmount[PlayerInventory.index(GreenResource[Select])] = TempAmmount 
-
-                        if CraftMode == 0: # For items
-                            if GreenProd[Select] in PlayerInventory:
-                                PlayerInventoryAmmount[PlayerInventory.index(GreenProd[Select])] = PlayerInventoryAmmount[PlayerInventory.index(GreenProd[Select])] + 1
-                            else:
-                                PlayerInventory.append(GreenProd[Select])
-                                PlayerInventoryAmmount.append(1)
-                            print("Crafted 1 x " + str(GreenProd[Select]))
-                        elif CraftMode == 1:    #For Armour
-                            PlayerInventoryArmour.append(GreenProd[Select])
-                            PlayerInventoryArmourDef.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
-                            PlayerInventoryArmourRes.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
-                            print("Crafted 1 x " + str(GreenProd[Select]) + " - Def: " + str(PlayerInventoryArmourDef[len(PlayerInventoryArmourDef) - 1]) + " Durabilty: " + str(PlayerInventoryArmourDef[len(PlayerInventoryArmourRes) - 1]))
-                        elif CraftMode == 2:    #For weapons
-                            PlayerInventoryWeapon.append(GreenProd[Select])
-                            PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
-                            PlayerInventoryWeaponhit.append(random.randint(random.randint(1,50),random.randint(50,100)))
-                            PlayerInventoryWeaponCrt.append(random.randint(random.randint(0,25),random.randint(25,50)))
-                            PlayerInventoryWeaponRes.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
-                            print("Crafted 1 x " + str(GreenProd[Select]) + " - Atk: " + str(PlayerInventoryWeaponAtk[len(PlayerInventoryWeaponAtk) - 1]) + " Durabilty: " + str(PlayerInventoryWeaponRes[len(PlayerInventoryWeaponRes) - 1]) + " Hit: " + str(PlayerInventoryWeaponhit[len(PlayerInventoryWeaponhit) - 1]) + "% Critical: " + str(PlayerInventoryWeaponCrt[len(PlayerInventoryWeaponCrt) - 1])) 
-
-            elif keyboard.is_pressed("3"):
-                WorldGen()
-
-    elif AlternateTerrain == 4: #Traders
-        C = 0
-        while C == 0:
-            if SystemStats[0] != 1:
+            elif TerrainType == 3:
+                # Crafting modes 0 -  just add to inventory 1 - Mark as equipable weapon (adds to playerInventoryWeapons) 2- Mark as equipable Armour (PlayerInventoryArmour)
                 os.system("cls")
-        
-            print(Fore.__getattribute__(PlayerPrefs[0]) + "There is a trader here, you can probably buy somthing here.\n1) Buy\n")
-            if PlayerGeneral[1] >= 100:
-                print(Fore.GREEN + "1) Basic Healing Potion - 100\nHeals 50 HP\n" + Fore.__getattribute__(PlayerPrefs[0]))
-            else:
-                print(Fore.RED + "1) Basic Healing Potion - 100\nHeals 50 HP\n" + Fore.__getattribute__(PlayerPrefs[0]))
+                print(Fore.RESET+ "You are at a village\n1) Use Workbench\n2) Shop\n3) leave")
+                BattleLog[5] = "You visted a Village"        
+                tm = 1
+                time.sleep(1)
+                while tm == 1:
+                    if keyboard.is_pressed("1"):    #Workbench code
+                        A = 1
+                        time.sleep(1)
+                        while A == 1: 
+                            os.system("cls")
+                            print("What do you want to craft\n1) Items\n2) Armor\n3) Weapons\n")
+                            B = 1
+                            time.sleep(0.5)
+                            while B == 1:   #Gets crafting group
+                                if keyboard.is_pressed("1"): #Sets opperating mode to 0
+                                    C = 1
+                                    print("\nCraft:\n1) Metal\n2) Gem\n")
+                                    time.sleep(0.5)
+                                    while C == 1:
+                                        CraftMode = 0
+                                        if keyboard.is_pressed("1"):
+                                            Craft = "Metal"
+                                            ReqResource = WorldDataCraftMetalReq #What Resource Required
+                                            Product     = WorldDataCraftMetalProd     #What will be given to the player
+                                            ReqAmmount  = WorldDataCraftMetalAmm
+                                            C = 0
+                                            B = 0
+                                        elif keyboard.is_pressed("2"):
+                                            Craft  = "Gem"
+                                            ReqResource = WorldDataCraftGemReq #What Resource Required
+                                            Product     = WorldDataCraftGemProd     #What will be given to the player
+                                            ReqAmmount  = WorldDataCraftGemAmm
+                                            C = 0
+                                            B = 0
+                                elif keyboard.is_pressed("2"): #Sets Opperating mode to 1
+                                    CraftMode = 1
+                                    Craft = "Armour"
+                                    ReqResource = WorldDataCraftArmorReq #What Resource Required
+                                    Product     = WorldDataCraftArmorProd     #What will be given to the player
+                                    ReqAmmount  = WorldDataCraftArmorAmm
+                                    C = 0
+                                    B = 0
+                                elif keyboard.is_pressed("3"): #Sets Opperating mode to 1
+                                    C = 1
+                                    CraftMode = 2
+                                    print("\nCraft:\n1) Axe\n2) Sword\n3) Lance\n4) Bow\n5) Mace")
+                                    time.sleep(1)
+                                    while C == 1:
+                                        if keyboard.is_pressed("1"):
+                                            Craft = "Axe"
+                                            ReqResource = WorldDataCraftWeaponAxeReq #What Resource Required
+                                            Product     = WorldDataCraftWeaponAxeProd     #What will be given to the player
+                                            ReqAmmount  = WorldDataCraftWeaponAxeAmm
+                                            C = 0
+                                            B = 0
+                                        elif keyboard.is_pressed("2"):
+                                            Craft = "Sword"
+                                            ReqResource = WorldDataCraftWeaponSwoReq  #What Resource Required
+                                            Product     = WorldDataCraftWeaponSwoProd #What will be given to the player
+                                            ReqAmmount  = WorldDataCraftWeaponSwoAmm
+                                            C = 0
+                                            B = 0
+                                        elif keyboard.is_pressed("3"):
+                                            Craft = "Lance"
+                                            ReqResource = WorldDataCraftWeaponLanReq  #What Resource Required
+                                            Product     = WorldDataCraftWeaponLanProd #What will be given to the player
+                                            ReqAmmount  = WorldDataCraftWeaponLanAmm
+                                            C = 0
+                                            B = 0
+                                        elif keyboard.is_pressed("4"):
+                                            Craft = "Bow"
+                                            ReqResource = WorldDataCraftWeaponBowReq  #What Resource Required
+                                            Product     = WorldDataCraftWeaponBowProd #What will be given to the player
+                                            ReqAmmount  = WorldDataCraftWeaponBowAmm
+                                            C = 0
+                                            B = 0
+                                        elif keyboard.is_pressed("5"):
+                                            Craft = "Mace"
+                                            ReqResource = WorldDataCraftWeaponMacReq  #What Resource Required
+                                            Product     = WorldDataCraftWeaponMacProd #What will be given to the player
+                                            ReqAmmount  = WorldDataCraftWeaponMacAmm
+                                            C = 0
+                                            B = 0
 
-            if PlayerGeneral[1] >= 250:
-                print(Fore.GREEN + "2) Advanced Healing Potion - 500\nHeals 250 HP\n" + Fore.__getattribute__(PlayerPrefs[0]))
-            else:
-                print(Fore.RED + "2) Advanced Healing Potion - 500\nHeals 250 HP\n" + Fore.__getattribute__(PlayerPrefs[0]))
+                            G = 1
+                            while G == 1:
+                                Temp = 1 # What line number to start from (Don't change)
+                                while Temp <= len(Product)-1:    #Gets data
+                                    if Temp == 1:
+                                        RedText   = []   #Items that cannot be crafted (Internal)
+                                        GreenProd = [""] #Items that can be crafted    (Internal)
+                                        GreenAmmount  = [""]
+                                        GreenResource = [""]
+                                        RedTxt   = "" # Text shown to player   (Things that the player has enough of)
+                                        Greentxt = "" # Text shown to player (Things that the player has some of)
+                                        Redtxt   = "" # Text show to player    (Things that the player has none of)
 
-            print("3) Leave")
-            time.sleep(1)
+                                    if ReqResource[Temp] in PlayerInventory: #Checks if player has ReqResource
+                                        if ReqAmmount[Temp] <= PlayerInventoryAmmount[PlayerInventory.index(ReqResource[Temp])]: #Checks if player has enough of ReqResource
+                                            GreenProd.append(Product[Temp]) #If both checks pass then they can craft it  (Added to GreenText)
+                                            GreenAmmount.append(ReqAmmount[Temp])
+                                            GreenResource.append(ReqResource[Temp])
+                                            Greentxt = Greentxt + str(len(GreenProd) - 1) + ") " +  Product[Temp] + " - Requires: " + str(ReqResource[Temp]) + " (" + str(PlayerInventoryAmmount[PlayerInventory.index(ReqResource[Temp])]) + " / " + str(ReqAmmount[Temp]) + ")\n"
+                                        else:
+                                            RedText.append(ReqResource[Temp]) # If it fails its added to RedText
+                                            RedTxt = RedTxt + Product[Temp] + " - Requires: " + str(ReqResource[Temp]) + " (" + str(PlayerInventoryAmmount[PlayerInventory.index(ReqResource[Temp])]) + " / " + str(ReqAmmount[Temp]) + ")\n"
+                                    else:
+                                        RedText.append(ReqResource[Temp]) # If it fails its added to RedText
+                                        Redtxt = Redtxt + Product[Temp] + " - Requires: " + str(ReqResource[Temp]) + " (0 / " + str(ReqAmmount[Temp]) + ")\n"
 
-            A = 1
-            while A == 1:
-                if keyboard.is_pressed("1") and PlayerGeneral[1] >= 100:
-                    PlayerHealingItemsAmmount[0] = PlayerHealingItemsAmmount[0] + 1
-                    PlayerGeneral[1] = PlayerGeneral[1] - 100
-                    A = 0
-                elif keyboard.is_pressed("1") and PlayerGeneral[1] < 100:
-                    print("You don't have enough gold.")
-                    A = 0
-                elif keyboard.is_pressed("2") and PlayerGeneral[1] >= 250:
-                    PlayerHealingItemsAmmount[1] = PlayerHealingItemsAmmount[1] + 1
-                    PlayerGeneral[1] = PlayerGeneral[1] - 250
-                    A = 0
-                elif keyboard.is_pressed("2") and PlayerGeneral[1] < 250:
-                    print("You don't have enough gold.")
-                    A = 0
-                elif keyboard.is_pressed("3"):
-                    WorldGen()
+                                    Temp = Temp + 1 # Increments Temp by 1 to do the next line
+                                
+                                print(str(Fore.GREEN + Greentxt + Fore.RED + RedTxt + Redtxt + Fore.RESET)) # Displays items in order of craftibilty
+                                E = 1
+                                while E == 1:   # Displays and gets input
+                                    Select = input("Type the number in brackets to craft the corresponding item, then press enter\nTo leave press 0\n")
+                                    
+                                    try: #checks if input is a number
+                                        Select = int(Select)
+                                    except: #if not a number then it will loop
+                                        print("That isn't a number, make sure there is no characters in the input.\n")
+                                    else: #if it passes above check then this is executed
+                                        try: #Tests that the number is a element in GreenText
+                                            testvar = GreenProd[Select]
+                                            testvar = testvar
+                                        except: #If not in list then loop
+                                            print("That number isn't valid, make sure it's a number in the brackets.")
+                                        else:
+                                            E = 2
+                                
+                                if Select == 0:
+                                    WorldGeneration()
 
-def Save():
+                                TempAmmount = PlayerInventoryAmmount[PlayerInventory.index(GreenResource[Select])] - GreenAmmount[Select]
+                                if TempAmmount <= 0: #Removes required resource and if below 0 will remove the resource from the player inventory 
+                                    PlayerInventoryAmmount.pop(PlayerInventory.index(GreenResource[Select]))
+                                    PlayerInventory.pop(GreenResource[Select])
+                                else:
+                                    PlayerInventoryAmmount[PlayerInventory.index(GreenResource[Select])] = TempAmmount 
+
+                                if CraftMode == 0: # For items
+                                    if GreenProd[Select] in PlayerInventory:
+                                        PlayerInventoryAmmount[PlayerInventory.index(GreenProd[Select])] = PlayerInventoryAmmount[PlayerInventory.index(GreenProd[Select])] + 1
+                                    else:
+                                        PlayerInventory.append(GreenProd[Select])
+                                        PlayerInventoryAmmount.append(1)
+                                    print("Crafted 1 x " + str(GreenProd[Select]))
+                                elif CraftMode == 1:    #For Armour
+                                    PlayerInventoryArmour.append(GreenProd[Select])
+                                    PlayerInventoryArmourDef.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
+                                    PlayerInventoryArmourDur.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
+                                    print("Crafted 1 x " + str(GreenProd[Select]) + " - Def: " + str(PlayerInventoryArmourDef[len(PlayerInventoryArmourDef) - 1]) + " Durabilty: " + str(PlayerInventoryArmourDef[len(PlayerInventoryArmourDur) - 1]))
+                                elif CraftMode == 2:    #For weapons
+                                    print("Crafted 1 x " + str(GreenProd[Select]) + " - Atk: " + str(PlayerInventoryWeaponAtk[len(PlayerInventoryWeaponAtk) - 1]) + " Durabilty: " + str(PlayerInventoryWeaponDur[len(PlayerInventoryWeaponDur) - 1]) + " Hit: " + str(PlayerInventoryWeaponHit[len(PlayerInventoryWeaponHit) - 1]) + "% Critical: " + str(PlayerInventoryWeaponCrt[len(PlayerInventoryWeaponCrt) - 1])) 
+                                    if Craft == "Sword":
+                                        PlayerInventoryWeapon.append(GreenProd[Select])
+                                        PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
+                                        PlayerInventoryWeaponHit.append(random.randint(random.randint(1,50),random.randint(50,100)))
+                                        PlayerInventoryWeaponCrt.append(random.randint(random.randint(0,25),random.randint(25,50)))
+                                        PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
+                                    elif Craft == "Lance":
+                                        PlayerInventoryWeapon.append(GreenProd[Select])
+                                        PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
+                                        PlayerInventoryWeaponHit.append(100)
+                                        PlayerInventoryWeaponCrt.append(random.randint(random.randint(0,5),random.randint(5,10)))
+                                        PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
+                                    elif Craft == "Bow":
+                                        PlayerInventoryWeapon.append(GreenProd[Select])
+                                        PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 50,Product.index(GreenProd[Select]) * 100))
+                                        PlayerInventoryWeaponHit.append(random.randint(1,50))
+                                        PlayerInventoryWeaponCrt.append(random.randint(random.randint(0,15),random.randint(15,30)))
+                                        PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
+                                    elif Craft == "Mace":
+                                        PlayerInventoryWeapon.append(GreenProd[Select])
+                                        PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 50,Product.index(GreenProd[Select]) * 100))
+                                        PlayerInventoryWeaponHit.append(random.randint(1,50))
+                                        PlayerInventoryWeaponCrt.append(random.randint(random.randint(0,15),random.randint(15,30)))
+                                        PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
+                                    elif Craft == "Axe":
+                                        PlayerInventoryWeapon.append(GreenProd[Select])
+                                        PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 100,Product.index(GreenProd[Select]) * 250))
+                                        PlayerInventoryWeaponHit.append(random.randint(1,33))
+                                        PlayerInventoryWeaponCrt.append(random.randint(random.randint(0,15),random.randint(20,75)))
+                                        PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 1,Product.index(GreenProd[Select]) * 100))
+
+
+
+                    elif keyboard.is_pressed("3"):
+                        WorldGeneration()
+
+            elif TerrainType == 4:
+                Loop1 = 1
+                while Loop1 == 1:
+                    TempInt = 0
+                    GreenText = [""]
+                    while TempInt <= int(len(WorldDataTradeProd)-1):
+                        if WorldDataTradeProd[TempInt] in PlayerInventory and PlayerInventoryAmmount[PlayerInventory.index(WorldDataTradeProd[TempInt])] > 0:
+                            GreenText.append(WorldDataTradeProd[TempInt])
+                            print(str(int(len(GreenText)-1)) + ") " + str(WorldDataTradeProd[TempInt]) + "   sells for: " + str(WorldDataTradePrice[TempInt]) + " gold      You have: " + str(PlayerInventoryAmmount[PlayerInventory.index(WorldDataTradeProd[TempInt])]))
+                            TempInt = TempInt + 1
+                        else:
+                            TempInt = TempInt + 1
+
+                    Loop2 = 1
+                    while Loop2 == 1:
+                        print("Type the number in brackets then press enter to sell one of that item.\nPress 0  to leave")
+                        TempInt = input()
+                        try:
+                            TempInt = int(TempInt)
+                            testvar = GreenText[TempInt]
+                        except:
+                            print("That ID is invalid.\nMake sure that the number has no spaces,")
+                        else:
+                            TempInt = int(TempInt)
+                            Loop2 = 0
+                    
+                    if TempInt == 0:
+                        WorldGeneration()
+                    
+                    if PlayerInventoryAmmount[PlayerInventory.index(GreenText[TempInt])] - 1 <= 0:
+                        PlayerInventoryAmmount.pop(PlayerInventory.index(GreenText[TempInt]))
+                        PlayerInventory.pop(PlayerInventory.index(GreenText[TempInt]))
+                    else:
+                        PlayerInventoryAmmount[PlayerInventory.index(GreenText[TempInt])] = PlayerInventoryAmmount[PlayerInventory.index(GreenText[TempInt])] - 1
+                    
+                    PlayerInfo[9] = PlayerInfo[9] + WorldDataTradePrice[WorldDataTradeProd.index(GreenText[TempInt])]
+                    print("Sold 1 x " + str(GreenText[TempInt]) + " for " + str(WorldDataTradePrice[WorldDataTradeProd.index(GreenText[TempInt])]) + " Gold.")
+                    time.sleep(1)
+                    os.system("cls")
+
+def SaveLoad():
+    global PlayerInfo
+    global BattleLog
     global PlayerInventory
     global PlayerInventoryAmmount
-    global PlayerMaxStats
-    global SaveInfo
-    global WorldStats
-    global PlayerGeneral
-    global SaveInfo
-    global TurnCount
-    global PlayerHealingItems
-    global PlayerHealingItemsAmmount
-    global PlayerInventoryArmourRes
+    global PlayerInventoryArmourDur
     global PlayerInventoryArmour
     global PlayerInventoryArmourDef
     global PlayerInventoryWeapon
     global PlayerInventoryWeaponAtk
-    global PlayerInventoryWeaponRes
+    global PlayerInventoryWeaponDur
     global PlayerInventoryWeaponCrt
-    global PlayerInventoryWeaponhit
-    global EquipedArmour
-    global EquipedArmourDef
-    global EquipedArmourRes
-    global EquipedWeapon
-    global EquipedWeaponhit
-    global EquipedWeaponatk
-    global EquipedWeaponcrt
-    global EquipedWeaponres
-    global BattleLog
-    global SaveUI
+    global PlayerInventoryWeaponHit
+    global PlayerCurrentStats
+    global PlayerMagic
+    global PlayerMagicType
+    global PlayerMagicValue
+    global PlayerMagicCost
+    os.system("cls")
+    if Save == 0:
+        print("1) Save\n2) Load\nQ) Go Back")
+        Loop = 1
+        while Loop == 1:
+            if keyboard.is_pressed("1"):
+                Mode = 1
+                Loop = 2
+            elif keyboard.is_pressed("2"):
+                Mode = 2
+                Loop = 2
+            elif keyboard.is_pressed("3"):
+                WorldGeneration()
 
-    #Panic!
-    if SaveUI == 1:
-        SaveUI = 0
-        SlotNo = "Auto"
-    else:
-        SaveUI = 0 
-        SaveInfo = [SystemStats[1],"Unknown"]
-        print("Select a slot to save to (1-5)")
+        print("Select a slot (1-5)")
         time.sleep(1)
         A = 1
         while A == 1:
@@ -1012,552 +886,282 @@ def Save():
                 SlotNo = "Slot5"
                 A = 0
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerInventory.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerInventory, file)
+    if Mode == 1: # Save
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerMagicCost.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerMagicCost, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerInventoryAmmount.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerInventoryAmmount, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerMagicValue.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerMagicValue, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerMaxStats.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerMaxStats, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerMagicType.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerMagicType, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\WorldStats.json"
-    with open(destination, "w") as file:
-        json.dump(WorldStats, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerMagic.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerMagic, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerGeneral.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerGeneral, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerCurrentStats.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerCurrentStats, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\SaveInfo.json"
-    with open(destination, "w") as file:
-        json.dump(SaveInfo, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerInventoryWeaponHit.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerInventoryWeaponHit, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\TurnCount.json"
-    with open(destination, "w") as file:
-        json.dump(TurnCount, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerInventoryWeaponCrt.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerInventoryWeaponCrt, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerHealingItems.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerHealingItems, file)
-    
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerHealingItemsAmmount.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerHealingItemsAmmount, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerInventoryWeaponDur.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerInventoryWeaponDur, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerInventoryArmourRes.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerInventoryArmourRes, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerInventoryWeaponAtk.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerInventoryWeaponAtk, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerInventoryArmour.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerInventoryArmour, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerInventoryWeapon.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerInventoryWeapon, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerInventoryArmourDef.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerInventoryArmourDef, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerInventoryArmourDef.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerInventoryArmourDef, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerInventoryWeapon.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerInventoryWeapon, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerInventoryArmourDur.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerInventoryArmourDur, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerInventoryWeaponAtk.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerInventoryWeaponAtk, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerInventoryArmour.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerInventoryArmour, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerInventoryWeaponRes.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerInventoryWeaponRes, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerInventoryAmmount.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerInventoryAmmount, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerInventoryWeaponCrt.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerInventoryWeaponCrt, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerInventory.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerInventory, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\PlayerInventoryWeaponhit.json"
-    with open(destination, "w") as file:
-        json.dump(PlayerInventoryWeaponhit, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerInfo.json"
+        with open(destination, "w+") as file:
+            json.dump(PlayerInfo, file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\EquipedArmour.json"
-    with open(destination, "w") as file:
-        json.dump(EquipedArmour, file)
+        print("Save complete!")
+        time.sleep(2.5)
+        WorldGeneration()
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\EquipedArmourDef.json"
-    with open(destination, "w") as file:
-        json.dump(EquipedArmourDef, file)
+    elif Mode == 2:
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\EquipedArmourRes.json"
-    with open(destination, "w") as file:
-        json.dump(EquipedArmourRes, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerInfo.json"
+        with open(destination) as file:
+            PlayerInfo = json.load(file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\EquipedWeapon.json"
-    with open(destination, "w") as file:
-        json.dump(EquipedWeapon, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerInventory.json"
+        with open(destination) as file:
+            PlayerInventory = json.load(file)
+            
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryAmmount.json"
+        with open(destination) as file:
+            PlayerInventoryAmmount = json.load(file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\EquipedWeaponhit.json"
-    with open(destination, "w") as file:
-        json.dump(EquipedWeaponhit, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryArmour.json"
+        with open(destination) as file:
+            PlayerInventoryArmour = json.load(file)            
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\EquipedWeaponatk.json"
-    with open(destination, "w") as file:
-        json.dump(EquipedWeaponatk, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryArmourDur.json"
+        with open(destination) as file:
+            PlayerInventoryArmourDur = json.load(file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\EquipedWeaponcrt.json"
-    with open(destination, "w") as file:
-        json.dump(EquipedWeaponcrt, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryArmourDef.json"
+        with open(destination) as file:
+            PlayerInventoryArmourDef = json.load(file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\EquipedWeaponres.json"
-    with open(destination, "w") as file:
-        json.dump(EquipedWeaponres, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryWeapon.json"
+        with open(destination) as file:
+            PlayerInventoryWeapon = json.load(file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\BattleLog.json"
-    with open(destination, "w") as file:
-        json.dump(BattleLog, file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryWeaponAtk.json"
+        with open(destination) as file:
+            PlayerInventoryWeaponAtk = json.load(file)
 
-    print("Saved!\n\n")
-    WorldGen()
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryWeaponCrt.json"
+        with open(destination) as file:
+            PlayerInventoryWeaponCrt = json.load(file)
 
-def Load():
-    global PlayerInventory
-    global PlayerInventoryAmmount
-    global PlayerMaxStats
-    global SaveInfo
-    global WorldStats
-    global PlayerGeneral
-    global SaveInfo
-    global TurnCount
-    global PlayerHealingItems
-    global PlayerHealingItemsAmmount
-    global PlayerInventoryArmourRes
-    global PlayerInventoryArmour
-    global PlayerInventoryArmourDef
-    global PlayerInventoryWeapon
-    global PlayerInventoryWeaponAtk
-    global PlayerInventoryWeaponRes
-    global PlayerInventoryWeaponCrt
-    global PlayerInventoryWeaponhit
-    global EquipedArmour
-    global EquipedArmourDef
-    global EquipedArmourRes
-    global EquipedWeapon
-    global EquipedWeaponhit
-    global EquipedWeaponatk
-    global EquipedWeaponcrt
-    global EquipedWeaponres
-    global BattleLog
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryWeaponHit.json"
+        with open(destination) as file:
+            PlayerInventoryWeaponHit = json.load(file)
 
-    print("Select a slot to load (1 - 5) or press a to load the latest AutoSave:")
-    time.sleep(1)
-    A = 1
-    while A == 1:
-        if keyboard.is_pressed("1"):
-            SlotNo = "Slot1"
-            A=0
-        elif keyboard.is_pressed("2"):
-            SlotNo = "Slot2"
-            A = 0
-        elif keyboard.is_pressed("3"):
-            SlotNo = "Slot3"
-            A = 0
-        elif keyboard.is_pressed("4"):
-            SlotNo = "Slot4"
-            A = 0
-        elif keyboard.is_pressed("5"):
-            SlotNo = "Slot5"
-            A = 0
-        elif keyboard.is_pressed("a"):
-            SlotNo = "Auto"
-            A = 0
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerCurrentStats.json"
+        with open(destination) as file:
+            PlayerCurrentStats = json.load(file)
 
-    C = 1
-    while C == 1:
-        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\SaveInfo.json"):
-            destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\SaveInfo.json"
-            with open(destination) as file:
-                SaveInfo = json.load(file)
-        else:
-            SaveInfo = ["Unknown","Unknown"]
-                
-        print("This save was last accessed/modifyed on: " + str(time.ctime(os.path.getmtime(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + SlotNo + "\\SaveInfo.json"))) + "\nLast version used: " + str(SaveInfo[0]) + "\nLoad? (Y/N)\n")
-        B=1
-        while B == 1:
-            if keyboard.is_pressed("n"):
-                Load()
-            elif keyboard.is_pressed("y"):
-                B = 0
-                C = 0
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerMagic.json"
+        with open(destination) as file:
+            PlayerMagic = json.load(file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerInventory.json"
-    with open(destination) as file:
-        PlayerInventory = json.load(file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerMagicType.json"
+        with open(destination) as file:
+            PlayerMagicType = json.load(file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryAmmount.json"
-    with open(destination) as file:
-        PlayerInventoryAmmount = json.load(file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\\PlayerData\\" + str(SlotNo) + "\\PlayerMagicValue.json"
+        with open(destination) as file:
+            PlayerMagicValue = json.load(file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerMaxStats.json"
-    with open(destination) as file:
-        PlayerMaxStats = json.load(file)
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerMagicCost.json"
+        with open(destination) as file:
+            PlayerMagicCost = json.load(file)
 
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\WorldStats.json"
-    with open(destination) as file:
-        WorldStats = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerGeneral.json"
-    with open(destination) as file:
-            PlayerGeneral = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\SaveInfo.json"
-    with open(destination) as file:
-        SaveInfo = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\TurnCount.json"
-    with open(destination) as file:
-        TurnCount = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerHealingItems.json"
-    with open(destination) as file:
-        PlayerHealingItems = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerHealingItemsAmmount.json"
-    with open(destination) as file:
-        PlayerHealingItemsAmmount = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryArmourRes.json"
-    with open(destination) as file:
-        PlayerInventoryArmourRes = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryArmour.json"
-    with open(destination) as file:
-        PlayerInventoryArmour = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryArmourDef.json"
-    with open(destination) as file:
-        PlayerInventoryArmourDef = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryWeapon.json"
-    with open(destination) as file:
-        PlayerInventoryWeapon = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryWeaponAtk.json"
-    with open(destination) as file:
-        PlayerInventoryWeaponAtk = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryWeaponRes.json"
-    with open(destination) as file:
-        PlayerInventoryWeaponRes = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryWeaponCrt.json"
-    with open(destination) as file:
-        PlayerInventoryWeaponCrt = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\PlayerInventoryWeaponhit.json"
-    with open(destination) as file:
-        PlayerInventoryWeaponhit = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\EquipedArmour.json"
-    with open(destination) as file:
-        EquipedArmour = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\EquipedArmourDef.json"
-    with open(destination) as file:
-        EquipedArmourDef = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\EquipedArmourRes.json"
-    with open(destination) as file:
-        EquipedArmourRes = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\EquipedWeapon.json"
-    with open(destination) as file:
-        EquipedWeapon = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\EquipedWeaponhit.json"
-    with open(destination) as file:
-        EquipedWeaponhit = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\EquipedWeaponatk.json"
-    with open(destination) as file:
-        EquipedWeaponatk = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\EquipedWeaponcrt.json"
-    with open(destination) as file:
-        EquipedWeaponcrt = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\EquipedWeaponres.json"
-    with open(destination) as file:
-        EquipedWeaponres = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\EquipedWeaponres.json"
-    with open(destination) as file:
-        EquipedWeaponres = json.load(file)
-
-    destination = os.path.dirname(os.path.abspath(__file__)) + "\\Data\\PlayerData\\" + str(SlotNo) + "\\BattleLog.json"
-    with open(destination) as file:
-        BattleLog = json.load(file)
-
-    print("Loaded " + str(SlotNo) +"\n\n")
-    WorldGen()    
+        print("Save complete!")
+        time.sleep(2.5)
+        WorldGeneration()
 
 def Battle():
-    global PlayerMaxStats
-    global WorldStats
-    global PlayerGeneral
-    global Z
-    global EnemyStats
-    global PlayerHealingItems
-    global PlayerHealingItemsAmmount
-    global EquipedArmourDef
-    global EquipedWeapon
-    global EquipedWeaponatk
-    global EquipedWeaponcrt
-    global EquipedWeaponhit
-    global EquipedWeaponres 
-    global EquipedArmour
-    global EquipedArmourDef
-    global EquipedArmourRes
-    global EnemyText
-    global BattleLog
-    global PlayerHP
-    global WeatherID
+    global PlayerCurrentStats
+    global PlayerInfo
 
-    if EnemyText == "":
-        print("There is no enemy to battle.\n")
-        time.sleep(2.5)
-        PlayerTurn()
+    EnemyMult = int(round(len(WorldDataEnemyName[Enemy[2]]) / random.randint(1,25)))
+    if Enemy[0] >= 0:
+        EnemyMult = EnemyMult + int(round(len(WorldDataEnemyPrefix[Enemy[1]]) / 10))
+    if Enemy[3] >= 0:
+        EnemyMult = EnemyMult + int(round(len(WorldDataEnemySuffix[Enemy[3]]) / 10))
 
-    if SystemStats != 1:
-        os.system("cls")
+    if EnemyMult > 1:
+        EnemyMult = 2
 
-    PlayerAttack = PlayerMaxStats[1]
-    PlayerDefence = PlayerMaxStats[2]
-    if Z != 1:
-        EnemyStats = [random.randint(round(PlayerMaxStats[0]/2),PlayerMaxStats[0] * 2),random.randint(round(PlayerMaxStats[1]/2),PlayerMaxStats[1] * 2),random.randint(round(PlayerMaxStats[2]/2),PlayerMaxStats[2] * 2)]    
-    #0-HP 1-Attack 2-Defence
-    A = 1
-    while A == 1:
-        print("Your HP: " + str(PlayerHP) + "  Enemy HP: " + str(EnemyStats[0]) + "\n1) Attack  2) Defend\n3) Items   4) Run\n")
-        B = 1
+    print(PlayerInfo[14])
+    try:    #it crashes sometimes and i don't know why can @someone please help
+        EnemyHP = random.randint(int(round(0.8 * PlayerInfo[4])),int(round(EnemyMult * PlayerInfo[4])))
+        EnemyMAX = EnemyHP  # for display   
+        EnemyATK = random.randint(round(0.8 * PlayerInfo[5]),round(EnemyMult * PlayerInfo[5]))
+        EnemyDEF = random.randint(round(0.8 * PlayerInfo[6]),round(EnemyMult * PlayerInfo[6]))
+    except:# Should Randint not do its job right it clones the players stats
+        EnemyHP = PlayerInfo[4]
+        EnemyMAX = EnemyHP
+        EnemyATK = PlayerInfo[5]
+        EnemyDEF = PlayerInfo[6]
+    else:
+        EnemyHP = random.randint(int(round(0.8 * PlayerInfo[4])),int(round(EnemyMult * PlayerInfo[4])))
+        EnemyMAX = EnemyHP  # for display   
+        EnemyATK = random.randint(round(0.8 * PlayerInfo[5]),round(EnemyMult * PlayerInfo[5]))
+        EnemyDEF = random.randint(round(0.8 * PlayerInfo[6]),round(EnemyMult * PlayerInfo[6]))
+
+    PlayerCurrentStats[1] = PlayerInfo[18]    #Maxes Mana
+    
+    Loop1 = 1
+    while Loop1 == 1:#Battle Loop
+        print("\n\nHP: " + str(PlayerCurrentStats[0]) + "/" + str(PlayerInfo[4]) + "         Mana: " + str(PlayerCurrentStats[1]) + "/" + str(PlayerInfo[18]) + "\nEnemy HP: " + str(EnemyHP) + "/" + str(EnemyMAX) + "\n\n1) Attack      2) Magic\n3) Defend      4) Run\n\n")
+        Loop2 = 1
         time.sleep(1)
-        while B == 1:
-            Attack = 0
-            Defence = 0
-            F = 0
-            if keyboard.is_pressed("1"): # attack
-                Attack = PlayerAttack + EquipedWeaponatk
-                if random.randint(0,100) > EquipedWeaponhit:
+        while Loop2 == 1:   # Player Options
+            Def = PlayerInfo[6]
+
+            if keyboard.is_pressed("1"):    #10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty
+                Attack = PlayerInfo[5] + PlayerInfo[11]
+
+                if PlayerInfo[10] != "Hands":
+                    PlayerInfo[14] = PlayerInfo[14] - random.randint(0,1)
+
+                if PlayerInfo[14] >= 0 and random.randint(1,100) <= PlayerInfo[13] and PlayerInfo[10] != "Hands":
+                    Attack = PlayerInfo[5]
+                    print("You landed a critical hit.")
+
+                if PlayerInfo[14] <= 0 and PlayerInfo[10] != "Hands" and random.randint(1,100) <= PlayerInfo[12] :#if any1 lands a critical miss message me
                     Attack = 0
-                    B = 0
-                    print("You missed!")
-                if random.randint(0,100) <= EquipedWeaponcrt:
-                    Attack = round(Attack * 2)
-                if EquipedWeapon != "Hands":
-                    EquipedWeaponres = EquipedWeaponres - 1
-                    if EquipedWeaponres <= 0: 
-                        print(EquipedWeapon + " broke.")
-                        EquipedWeapon = "Hands"
-                        EquipedWeaponatk = 0
-                        EquipedWeaponcrt = 0
-                        EquipedWeaponhit = 100
-                        EquipedWeaponres = 0 
+                    print("Your attack missed.")
 
-                Defence = PlayerDefence
-                if EquipedArmour != "Nothing":
-                    EquipedArmourRes = EquipedArmourRes - 1
-                    if EquipedArmourRes <= 0:
-                        print(EquipedArmour + " broke.")
-                        EquipedArmour = "Nothing"
-                        EquipedArmourDef = 0
-                        EquipedArmourRes = 0
-                B = 0
-                Defence = random.randint(Defence,Defence * 2)
-            elif keyboard.is_pressed("2"):  #defence
-                Defence = PlayerDefence * 2
-                B = 0
+                Attack = Attack - EnemyDEF
+                if Attack <= 0:
+                    Attack = 0 #Prevents enemy being healed from a attack
+                
+                Loop2 = 0
+            elif keyboard.is_pressed("2"):
+                TempInt = 0
+                while TempInt <= int(len(PlayerMagic)-1):
+                    print(str(PlayerMagic[TempInt]) + "  Cost: " + str(PlayerMagicCost[TempInt]) + " Effect: " + str(PlayerMagicValue[TempInt]) + " " + str(PlayerMagicType[TempInt]) + " ID: " + str(TempInt))
+                    TempInt = TempInt + 1
+                Loop3 = 1
+                while Loop3 == 1:
+                    TempStr = input("Type an ID of a spell to cast, then press enter\n")
+                    try:
+                        TempStr = int(TempStr)
+                        test = PlayerMagic[TempStr]
+                        test = test
+                    except:
+                        print("That was a invalid ID, make sure the ID is valid and is a number")
+                    else:
+                        TempStr = int(TempStr)
+                        if PlayerCurrentStats[1] - PlayerMagicCost[TempStr] <= 0:
+                            print("Not enough mana")
+                        else:
+                            Loop2 = 0
+                            Loop3 = 0
+                            Attack = 0 
+                            PlayerCurrentStats[1] = PlayerCurrentStats[1] - PlayerMagicCost[TempStr]
+                            if PlayerMagicType[TempStr].upper() == "DAMAGE":
+                                print("\nYou casted " + str(PlayerMagic[TempStr]))
+                                Attack = PlayerMagicValue[TempStr]
+                            elif PlayerMagicType[TempStr].upper() == "HEAL":
+                                print("\nYou casted " + str(PlayerMagic[TempStr]) + "\nHealed " +  str(PlayerMagicValue[TempStr]) + " HP   (" + str(PlayerCurrentStats[0]) + " -> " + str(int(PlayerCurrentStats[0] + PlayerMagicValue[TempStr])) + ")")
+                                PlayerCurrentStats[0] = PlayerCurrentStats[0] + PlayerMagicValue[TempStr]   
+                                if PlayerInfo[4] < PlayerCurrentStats[0]:
+                                    PlayerCurrentStats[0] = PlayerInfo[4]
+
             elif keyboard.is_pressed("3"):
-                print("1) Basic Healing Potion (+ 50HP) You have: " + str(PlayerHealingItemsAmmount[0]) + "\n2) Advanced Healing Potion (+ 250HP) You have: " + str(PlayerHealingItemsAmmount[1]) + "\n3) Go back")
-                C = 1
-                time.sleep(1)
-                while C == 1:
-                    if keyboard.is_pressed("1"):
-                        C = 0
-                        B = 0
-                        if PlayerHealingItemsAmmount[0] > 0:
-                            PlayerHP = PlayerHP + 50
-                            PlayerHealingItemsAmmount[0] = PlayerInventoryAmmount[0] - 1
-                        else:
-                            print("You don't have enough potions")
-
-                    if keyboard.is_pressed("2"):
-                        C = 0
-                        B = 0
-                        if PlayerHealingItemsAmmount[1] > 0:
-                            PlayerHP = PlayerHP + 250
-                            PlayerHealingItemsAmmount[1] = PlayerInventoryAmmount[1] - 1
-                        else:
-                            print("You don't have enough potions")
-                            
-                    if keyboard.is_pressed("3"):
-                        C = 0
-                        B = 0
-                        EnAttack = 0
-                        F = 1
-
+                Def = Def * 2
+                Loop2 = 0
             elif keyboard.is_pressed("4"):
-                if WeatherID == 4 and random.randint(1,2) == 1: # Wind 
-                    BattleLog[5] = "Got blown away by the wind from X:" + str(WorldStats[0]) + " Y:" + str(WorldStats[1])
-                    WorldStats[0] = random.randint(-2147483500,2147483500)
-                    WorldStats[1] = random.randint(-2147483500,2147483500)
-                    BattleLog[5] = BattleLog[5] + " To X:" + str(WorldStats[0]) + " Y:" + str(WorldStats[1])
-                    WorldGen()
+                Attack = 0
                 if random.randint(0,1) == 0:
-                    WorldGen()
+                    World()
                 else:
                     print("Couldn't run!")
-                    B = 0
+                    Loop2 = 0
         
-        atkmult = WorldStats[2] * 10
-        EnAttack = EnemyStats[1] + atkmult - random.randint(round(Defence/2),Defence)
-        
-        Attack = Attack - EnemyStats[2] + atkmult
-        if EnAttack <= 0:
-            EnAttack = 0
-        if Attack <= 0:
-            Attack = 0
-        
-        if F == 1:
-            EnAttack = 0
-        
-        EnemyStats[0] = EnemyStats[0] - random.randint(Attack,round(Attack * 1.5))
-        PlayerHP = PlayerHP - EnAttack
-        print("\nYour attack did: " + str(Attack) + "\nEnemy Attack did: " + str(EnAttack))
+        EnemyAttack = EnemyATK + random.randint(-10 * PlayerInfo[7],10 * PlayerInfo[7])
+        EnemyAttack = EnemyAttack - PlayerInfo[6]
+        EnemyHP = EnemyHP - Attack
+        if EnemyAttack <= 0:
+            EnemyAttack = 0
+        PlayerCurrentStats[0] = PlayerCurrentStats[0] - EnemyAttack
 
-        if WeatherID == 3 and EquipedArmour != "Nothing":
-            print("You also took " + str(round(PlayerMaxStats[0] / 5)) + " from the hot weather!")
-            PlayerHP = PlayerHP - round(PlayerMaxStats[0] / 5)
+        print("Enemy did " + str(EnemyAttack) + " damage\nYou did " + str(Attack) + " damage")
 
-        if WeatherID == 5 and EquipedArmour == "Nothing":
-            print("You also took " + str(round(PlayerMaxStats[0] / 5)) + " from the cold weather!")
-            PlayerHP = PlayerHP - round(PlayerMaxStats[0] / 5)
+        if Weather == 3 and PlayerInfo[14] != "Nothing":
+            print("You also took " + str(round(PlayerInfo[4] / 5)) + " from the hot weather!")
+            PlayerCurrentStats[0] = PlayerCurrentStats[0] - round(PlayerInfo[4] / 5)
 
-        if EnemyStats[0] <= 0:
-            BattleLog[5] = "Won a battle" 
-            if PlayerGeneral[0] >= PlayerGeneral[2] * 1000:
-                print("You leveled up!")
-                LevelUpBonu13s = random.randint(1,50)
-                PlayerMaxStats[0] = PlayerMaxStats[0] + LevelUpBonus
-                PlayerHP = PlayerMaxStats[0]
-                print("HP Increased by " + str(LevelUpBonus))
-                LevelUpBonus = random.randint(1,50)
-                PlayerAttack = PlayerAttack + LevelUpBonus
-                print("Attack Increased by" + str(LevelUpBonus))
-                LevelUpBonus = random.randint(1,50)
-                PlayerDefence = PlayerDefence + LevelUpBonus
-                print("Defence Increased by" + str(LevelUpBonus))
-                PlayerGeneral[2] + 1
-                input("Press enter to continue...")
-                PlayerTurn()
+        if Weather == 4 and PlayerInfo[14] == "Nothing":
+            print("You also took " + str(round(PlayerInfo[4] / 5)) + " from the cold weather!")
+            PlayerCurrentStats[0] = PlayerCurrentStats[0] - round(PlayerInfo[4] / 5)
+
+        if EnemyHP <= 0:
+            #PlayerInfo  = [0,0,0,0,50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0,50,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count (19)
+            PlayerInfo[8] = PlayerInfo[8] + random.randint(0,250) #XP
+            PlayerInfo[9] = PlayerInfo[9] + random.randint(random.randint(1,250),300) # Gold
+            print("You win!")
+            PlayerCurrentStats[0] = PlayerInfo[4] - random.randint(1,10)
+            if PlayerInfo[8] > PlayerInfo[7] * 1000:
+                print("You Leveled up\nYour stats have improved.")
+                PlayerInfo[7] = PlayerInfo[7] + 1
+                PlayerInfo[8] = 0
+                PlayerInfo[4] = PlayerInfo[4] + random.randint(1,25)
+                PlayerInfo[5] = PlayerInfo[5] + random.randint(1,25)
+                PlayerInfo[6] = PlayerInfo[6] + random.randint(1,25)
             else:
-                input("Press enter to continue...")
-                PlayerTurn()
-        elif PlayerHP <= 0:
-            input("You died.\nPress enter to restart")
-            Menu()
+                print("")
+            time.sleep(2.5)
+            World()
+        elif PlayerCurrentStats[0] <= 0:
+            Death()
 
-def Collect():
-    global PlayerInventory
-    global PlayerInventoryAmmount
-    global Resource1
-    global Resource1Ammount
-    global Resource1Text
-    global WorldStats
-    global BattleLog
+def Death():
+    print("You died.")
+    time.sleep(100)
 
-    CurrentCoords = "x" + str(WorldStats[0]) + "y" + str(WorldStats[1])
-
-    if Resource1Text == "":
-        print("Theres nothing here to collect!\n")
-        PlayerTurn()
-
-    BattleLog[5] = "Collected " + str(Resource1Ammount) + " " + str(Resource1)
-
-    if Resource1 in PlayerInventory:
-        PlayerInventoryAmmount[PlayerInventory.index(Resource1)] = PlayerInventoryAmmount[PlayerInventory.index(Resource1)] + Resource1Ammount
-    else:
-        PlayerInventoryAmmount.append(Resource1Ammount)
-        PlayerInventory.append(Resource1)
-
-    WorldFile = open(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\WorldData\\" + CurrentCoords + ".txt","w")
-    WorldFile.write(str(TerrainID) + "\n0\n0")
-    WorldFile.close()
-
-    WorldGen()
-
-def Move():
-    global WorldStats
-
-    print("\nSelect a direction to move\n         (1)\n        North\n(4) West     East (2)\n        South\n         (3)")
-    time.sleep(1)
-    a = 1
-    while a == 1:
-        if random.randint(1,10) == 1:
-            os.system("cls")
-            print("You were ambushed!")
-            BattleLog[5] = "You tryed to move but you were ambushed!"
-            time.sleep(1)
-            Battle()
-
-        if keyboard.is_pressed("1"):
-            WorldStats[1] = WorldStats[1] + 1
-            a = 0
-            BattleLog[5] = "Moved North"
-        elif keyboard.is_pressed("2"):
-            WorldStats[0] = WorldStats[0] + 1
-            a = 0
-            BattleLog[5] = "Moved East"
-        elif keyboard.is_pressed("3"):
-            WorldStats[1] = WorldStats[1] - 1
-            a = 0
-            BattleLog[5] = "Moved South"
-        elif keyboard.is_pressed("4"):
-            WorldStats[0] = WorldStats[0] - 1
-            a = 0
-            BattleLog[5] = "Moved West"
-    
-    
-    WorldGen()
-
-def Quests(): # Unused for now
-    global QuestName
-    global QuestDescription
-    global QuestType
-    global QuestReq1Ammount
-    global QuestReq1Item
-    global QuestReward
-    global PlayerInventory
-    global PlayerInventoryAmmount
-
-    if len(QuestName) == 0:
-        input("You have no quests...\nPress enter to continue\n")
-        PlayerTurn()
-
-    A = 1
-    QuestDisp = ""
-    while A <= len(QuestName) - 1:
-        B = 1 
-        QuestDisp = QuestDisp + "\n\nQuest ID: " + str(A) + "\n" + QuestName[A] + "\n" + QuestDescription[A] + "\nRequirements:"
-        if QuestReq1Item[A] in PlayerInventory: 
-            if QuestReq1Ammount[A] >= PlayerInventoryAmmount[PlayerInventory.index(QuestReq1Item[A])]:
-                QuestDisp = QuestDisp + Fore.GREEN + "\n" + str(PlayerInventoryAmmount[PlayerInventory.index(QuestReq1Item[A])]) + "/" + str(QuestReq1Ammount[A])  + " - " +  str(QuestReq1Item[A]) + Fore.__getattribute__(PlayerPrefs[0])
-            else:
-                QuestDisp = QuestDisp + Fore.RED + "\n" + PlayerInventoryAmmount[PlayerInventory.index(QuestReq1Item[A])] + "/" + QuestReq1Ammount[A]  + " - " + QuestReq1Item[A] + Fore.__getattribute__(PlayerPrefs[0])
-        else:
-            QuestDisp = QuestDisp + Fore.RED + "\n0/" + str(QuestReq1Ammount[A])  + " - " + QuestReq1Item[A] + Fore.__getattribute__(PlayerPrefs[0])
-    
-        A = A + 1
-    print(QuestDisp)
-    input("Press enter to continue")
-    PlayerTurn()
-
-UpdateCheck()
+Intialise() #Starts the game after all functions are declared
