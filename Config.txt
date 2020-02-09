@@ -1,3 +1,0 @@
-Enable auto updater? 
-Allowed Values: True,False (Default: True)
-False
