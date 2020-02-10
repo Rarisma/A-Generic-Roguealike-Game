@@ -6,7 +6,6 @@ Furthermore I will be releasing several alpha versions of the 1.0 before the rel
 # Coming in update 1.0
 
 To do: (In order of RELATIVE importance)
-- [ ] Remove dependcies
 - [ ] Mod support
 
 - [ ] Updates and Rebalancing of
@@ -39,6 +38,7 @@ To do: (In order of RELATIVE importance)
 - [ ] Stat gems
 - [ ] Respawning at Villages
 - [ ] Achivements
+- [ ] Remove dependcies
 - [x] Weapon differences
 - [x] Clean and fix code
 - [x] Full intergration of alternate terrains (eg villages) and the world space
