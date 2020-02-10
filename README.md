@@ -6,12 +6,8 @@ Furthermore I will be releasing several alpha versions of the 1.0 before the rel
 # Coming in update 1.0
 
 To do: (In order of RELATIVE importance)
-- [x] Clean and fix code
-- [x] Full intergration of alternate terrains (eg villages) and the world space
 - [ ] Remove dependcies
 - [ ] Mod support
-- [ ] Logging
-- [ ] Weight limit
 
 - [ ] Updates and Rebalancing of
   - [ ] Areas
@@ -24,9 +20,7 @@ To do: (In order of RELATIVE importance)
 - [ ] Map showing 100 x 100 
 - [ ] Player Turn shows a 3x3 map
 - [ ] Quests
-- [x] Weapon differences
 - [ ] Level based crafing
-- [ ] Death concequences (Eg lose money and items)
 - [ ] Fast Travel
 - [ ] Main Quest
 - [ ] Legendary weapons
@@ -38,7 +32,6 @@ To do: (In order of RELATIVE importance)
 - [ ] Cave types
 - [ ] Dungeons
 - [ ] Bosses
-- [ ] Magic
 - [ ] Enemy Drops
 - [ ] New Weapons types
 - [ ] Weapon &  Armor improvement (Village Forging)
@@ -46,5 +39,12 @@ To do: (In order of RELATIVE importance)
 - [ ] Stat gems
 - [ ] Respawning at Villages
 - [ ] Achivements
+- [x] Weapon differences
+- [x] Clean and fix code
+- [x] Full intergration of alternate terrains (eg villages) and the world space
+- [x] Logging
+- [x] Weight limit
+- [x] Magic
+- [x] Death concequences (Eg lose money and items)
 
 __Release date:  March 1st__
