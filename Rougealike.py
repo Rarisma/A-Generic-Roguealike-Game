@@ -8,14 +8,15 @@ import keyboard
 import random
 import json
 import threading
+import pathlib
 init(convert=True)
 #chess pieces!
 
-SystemInfo  = ["Build Version: 8/2/2020","1.0"]
+SystemInfo  = ["Build Version: 9/2/2020","1.0"]
 LatestVer   = "ERROR"
 Save = 0
 #Below is Varaibles that are saved
-PlayerInfo  = [0,0,0,0,50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0,50,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count (19)
+PlayerInfo  = [0,0,random.randint(-2147483500,2147483500),random.randint(-2147483500,2147483500),50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0,50,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count (19)
 TerrainType = 0
 TerrainTypeMeta = 0
 Terrain  = 0
@@ -39,9 +40,6 @@ PlayerMagic      = ["Wait","Phonon","Panacea"]   # Name of magic
 PlayerMagicType  = ["Damage","Damage","Heal"]   # HEAL - Vaule heals Damage - Damages the enemy
 PlayerMagicValue = [1,10,40]   # Damage of spell
 PlayerMagicCost  = [0,5,5]   # How much does the spell cost to cast
-
-
-
 #WorldData Variables SHOULD NOT be modifyed instead unless its for a master branch (USE THE MOD API)
 WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside"]
 WorldDataTerrainColor       = ["GREEN","RESET","WHITE","RESET","RESET","RED","GREEN","WHITE","CYAN","BLUE","YELLOW","RESET","WHITE","GREEN","GREEN","GREEN","RESET","CYAN","YELLOW","YELLOW","YELLOW","BLUE","RESET","WHITE","WHITE","CYAN"]
@@ -95,11 +93,16 @@ WorldDataCraftArmorAmm      = [25,32,35,40,48,55,59,66,70,78]
 WorldDataTradeProd          = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal","Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar","Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches"]
 WorldDataTradePrice         = [50,70,80,100,150,250,500,250,50,245,750,5000,9500,4500,10000,100,100,500,100,3000,1000,1675,1500,750,2500,1000,10,5,25,35,5,5,5,50,10,65,15,75,250,150,15,20,100,1000,500,250,100,500,750,100,5,250,1000,100,100,2500,100,150,250,50,100,150]
 
+Log = []
+
 def Intialise():    #Starts the game, Checks reqired modules are installed and runs AutoUpdate if enabled
     global SystemInfo
     global LatestVer
+    global Log
+    Log.append("Initalising game")
 
     try:
+        Log.append("Attempting to make files")
         if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData"): 
             time.sleep(0)
         else:
@@ -134,22 +137,28 @@ def Intialise():    #Starts the game, Checks reqired modules are installed and r
             time.sleep(0)
         else:
             os.mkdir(os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\Slot5")
-    except:
-        print()
+    except: #Fails if lack of perms or already there
+        Log.append("Failed to make files (Probably already exist)")
 
 
-    try:    #Checks if modules are installed
+    Log.append("Checking modules.")
+    try:    
+        #Checks if modules are installed
         import keyboard
         import colorama
+        Log.append("Check passed")
     except: #Tries to Auto-Install modules
+        Log.append("Check Failed.")
         print("You are missing required modules,\nWould you like to attempt to Auto-Install them?\n\nThis may fail if you are not an admin.\n(Y/N)")
         Select = input()
         Loop = 1
         while Loop == 1:
             if str(Select.upper()) == "Y":
+                Log.append("Atempting to AutoInstall the modules")
                 os.system("pip install colorama keyboard")
                 Loop = 0
             elif str(Select.upper()) == "N":
+                Log.append("User decided to quit")
                 input("Very well then,\nPress enter to close the program")
                 exit()  #Terminates if declines to install
         try:
@@ -159,6 +168,7 @@ def Intialise():    #Starts the game, Checks reqired modules are installed and r
             input("Failed to Auto-Install required modules...\nPlease open a Command Prompt (Preferably as admin) and type the following command\npip install colorama keyboard\n\nPress enter to leave.")
             exit()
 
+    Log.append("Attempting to AutoUpdate.")
     print("Trying to check update servers...\n\nTired of seeing this?\nChange the autoupdater setting in Config.txt\nThis shouldn't take more than 30 seconds")
     TempStr = linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\Config.txt",3)
     TempStr = TempStr.strip()
@@ -174,8 +184,16 @@ def Intialise():    #Starts the game, Checks reqired modules are installed and r
         Menu()
     LatestVer = LatestVer.strip()
     
-    try: # Tries to delete meta.txt if it exists
-        os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\meta.txt")
+    try:#Checks AutoUpdate
+        testvar = LatestVer = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\meta.txt",7))
+        if testvar == 1: 
+            LatestVer = "GLOBALLY DISABLED"
+            Menu()
+    except:
+        print()
+
+    try: 
+        os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\Data\\meta.txt") # Tries to delete meta.txt if it exists
     except:
         time.sleep(0) 
     
@@ -201,29 +219,129 @@ def Intialise():    #Starts the game, Checks reqired modules are installed and r
                 LatestVer = "Declined"
                 Menu()
     LatestVer = "Up to date"
-    Menu()
+    ModLoader()
+
+def ModLoader():
+    global WorldDataTerrainColor 
+    global WorldDataTerrainBrightness
+    global WorldDataResource
+    global WorldDataResourceColor
+    global WorldDataResourceBrightness
+    global WorldDataEnemyPrefix
+    global WorldDataEnemyName
+    global WorldDataEnemySuffix
+    global WorldDataWeather
+    global WorldDataMonolithSpell
+    global WorldDataMonolithSpellType
+    global WorldDataMonolithSpellValue
+    global WorldDataMonolithSpellCost
+    global WorldDataCaveMetal
+    global WorldDataCraftMetalReq
+    global WorldDataCraftMetalProd
+    global WorldDataCraftMetalAmm
+    global WorldDataCraftGemReq
+    global WorldDataCraftGemProd
+    global WorldDataCraftGemAmm
+    global WorldDataCraftWeaponAxeReq
+    global WorldDataCraftWeaponAxeProd
+    global WorldDataCraftWeaponAxeAmm
+    global WorldDataCraftWeaponBowProd
+    global WorldDataCraftWeaponBowReq
+    global WorldDataCraftWeaponBowAmm
+    global WorldDataCraftWeaponLanProd
+    global WorldDataCraftWeaponLanReq
+    global WorldDataCraftWeaponLanAmm
+    global WorldDataCraftWeaponMacProd
+    global WorldDataCraftWeaponMacReq
+    global WorldDataCraftWeaponMacAmm
+    global WorldDataCraftWeaponSwoProd
+    global WorldDataCraftWeaponSwoReq
+    global WorldDataCraftWeaponSwoAmm
+    global WorldDataCraftArmorProd
+    global WorldDataCraftArmorReq
+    global WorldDataCraftArmorAmm
+    global WorldDataTradeProd
+    global WorldDataTradePrice
+
+    print("Initalising Mod loader")
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\mods\\"):
+        ModDir = list(p for p in pathlib.Path(tets = list(p for p in pathlib.Path(os.path.dirname(os.path.abspath(__file__)) + "\\mods\\").iterdir() if p.is_dir())).iterdir() if p.is_dir())
+        TempInt = 0
+        while TempInt <= int(len(ModDir)-1):
+            if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\mods\\" + str(ModDir[TempInt]) + "\\TerrainColor.txt"):
+                WorldDataTerrainColor
+            WorldDataTerrainBrightness
+            WorldDataResource
+            WorldDataResourceColor
+            WorldDataResourceBrightness
+            WorldDataEnemyPrefix
+            WorldDataEnemyName
+            WorldDataEnemySuffix
+            WorldDataWeather
+            WorldDataMonolithSpell
+            WorldDataMonolithSpellType
+            WorldDataMonolithSpellValue
+            WorldDataMonolithSpellCost
+            WorldDataCaveMetal
+            WorldDataCraftMetalReq
+            WorldDataCraftMetalProd
+            WorldDataCraftMetalAmm
+            WorldDataCraftGemReq
+            WorldDataCraftGemProd
+            WorldDataCraftGemAmm
+            WorldDataCraftWeaponAxeReq
+            WorldDataCraftWeaponAxeProd
+            WorldDataCraftWeaponAxeAmm
+            WorldDataCraftWeaponBowProd
+            WorldDataCraftWeaponBowReq
+            WorldDataCraftWeaponBowAmm
+            WorldDataCraftWeaponLanProd
+            WorldDataCraftWeaponLanReq
+            WorldDataCraftWeaponLanAmm
+            WorldDataCraftWeaponMacProd
+            WorldDataCraftWeaponMacReq
+            WorldDataCraftWeaponMacAmm
+            WorldDataCraftWeaponSwoProd
+            WorldDataCraftWeaponSwoReq
+            WorldDataCraftWeaponSwoAmm
+            WorldDataCraftArmorProd
+            WorldDataCraftArmorReq
+            WorldDataCraftArmorAmm
+            WorldDataTradeProd
+            WorldDataTradePrice
+    else:
+        Menu()
 
 def Menu(): #  Menu
     global LatestVer
     global PlayerInfo
+    global Save
+    global Log
 
+    Log.append("Menu loaded")
     os.system("cls") #clears screen
-    print("Rougealike RPG by TMAltair\n1) Play\n2) Load\nQ) Quit\n\nVersion " + str(SystemInfo[1]) + " (" + str(SystemInfo[0]) + ")")
+    print("Rougealike RPG by TMAltair\n1) Play\n2) Load\n3) Guide\nQ) Quit\n\nVersion " + str(SystemInfo[1]) + " (" + str(SystemInfo[0]) + ")")
     if LatestVer == "Failed": #If an error occurs prints this
+        Log.append("Auto Update failed")
         print("Could not talk to the AutoUpdate webpage.\nTo see if Rougealike has an update go to\nhttps://github.com/TMAltair/Roguealike/")
-    elif LatestVer == "Declined": #If update is declined 
+    elif LatestVer == "Declined": #If update is declined
+        Log.append("Update declined.")
         print("Update available!\nPress U) to update!")
     elif LatestVer == "ERROR": #If auto update is not changed for some reason
+        Log.append("Error occured in update (THIS SHOULD NOT HAPPEN)")
         print("An Error occured in the update.")
     elif LatestVer == "DISABLED": # If autoupdate is disabled in the Config.txt
+        Log.append("Update is disabled")
         print("AutoUpdate is disabled.")
     elif LatestVer == "GLOBALLY DISABLED":
-        print("AutoUpdate is disabled globally for now.")
+        Log.append("AutoUpdate is banned for this version")
+        print("This version is currently banned from autoupdate")
     Loop = 1
     while Loop == 1:
         if keyboard.is_pressed("1"):
             os.system("cls")
             PlayerInfo[0] = str(input("Enter a name: "))
+            Log.append("Player name set (" + str(PlayerInfo[0]) +")")
             PlayerInfo[1] = -1
             PlayerInfo[2] = 0
             PlayerInfo[3] = 0
@@ -243,13 +361,16 @@ def Menu(): #  Menu
                 elif keyboard.is_pressed("4"):
                     PlayerInfo[1] = 4
                     Loop2 = 2
-
+            Log.append("Difficulty set to " + str(PlayerInfo[1]))
 
             PlayerInfo[2] = 0   #X Coord
             PlayerInfo[3] = 0   #Y Coord 
             WorldGeneration()
         elif keyboard.is_pressed("2"):
+            Save = 2 
             SaveLoad()
+        elif keyboard.is_pressed("3"):
+            print("Rougealike Guide\n\n0) How do I play?\n2) Whats new?\n3) How do I get more magic?\n4) How do I get better weapons or armor?\n5) How do I get weapons?")
         elif keyboard.is_pressed("u"):
             Intialise()
 
@@ -262,8 +383,11 @@ def WorldGeneration(): # Loads or generates terrain
     global ResourceAmmount
     global Enemy
     global Weather
+    global Log
 
+    Log.append("World Generation")
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt"):  #Terrain that needs to be generated
+        Log.append("Terrain already exists")
         TerrainType = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",1))
         
         if TerrainType == 0:    #For standards
@@ -271,6 +395,7 @@ def WorldGeneration(): # Loads or generates terrain
         else:   #For non standard Terrains
             TerrainTypeMeta = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",2))
 
+        Log.append("Set type meta as " + str(TerrainTypeMeta))
         Resource = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",3)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",5)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",7)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",9))]
         ResourceAmmount = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",4)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",6)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",8)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",10))]
        
@@ -278,23 +403,26 @@ def WorldGeneration(): # Loads or generates terrain
             Weather = random.randint(3,5)
         else:
             Weather = 0  
+        Log.append("Set weather as " + str(Weather))
     else:   #Generates Terrain
+        Log.append("Terrain doesn't exist")
         if random.randint(1,25) == 25: # 4% Chance 
             TerrainType = random.randint(1,4) # Terrain isn't needed to be generated
             TerrainTypeMeta = 0
         else:
             TerrainType = 0 # 0 is Normal Terrain
             Terrain  = random.randint(0,len(WorldDataTerrain)-1) # gets terrain
+        Log.append("Set type meta as " + str(TerrainTypeMeta))
         Resource = [random.randint(-1,len(WorldDataResource)-1),random.randint(-10,len(WorldDataResource)-1),random.randint(-20,len(WorldDataResource)-1),random.randint(-30,len(WorldDataResource)-1)]
         ResourceAmmount = [random.randint(random.randint(1,5),random.randint(5,10)),random.randint(random.randint(1,5),random.randint(5,10)),random.randint(random.randint(1,5),random.randint(5,10)),random.randint(random.randint(1,5),random.randint(5,10))]
-            
+        Log.append("Attempting to write file")
         with open(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt","w") as WorldFile:
             if TerrainType == 0:
                 WorldFile.write(str(TerrainType) + "\n" + str(Terrain) + "\n" + str(Resource[0]) + "\n" + str(ResourceAmmount[0]) +  "\n" + str(Resource[1]) + "\n" + str(ResourceAmmount[1]) + "\n" +  str(Resource[2]) + "\n" + str(ResourceAmmount[2]) + "\n" + str(Resource[3]) + "\n" + str(ResourceAmmount[3]))
             else:
                 WorldFile.write(str(TerrainType) + "\n" + str(TerrainTypeMeta) + "\n" + str(Resource[0]) + "\n" + str(ResourceAmmount[0]) +  "\n" + str(Resource[1]) + "\n" + str(ResourceAmmount[1]) + "\n" +  str(Resource[2]) + "\n" + str(ResourceAmmount[2]) + "\n" + str(Resource[3]) + "\n" + str(ResourceAmmount[3]))
             WorldFile.close()
-
+        Log.append("Wrote file")
         if random.randint(-50,5) > 0:
             Weather = random.randint(1,2)
             if Weather == 1:
@@ -309,10 +437,9 @@ def WorldGeneration(): # Loads or generates terrain
                 ResourceAmmount[3] = round(ResourceAmmount[3] / random.randint(1,5))
         else:
             Weather = 0
+    Log.append("Set weather as " + str(Weather))
 
     Enemy = [random.randint(0,1),random.randint(-10,len(WorldDataEnemyPrefix)-1),random.randint(0,len(WorldDataEnemyName)-1),random.randint(-10,len(WorldDataEnemySuffix)-1)] #0- 0/1 1 is enabled    1-Prefix (-1 if disabled)   2-Enemy name    3-Suffix (-1 if disabled) 
-
-
     World()
 
 def World(): # Handles terrain and Player choices
@@ -331,7 +458,9 @@ def World(): # Handles terrain and Player choices
     global PlayerInventoryWeaponCrt
     global PlayerInventoryWeaponHit
     global Save
+    global Log
 
+    Log.append("Initalised world")
     os.system("cls")
     BattleLog[0] = BattleLog[1] 
     BattleLog[1] = BattleLog[2]
@@ -351,6 +480,7 @@ def World(): # Handles terrain and Player choices
         print(BattleLog[4])
     if BattleLog[5] != "":
         print(BattleLog[5])
+    Log.append("Battle Log printed ")
 
     if TerrainType == 0:
         print(Fore.__getattribute__(WorldDataTerrainColor[Terrain]) + Style.__getattribute__(WorldDataTerrainBrightness[Terrain]) + "You are " + str(WorldDataTerrain[Terrain]) + ".")
@@ -363,6 +493,7 @@ def World(): # Handles terrain and Player choices
             print("You are at a village.")
         elif TerrainType == 4 and TerrainTypeMeta == 0:
             print("You are at a trader outpost.")
+    Log.append("Printed Terrain")
 
     ResourceText = "There are "
     if Resource[0] >= 0:
@@ -377,6 +508,7 @@ def World(): # Handles terrain and Player choices
         time.sleep(0)
     else:
         print(Fore.RESET + str(ResourceText) + Fore.RESET)
+    Log.append("Printed resource")
 
     EnemyText = ""
     if Enemy[0] == 0:
@@ -389,9 +521,12 @@ def World(): # Handles terrain and Player choices
         EnemyText = EnemyText + WorldDataEnemySuffix[Enemy[3]]
     if Enemy[0] == 0:
         print(EnemyText + " here.")
+    Log.append("Printed enemy")
 
     if Weather > 0:
         print(Fore.YELLOW + "It is also very " + WorldDataWeather[Weather] + "." + Fore.RESET)
+    Log.append("Printed Weather")
+
 
     print(Fore.RESET + "\n\n1) Battle    2) Move      3) Collect Items\n4) Character 5) Save/Load 6) Quit")
     if TerrainType == 1 and TerrainTypeMeta == 0:
@@ -402,11 +537,14 @@ def World(): # Handles terrain and Player choices
         print("7) Enter Village")
     elif TerrainType == 4 and TerrainTypeMeta == 0:
         print("7) Trade")
-    
+    Log.append("Printed Options")
+
     Loop = 1
     time.sleep(1)
+    Log.append("Initalised options loop")
     while Loop == 1:
         if keyboard.is_pressed("1"):   # Battle
+            Log.append("Battle")
             if Enemy[0] == 1:
                 print("There's no enemy to battle!")
                 time.sleep(2.5)
@@ -414,6 +552,7 @@ def World(): # Handles terrain and Player choices
             else:
                 Battle()
         elif keyboard.is_pressed("2"): # Movement
+            Log.append("Moving")
             print("\nSelect a direction to move\n         (1)\n        North\n(4) West     East (2)\n        South\n         (3)")
             time.sleep(1)
 
@@ -442,9 +581,14 @@ def World(): # Handles terrain and Player choices
                     BattleLog[5] = "Moved West"
                     WorldGeneration()
         elif keyboard.is_pressed("3"): # Collection
+            Log.append("Collection")
+            if sum(PlayerInventoryAmmount) >= 10 * 0:
+                print("You are carrying too much.")
+                time.sleep(1.5)
+                World()
+
             TempInt = 0
             while TempInt <= int(len(Resource) - 1): #Just in case resource gets increased at some point
-                print("loop")
                 if Resource[TempInt] >= 0:
                     if WorldDataResource[Resource[TempInt]] in PlayerInventory:
                         PlayerInventoryAmmount[PlayerInventory.index(WorldDataResource[Resource[TempInt]])] = PlayerInventoryAmmount[PlayerInventory.index(WorldDataResource[Resource[TempInt]])] + ResourceAmmount[TempInt]
@@ -463,6 +607,7 @@ def World(): # Handles terrain and Player choices
                 WorldFile.close()   #This rewrites the world file to stop infinte resources
             World()
         elif keyboard.is_pressed("4"): # Character
+            Log.append("Printing character")
             Loop3 = 1
             while Loop3 == 1:
                 os.system("cls")
@@ -559,9 +704,11 @@ def World(): # Handles terrain and Player choices
                     elif keyboard.is_pressed("Q"):
                         World()
         elif keyboard.is_pressed("5"): # Saves and load
+            Log.append("Sending to save")
             Save = 0
             SaveLoad()
         elif keyboard.is_pressed("6"): # Quit
+            Log.append("Quit")
             print(Fore.RED + "Unless you have saved all data will be lost." + Fore.RESET + "\nAre you sure? (Y/N)")
             Loop3 = 1
             while Loop3 == 1:
@@ -570,6 +717,7 @@ def World(): # Handles terrain and Player choices
                 elif keyboard.is_pressed("N"):
                     World()
         elif keyboard.is_pressed("7"): # Non-Standard terrains
+            Log.append("Non-Standard Terrains")
             if TerrainType == 1 and TerrainTypeMeta == 0:
                 print("You put your hand to the monolith")
                 if PlayerInfo[19] < len(WorldDataMonolithSpell)-1:
@@ -834,7 +982,8 @@ def World(): # Handles terrain and Player choices
                     time.sleep(1)
                     os.system("cls")
 
-def SaveLoad():
+def SaveLoad(): 
+    # I am the man who brings color to the bland image, determined to make orginallity a pandemic.
     global PlayerInfo
     global BattleLog
     global PlayerInventory
@@ -852,6 +1001,9 @@ def SaveLoad():
     global PlayerMagicType
     global PlayerMagicValue
     global PlayerMagicCost
+    global Log
+
+    Log.append("Log menu")
     os.system("cls")
     if Save == 0:
         print("1) Save\n2) Load\nQ) Go Back")
@@ -863,28 +1015,31 @@ def SaveLoad():
             elif keyboard.is_pressed("2"):
                 Mode = 2
                 Loop = 2
-            elif keyboard.is_pressed("3"):
+            elif keyboard.is_pressed("Q"):
                 WorldGeneration()
+            
+    elif Save == 2:
+        Mode = 2
 
-        print("Select a slot (1-5)")
-        time.sleep(1)
-        A = 1
-        while A == 1:
-            if keyboard.is_pressed("1"):
-                SlotNo = "Slot1"
-                A = 0
-            elif keyboard.is_pressed("2"):
-                SlotNo = "Slot2"
-                A = 0
-            elif keyboard.is_pressed("3"):
-                SlotNo = "Slot3"
-                A = 0
-            elif keyboard.is_pressed("4"):
-                SlotNo = "Slot4"
-                A = 0
-            elif keyboard.is_pressed("5"):
-                SlotNo = "Slot5"
-                A = 0
+    print("Select a slot (1-5)")
+    time.sleep(1)
+    A = 1
+    while A == 1:
+        if keyboard.is_pressed("1"):
+            SlotNo = "Slot1"
+            A = 0
+        elif keyboard.is_pressed("2"):
+            SlotNo = "Slot2"
+            A = 0
+        elif keyboard.is_pressed("3"):
+            SlotNo = "Slot3"
+            A = 0
+        elif keyboard.is_pressed("4"):
+            SlotNo = "Slot4"
+            A = 0
+        elif keyboard.is_pressed("5"):
+            SlotNo = "Slot5"
+            A = 0
 
     if Mode == 1: # Save
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\PlayerMagicCost.json"
@@ -1024,7 +1179,9 @@ def SaveLoad():
 def Battle():
     global PlayerCurrentStats
     global PlayerInfo
+    global Log
 
+    Log.append("Log")
     EnemyMult = int(round(len(WorldDataEnemyName[Enemy[2]]) / random.randint(1,25)))
     if Enemy[0] >= 0:
         EnemyMult = EnemyMult + int(round(len(WorldDataEnemyPrefix[Enemy[1]]) / 10))
@@ -1161,7 +1318,24 @@ def Battle():
             Death()
 
 def Death():
-    print("You died.")
-    time.sleep(100)
+    global Log
+    global Save
+    global PlayerInfo
+    Log.append("Player died")
+    print(Fore.RED + "You died." + Fore.RESET + "\n\n1) Load a previous save\n2) Go go main menu\n3) Respawn\n4) Quit")
+    Loop1 = 1
+    while Loop1 == 1:
+        if keyboard.is_pressed("1"):
+            Save = 2
+            SaveLoad()
+        elif keyboard.is_pressed("2"):
+            Intialise()
+        elif keyboard.is_pressed("2"):
+            PlayerInfo[2] = random.randint(-2147483500,2147483500)
+            PlayerInfo[3] = random.randint(-2147483500,2147483500)
+            PlayerInfo[7] = 0
+            PlayerInfo[8] = 0
+        elif keyboard.is_pressed("4"):
+            exit()
 
 Intialise() #Starts the game after all functions are declared
