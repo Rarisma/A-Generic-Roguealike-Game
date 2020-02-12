@@ -38,8 +38,11 @@ PlayerInventoryWeaponHit = [100]
 PlayerCurrentStats = [50,50] #HP,Mana
 PlayerMagic      = ["Wait","Phonon","Panacea"]   # Name of magic
 PlayerMagicType  = ["Damage","Damage","Heal"]   # HEAL - Vaule heals Damage - Damages the enemy
-PlayerMagicValue = [1,10,40]   # Damage of spell
+PlayerMagicValue = [1,10,40] # Damage of spell
 PlayerMagicCost  = [0,5,5]   # How much does the spell cost to cast
+Dungeon          = [0,0,0,0] # 0 - Size  1 - Direction      2-X     3-Y
+Log = []
+
 #WorldData Variables SHOULD NOT be modifyed instead unless its for a master branch (USE THE MOD API)
 WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside"]
 WorldDataTerrainColor       = ["GREEN","RESET","WHITE","RESET","RESET","RED","GREEN","WHITE","CYAN","BLUE","YELLOW","RESET","WHITE","GREEN","GREEN","GREEN","RESET","CYAN","YELLOW","YELLOW","YELLOW","BLUE","RESET","WHITE","WHITE","CYAN"]
@@ -51,12 +54,12 @@ WorldDataEnemyPrefix        = ["Angry","Armoured","Beserk","Crazed","Demonic","E
 WorldDataEnemyName          = ["Archer","Artifact","Beast","Bull","Centaur","Demon","Dog","Elf","Fire","Fox","Giant","Goblin","God","Hunter","Ice","Madman","Ogre","Orc","Phantom","Rat","Relic","Robot","Skeleton","Soldier","Spider","Spirit","Troll","Villager","Warrior","Wolf","Zombie"]
 WorldDataEnemySuffix        = ["Lord","Monster","King","Creature"]
 WorldDataWeather            = ["","Sunny","Cloudy","Hot","Cold","Windy"]
-
+WorldDataCaveGem            = ["Uncut Rubies","Uncut Emeralds","Uncut Saphires","Uncut Topaz","Uncut Diamonds","Uncut Opal"]
 WorldDataMonolithSpell      = ["Heal I","Bolt","Risma","Aquious","Ignis","Terra","Heal II","Rarisma","Taifau","Odurzony","hladan","Tembung","Heal III"]#These are just words in other langauges
 WorldDataMonolithSpellType  = ["HEAL","Damage","Damage","Damage","Damage","Damage","HEAL", "Damage","Damage", "Damage", "Damage","Damage",  "HEAL"]
 WorldDataMonolithSpellValue = [80,20,25,25,35,30,30,110,60,50,80,100,100,200]
 WorldDataMonolithSpellCost  = [5,15,25,20,40,20,10,75,40,10,75,90,60,100]
-WorldDataCaveMetal          = ["Iron Ore","Coal","Uncut Rubies","Uncut Emeralds","Uncut Saphires","Uncut Topaz","Copper Ore","Potassium Ore","Magnesium Ore","Steel","Urainium Ore","Malachite Ore","Stone","Clay","Uncut Diamonds","Silicon","Boron Ore","Carbon","Dawnite Ore","Uncut OpalQuartz Ore","Rolton Ore","Vibrainum Ore","Yosmite Ore","Yunotium Ore","Gallium Ore","Jabraca Ore","Platnum Ore","Cronite Ore","Adamite Ore","Ironite Ore"]
+WorldDataCaveMetal          = ["Iron Ore","Coal","Copper Ore","Potassium Ore","Magnesium Ore","Steel","Urainium Ore","Malachite Ore","Stone","Clay","Silicon","Boron Ore","Carbon","Dawnite Ore","Uncut OpalQuartz Ore","Rolton Ore","Vibrainum Ore","Yosmite Ore","Yunotium Ore","Gallium Ore","Jabraca Ore","Platnum Ore","Cronite Ore","Adamite Ore","Ironite Ore"]
 
 WorldDataCraftMetalReq      = ["Iron Ore","Copper Ore","Potassium Ore","Magnesium Ore","Urainium Ore","Malachite Ore","Boron Ore","Dawnite Ore","Quartz Ore","Rolton Ore","Vibrainum Ore","Yosmite Ore","Yunotium Ore","Gallium Ore","Jabraca Ore","Platnum Ore","Cronite Ore","Adamite Ore","Ironite Ore"]
 WorldDataCraftMetalProd     = ["Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar"]
@@ -92,8 +95,6 @@ WorldDataCraftArmorAmm      = [25,32,35,40,48,55,59,66,70,78]
 
 WorldDataTradeProd          = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal","Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar","Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches"]
 WorldDataTradePrice         = [50,70,80,100,150,250,500,250,50,245,750,5000,9500,4500,10000,100,100,500,100,3000,1000,1675,1500,750,2500,1000,10,5,25,35,5,5,5,50,10,65,15,75,250,150,15,20,100,1000,500,250,100,500,750,100,5,250,1000,100,100,2500,100,150,250,50,100,150]
-
-Log = []
 
 def Intialise():    #Starts the game, Checks reqired modules are installed and runs AutoUpdate if enabled
     global SystemInfo
@@ -370,7 +371,46 @@ def Menu(): #  Menu
             Save = 2 
             SaveLoad()
         elif keyboard.is_pressed("3"):
-            print("Rougealike Guide\n\n0) How do I play?\n2) Whats new?\n3) How do I get more magic?\n4) How do I get better weapons or armor?\n5) How do I get weapons?")
+            Loop0 = 1
+            Loop1 = 1
+            os.system("cls")
+            while Loop0 == 1:
+                if Loop1 == 0:
+                    time.sleep(5)
+                    os.system("cls")
+
+                print("Rougealike Guide\n\n1) Whats new?\n2) How do I play?\n3) How do I get more spells?\n4) How do I get better weapons or armor?\n5) Monoliths?\n6) Cave?\n7) Villages?\n8) Trader Outposts?\nQ) Quit")
+                Loop1 = 1
+                time.sleep(1)
+                while Loop1 == 1:
+                    if keyboard.is_pressed("1"):
+                        print("Add info")
+                        Loop1 = 0
+                    elif keyboard.is_pressed("2"):
+                        print("You can battle enemies to get stronger\nYou can also get resources in the world or you can mine them in a cave\nUsing these resources you can crafted powerful weapons and armor\n\nAfter this you can explore dungeons and fight powerful bosses\nOr if you don't want to do that you can complete quests.")
+                        Loop1 = 0
+                    elif keyboard.is_pressed("3"):
+                        print("You can get more spells by finding a monolith (1/50 chance)")
+                        Loop1 = 0
+                    elif keyboard.is_pressed("4"):
+                        print("You can get better weaponry or Armor by crafting it a villages which requrires ore")
+                        Loop1 = 0
+                    elif keyboard.is_pressed("5"):
+                        print("A monolith is place where you can learn magic for free, It also increases your max mana by 5-15")
+                        Loop1 = 0
+                    elif keyboard.is_pressed("6"):
+                        print("You can randomly find caves, and depending on the type it will contain different resources (Gems, Metals, ect)")
+                        Loop1 = 0
+                    elif keyboard.is_pressed("7"):
+                        print("You can randomly find villages you can forge weapons and armor")
+                        Loop1 = 0
+                    elif keyboard.is_pressed("8"):
+                        print("At trader outposts you can buy and sell items.")
+                        Loop1 = 0
+                    elif keyboard.is_pressed("Q"):
+                        Menu()
+
+
         elif keyboard.is_pressed("u"):
             Intialise()
 
@@ -459,9 +499,20 @@ def World(): # Handles terrain and Player choices
     global PlayerInventoryWeaponHit
     global Save
     global Log
+    global Dungeon
+    if TerrainTypeMeta == 5:
+        if Dungeon[2] == PlayerInfo[2] and Dungeon[3] == PlayerInfo[3]:
+            Dungeon()
+        else:
+            Dungeon[0] = random.randint(1,PlayerInfo[7] * 10)
+            Dungeon[1] = 
+            Dungeon[2] = PlayerInfo[2]
+            Dungeon[3] = PlayerInfo[3]
+            Dungeon()
 
     Log.append("Initalised world")
     os.system("cls")
+
     BattleLog[0] = BattleLog[1] 
     BattleLog[1] = BattleLog[2]
     BattleLog[2] = BattleLog[3]
@@ -488,13 +539,20 @@ def World(): # Handles terrain and Player choices
         if TerrainType == 1 and TerrainTypeMeta == 0:
             print("You are at a monolith.")
         elif TerrainType == 2 and TerrainTypeMeta == 0:
-            print("You are at a cave.")
+            if ResourceAmmount[0] <= 5:
+                print("You are at a cave")
+                CaveType = 0
+            else:
+                print("You are at a gem cave")
+                CaveType = 1
         elif TerrainType == 3 and TerrainTypeMeta == 0:
             print("You are at a village.")
         elif TerrainType == 4 and TerrainTypeMeta == 0:
             print("You are at a trader outpost.")
-    Log.append("Printed Terrain")
+        elif TerrainType == 5 and TerrainTypeMeta == 0:
+            print("There is a dungeon here.")    
 
+    Log.append("Printed Terrain")
     ResourceText = "There are "
     if Resource[0] >= 0:
         ResourceText = ResourceText + str(Fore.__getattribute__(WorldDataResourceColor[Resource[0]]) + Style.__getattribute__(WorldDataResourceBrightness[Resource[0]]) + str(ResourceAmmount[0]) + " " + str(WorldDataResource[Resource[0]]) + Fore.RESET + ", ")
@@ -527,7 +585,6 @@ def World(): # Handles terrain and Player choices
         print(Fore.YELLOW + "It is also very " + WorldDataWeather[Weather] + "." + Fore.RESET)
     Log.append("Printed Weather")
 
-
     print(Fore.RESET + "\n\n1) Battle    2) Move      3) Collect Items\n4) Character 5) Save/Load 6) Quit")
     if TerrainType == 1 and TerrainTypeMeta == 0:
         print("7) Use Monolith")
@@ -537,6 +594,8 @@ def World(): # Handles terrain and Player choices
         print("7) Enter Village")
     elif TerrainType == 4 and TerrainTypeMeta == 0:
         print("7) Trade")
+    elif TerrainType == 5 and TerrainTypeMeta == 0:
+        print("7) Enter Dungeon")
     Log.append("Printed Options")
 
     Loop = 1
@@ -719,6 +778,7 @@ def World(): # Handles terrain and Player choices
         elif keyboard.is_pressed("7"): # Non-Standard terrains
             Log.append("Non-Standard Terrains")
             if TerrainType == 1 and TerrainTypeMeta == 0:
+                PlayerInfo[18] = int(PlayerInfo[18] + random.randint(1,15))
                 print("You put your hand to the monolith")
                 if PlayerInfo[19] < len(WorldDataMonolithSpell)-1:
                     print("The monolith shoots a beam into the sky, and seconds later you can use a new spell, " + str(WorldDataMonolithSpell[PlayerInfo[19]]))
@@ -734,15 +794,18 @@ def World(): # Handles terrain and Player choices
                     print("The monlith seems to have no more infomation to bestow upon you.\nIt fears you have have grown too powerful.")
             
             elif TerrainType == 2 and TerrainTypeMeta == 0:
-                    CaveResource =  random.randint(0,len(WorldDataCaveMetal) - 1)
+                    if CaveType == 0:
+                       CaveResource =  WorldDataCaveMetal[random.randint(0,len(WorldDataCaveMetal) - 1)]
+                    else:
+                       CaveResource =  WorldDataCaveGem[random.randint(0,len(WorldDataCaveGem) - 1)]
                     CaveAmmount = random.randint(1,10)
-                    print("Mined " + str(CaveAmmount) + " " + str(WorldDataCaveMetal[CaveResource]))
+                    print("Mined " + str(CaveAmmount) + " " + str(CaveResource))
                     time.sleep(2.5)
 
-                    if WorldDataCaveMetal[CaveResource] in PlayerInventory:
-                        PlayerInventoryAmmount[PlayerInventory.index(WorldDataCaveMetal[CaveResource])] = PlayerInventoryAmmount[PlayerInventory.index(WorldDataCaveMetal[CaveResource])] + CaveAmmount
+                    if CaveResource in PlayerInventory:
+                        PlayerInventoryAmmount[PlayerInventory.index(CaveResource)] = PlayerInventoryAmmount[PlayerInventory.index(CaveResource)] + CaveAmmount
                     else:
-                        PlayerInventory.append(WorldDataCaveMetal[CaveResource])
+                        PlayerInventory.append(CaveResource)
                         PlayerInventoryAmmount.append(CaveAmmount)
                         
                     if random.randint(0,10) == 0:    
@@ -1181,7 +1244,7 @@ def Battle():
     global PlayerInfo
     global Log
 
-    Log.append("Log")
+    Log.append("Battle initalised")
     EnemyMult = int(round(len(WorldDataEnemyName[Enemy[2]]) / random.randint(1,25)))
     if Enemy[0] >= 0:
         EnemyMult = EnemyMult + int(round(len(WorldDataEnemyPrefix[Enemy[1]]) / 10))
@@ -1191,7 +1254,6 @@ def Battle():
     if EnemyMult > 1:
         EnemyMult = 2
 
-    print(PlayerInfo[14])
     try:    #it crashes sometimes and i don't know why can @someone please help
         EnemyHP = random.randint(int(round(0.8 * PlayerInfo[4])),int(round(EnemyMult * PlayerInfo[4])))
         EnemyMAX = EnemyHP  # for display   
@@ -1337,5 +1399,12 @@ def Death():
             PlayerInfo[8] = 0
         elif keyboard.is_pressed("4"):
             exit()
+
+def Dungeon():
+    global Dungeon
+    Loop0 = 1
+    while Loop0 == 1:
+        print()
+
 
 Intialise() #Starts the game after all functions are declared
