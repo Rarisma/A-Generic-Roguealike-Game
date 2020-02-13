@@ -40,7 +40,7 @@ PlayerMagic      = ["Wait","Phonon","Panacea"]   # Name of magic
 PlayerMagicType  = ["Damage","Damage","Heal"]   # HEAL - Vaule heals Damage - Damages the enemy
 PlayerMagicValue = [1,10,40] # Damage of spell
 PlayerMagicCost  = [0,5,5]   # How much does the spell cost to cast
-Dungeon          = [0,0,0,0] # 0 - Size  1 - Direction      2-X     3-Y
+DungeonData          = [0,0,0,0,0] # 0 - Size  1 - Direction      2-X     3-Y   4- Battle Flag
 Log = []
 
 #WorldData Variables SHOULD NOT be modifyed instead unless its for a master branch (USE THE MOD API)
@@ -499,19 +499,12 @@ def World(): # Handles terrain and Player choices
     global PlayerInventoryWeaponHit
     global Save
     global Log
-    global Dungeon
-    if TerrainTypeMeta == 5:
-        if Dungeon[2] == PlayerInfo[2] and Dungeon[3] == PlayerInfo[3]:
-            Dungeon()
-        else:
-            Dungeon[0] = random.randint(1,PlayerInfo[7] * 10)
-            Dungeon[1] = 
-            Dungeon[2] = PlayerInfo[2]
-            Dungeon[3] = PlayerInfo[3]
-            Dungeon()
+    global DungeonData
 
     Log.append("Initalised world")
     os.system("cls")
+    if DungeonData[4] == 1:
+        Dungeon()
 
     BattleLog[0] = BattleLog[1] 
     BattleLog[1] = BattleLog[2]
@@ -1045,6 +1038,10 @@ def World(): # Handles terrain and Player choices
                     time.sleep(1)
                     os.system("cls")
 
+            elif TerrainType == 5:
+                DungeonData = [random.randint(1,PlayerInfo[7] * 10),random.randint(1,4),0,0,0]
+                Dungeon()
+
 def SaveLoad(): 
     # I am the man who brings color to the bland image, determined to make orginallity a pandemic.
     global PlayerInfo
@@ -1243,6 +1240,7 @@ def Battle():
     global PlayerCurrentStats
     global PlayerInfo
     global Log
+    global Dungeon
 
     Log.append("Battle initalised")
     EnemyMult = int(round(len(WorldDataEnemyName[Enemy[2]]) / random.randint(1,25)))
@@ -1375,7 +1373,10 @@ def Battle():
             else:
                 print("")
             time.sleep(2.5)
-            World()
+            if DungeonData[4] == 1:
+                Dungeon()
+            else:
+                World()
         elif PlayerCurrentStats[0] <= 0:
             Death()
 
@@ -1401,10 +1402,43 @@ def Death():
             exit()
 
 def Dungeon():
-    global Dungeon
+    global DungeonData
+    os.system("cls")
     Loop0 = 1
     while Loop0 == 1:
-        print()
-
+        if DungeonData[0] <= 0:
+            os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
+            DungeonData = [0,0,0,0,0]
+            WorldGeneration()
+        if random.randint(1,2) == 1:
+            if DungeonData[1] == 1:
+                print("A light emminates in front of you.")
+            elif DungeonData[1] == 2:
+                print("A light illuminates behind you.")
+        print("You are in a dungeon\nA Monster lurks in the darkness\n1) Move    2) Battle")
+        print(str(DungeonData))
+        time.sleep(1)
+        Loop1 = 1
+        while Loop1 == 1:
+            if keyboard.is_pressed("1"):
+                print("\nSelect a direction to move\n         (1)\n        North\n(4) West     East (2)\n        South\n         (3)")
+                Loop2 = 1
+                time.sleep(1)
+                while Loop2 == 1:
+                    if keyboard.is_pressed("1") or keyboard.is_pressed("2"):
+                        if DungeonData[1] == 1:
+                            DungeonData[0] = DungeonData[1] -1
+                        Loop2 = 0
+                        Loop1 = 0
+                    elif keyboard.is_pressed("3") or keyboard.is_pressed("4"):
+                        if DungeonData[1] == 3:
+                            DungeonData[0] = DungeonData[1] -1
+                        Loop2 = 0
+                        Loop1 = 0 
+                DungeonData[1] = random.randint(1,2)
+                Dungeon() 
+            elif keyboard.is_pressed("2"):
+                DungeonData[4] = 1
+                Battle()
 
 Intialise() #Starts the game after all functions are declared
