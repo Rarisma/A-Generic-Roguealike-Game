@@ -6,8 +6,6 @@ Furthermore I will be releasing several alpha versions of the 1.0 before the rel
 # Coming in update 1.0
 
 To do: (In order of RELATIVE importance)
-- [ ] Mod support
-
 - [ ] Updates and Rebalancing of
   - [ ] Areas
   - [ ] Items
@@ -16,11 +14,11 @@ To do: (In order of RELATIVE importance)
   - [ ] Crafting Requirements
   - [x] Enemys
 
+- [ ] Mod support
 - [ ] Map showing 100 x 100 
 - [ ] Player Turn shows a 3x3 map
 - [ ] Quests
 - [ ] Level based crafing
-- [ ] Fast Travel
 - [ ] Main Quest
 - [ ] Legendary weapons
 - [ ] Proffessions
@@ -31,12 +29,13 @@ To do: (In order of RELATIVE importance)
 - [ ] Enemy Drops
 - [ ] New Weapons types
 - [ ] Weapon &  Armor improvement (Village Forging)
-- [ ] Multiple Resources in a area
 - [ ] Stat gems
-- [ ] Respawning at Villages
 - [ ] Achivements
 - [ ] Remove dependcies
 
+- [x] Multiple Resources in a area
+- [x] Fast Travel
+- [x] Respawning at Villages
 - [x] Cave types
 - [x] Dungeons
 - [x] Bosses
