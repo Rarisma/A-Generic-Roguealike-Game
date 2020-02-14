@@ -16,7 +16,7 @@ SystemInfo  = ["Build Version: 9/2/2020","1.0"]
 LatestVer   = "ERROR"
 Save = 0
 #Below is Varaibles that are saved
-PlayerInfo  = [0,0,random.randint(-2147483500,2147483500),random.randint(-2147483500,2147483500),50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0,50,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count (19)
+PlayerInfo  = [0,0,random.randint(-2147483500,2147483500),random.randint(-2147483500,2147483500),50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0,50,0,0,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count,Last Village X Coord (20),Last Village Y Coord
 TerrainType = 0
 TerrainTypeMeta = 0
 Terrain  = 0
@@ -40,8 +40,10 @@ PlayerMagic      = ["Wait","Phonon","Panacea"]   # Name of magic
 PlayerMagicType  = ["Damage","Damage","Heal"]   # HEAL - Vaule heals Damage - Damages the enemy
 PlayerMagicValue = [1,10,40] # Damage of spell
 PlayerMagicCost  = [0,5,5]   # How much does the spell cost to cast
-DungeonData          = [0,0,0,0,0] # 0 - Size  1 - Direction      2-X     3-Y   4- Battle Flag
+DungeonData          = [0,0,0,0,0,0] # 0 - Size  1 - Direction      2-X     3-Y   4- Battle redirect flag 5 - boss multiplier
 Log = []
+FastTravelX = [0]
+FastTravelY = [0]
 
 #WorldData Variables SHOULD NOT be modifyed instead unless its for a master branch (USE THE MOD API)
 WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside"]
@@ -500,6 +502,8 @@ def World(): # Handles terrain and Player choices
     global Save
     global Log
     global DungeonData
+    global FastTravelX
+    global FastTravelY
 
     Log.append("Initalised world")
     os.system("cls")
@@ -540,9 +544,14 @@ def World(): # Handles terrain and Player choices
                 CaveType = 1
         elif TerrainType == 3 and TerrainTypeMeta == 0:
             print("You are at a village.")
+            PlayerInfo[20] = PlayerInfo[2]
+            PlayerInfo[21] = PlayerInfo[3]
+            if PlayerInfo[2] not in FastTravelX or PlayerInfo[3] not in FastTravelY:
+                FastTravelX.append(PlayerInfo[2])
+                FastTravelY.append(PlayerInfo[3])
         elif TerrainType == 4 and TerrainTypeMeta == 0:
             print("You are at a trader outpost.")
-        elif TerrainType == 5 and TerrainTypeMeta == 0:
+        elif TerrainType == 5:
             print("There is a dungeon here.")    
 
     Log.append("Printed Terrain")
@@ -663,7 +672,7 @@ def World(): # Handles terrain and Player choices
             Loop3 = 1
             while Loop3 == 1:
                 os.system("cls")
-                print("Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[8]) + "/" + str(PlayerInfo[7] * 1000) +")\nHP: " + str(PlayerCurrentStats[0])+ "/" + str(PlayerInfo[4]) + "  Mana: " + str(PlayerInfo[18]) + "/" + str(PlayerCurrentStats[1]) +"  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[3]) + " Y:" + str(PlayerInfo[4]) + "  Gold:" + str(PlayerInfo[9]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12]) + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nEquipped Armour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17]) + "\n\n1) Equip Armor   2) Equip Weapons   3) View Items   Q) Go Back")
+                print("Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[8]) + "/" + str(PlayerInfo[7] * 1000) +")\nHP: " + str(PlayerCurrentStats[0])+ "/" + str(PlayerInfo[4]) + "  Mana: " + str(PlayerInfo[18]) + "/" + str(PlayerCurrentStats[1]) +"  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[2]) + " Y:" + str(PlayerInfo[3]) + "  Gold:" + str(PlayerInfo[9]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12]) + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nEquipped Armour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17]) + "\n\n1) Equip Armor   2) Equip Weapons   3) View Items   4) Fast Travel   Q) Go Back")
                 Loop2 = 1
                 time.sleep(1.5)
                 while Loop2 == 1:
@@ -753,6 +762,29 @@ def World(): # Handles terrain and Player choices
                         input("Press enter to continue\n")
                         Loop2 = 0
                     
+                    elif keyboard.is_pressed("4"): #Fast Travel
+                        TempInt = 0
+                        print("You can fast travel to any village you've been to.")
+                        while TempInt <= len(FastTravelX):
+                            print(TempInt + ")  X:" + str(FastTravelX[TempInt]) + " Y:" + str(FastTravelY[TempInt]))
+                            TempInt = TempInt + 1
+                        Loop0 = 1
+                        while Loop0 == 1:
+                            print("\nType the number in brackets to travel to it")
+                            TempInt = input()
+                            try:
+                                TempInt = str(TempInt)
+                                TestVar = FastTravelY[TempInt]
+                            except:
+                                print("That ID is invalid.")
+                            else:
+                                TempInt = str(TempInt)
+                                Loop0 = 2
+                        
+                        PlayerInfo[2] = FastTravelX[TempInt]
+                        PlayerInfo[3] = FastTravelY[TempInt]
+                        WorldGeneration()
+
                     elif keyboard.is_pressed("Q"):
                         World()
         elif keyboard.is_pressed("5"): # Saves and load
@@ -1241,16 +1273,19 @@ def Battle():
     global PlayerInfo
     global Log
     global Dungeon
-
     Log.append("Battle initalised")
-    EnemyMult = int(round(len(WorldDataEnemyName[Enemy[2]]) / random.randint(1,25)))
-    if Enemy[0] >= 0:
-        EnemyMult = EnemyMult + int(round(len(WorldDataEnemyPrefix[Enemy[1]]) / 10))
-    if Enemy[3] >= 0:
-        EnemyMult = EnemyMult + int(round(len(WorldDataEnemySuffix[Enemy[3]]) / 10))
+    if DungeonData[4] != 1:
+        EnemyMult = int(round(len(WorldDataEnemyName[Enemy[2]]) / random.randint(1,25)))
+        if Enemy[0] >= 0:
+            EnemyMult = EnemyMult + int(round(len(WorldDataEnemyPrefix[Enemy[1]]) / 10))
+        if Enemy[3] >= 0:
+            EnemyMult = EnemyMult + int(round(len(WorldDataEnemySuffix[Enemy[3]]) / 10))
 
-    if EnemyMult > 1:
-        EnemyMult = 2
+        if EnemyMult > 1:
+            EnemyMult = 2
+    else:
+        print("A powerful enemy appeared!")
+        EnemyMult = random.randint(5,10)
 
     try:    #it crashes sometimes and i don't know why can @someone please help
         EnemyHP = random.randint(int(round(0.8 * PlayerInfo[4])),int(round(EnemyMult * PlayerInfo[4])))
@@ -1269,8 +1304,8 @@ def Battle():
         EnemyDEF = random.randint(round(0.8 * PlayerInfo[6]),round(EnemyMult * PlayerInfo[6]))
 
     PlayerCurrentStats[1] = PlayerInfo[18]    #Maxes Mana
-    
     Loop1 = 1
+
     while Loop1 == 1:#Battle Loop
         print("\n\nHP: " + str(PlayerCurrentStats[0]) + "/" + str(PlayerInfo[4]) + "         Mana: " + str(PlayerCurrentStats[1]) + "/" + str(PlayerInfo[18]) + "\nEnemy HP: " + str(EnemyHP) + "/" + str(EnemyMAX) + "\n\n1) Attack      2) Magic\n3) Defend      4) Run\n\n")
         Loop2 = 1
@@ -1363,6 +1398,10 @@ def Battle():
             PlayerInfo[9] = PlayerInfo[9] + random.randint(random.randint(1,250),300) # Gold
             print("You win!")
             PlayerCurrentStats[0] = PlayerInfo[4] - random.randint(1,10)
+            if DungeonData[4] == 1:
+                print("You got bonus EXP and Gold for defeating the boss")
+                PlayerInfo[8] = PlayerInfo[8] + random.randint(1000,5000) #XP
+                PlayerInfo[9] = PlayerInfo[9] + random.randint(1000,10000) # Gold
             if PlayerInfo[8] > PlayerInfo[7] * 1000:
                 print("You Leveled up\nYour stats have improved.")
                 PlayerInfo[7] = PlayerInfo[7] + 1
@@ -1387,26 +1426,35 @@ def Death():
     Log.append("Player died")
     print(Fore.RED + "You died." + Fore.RESET + "\n\n1) Load a previous save\n2) Go go main menu\n3) Respawn\n4) Quit")
     Loop1 = 1
+    time.sleep(1)
     while Loop1 == 1:
         if keyboard.is_pressed("1"):
             Save = 2
             SaveLoad()
         elif keyboard.is_pressed("2"):
             Intialise()
-        elif keyboard.is_pressed("2"):
-            PlayerInfo[2] = random.randint(-2147483500,2147483500)
-            PlayerInfo[3] = random.randint(-2147483500,2147483500)
+        elif keyboard.is_pressed("3"):
+            PlayerInfo[2] = PlayerInfo[20]
+            PlayerInfo[3] = PlayerInfo[21]
             PlayerInfo[7] = 0
             PlayerInfo[8] = 0
+            WorldGeneration()
         elif keyboard.is_pressed("4"):
             exit()
 
 def Dungeon():
     global DungeonData
+    global PlayerInfo
+
     os.system("cls")
     Loop0 = 1
     while Loop0 == 1:
         if DungeonData[0] <= 0:
+            print("Escaping from the dungeon seems to have made you stronger")
+            PlayerInfo[4] = PlayerInfo[4] + random.randint(1,20)
+            PlayerInfo[5] = PlayerInfo[5] + random.randint(1,20)
+            PlayerInfo[6] = PlayerInfo[6] + random.randint(1,20)
+            time.sleep(1)
             os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
             DungeonData = [0,0,0,0,0]
             WorldGeneration()
@@ -1427,12 +1475,16 @@ def Dungeon():
                 while Loop2 == 1:
                     if keyboard.is_pressed("1") or keyboard.is_pressed("2"):
                         if DungeonData[1] == 1:
-                            DungeonData[0] = DungeonData[1] -1
+                            print("It seems you moved in the right direction")
+                            time.sleep(1)
+                            DungeonData[0] = DungeonData[0] - 1
                         Loop2 = 0
                         Loop1 = 0
                     elif keyboard.is_pressed("3") or keyboard.is_pressed("4"):
                         if DungeonData[1] == 3:
-                            DungeonData[0] = DungeonData[1] -1
+                            print("It seems you moved in the right direction")
+                            time.sleep(1)
+                            DungeonData[0] = DungeonData[0] - 1
                         Loop2 = 0
                         Loop1 = 0 
                 DungeonData[1] = random.randint(1,2)
@@ -1440,5 +1492,6 @@ def Dungeon():
             elif keyboard.is_pressed("2"):
                 DungeonData[4] = 1
                 Battle()
+
 
 Intialise() #Starts the game after all functions are declared
