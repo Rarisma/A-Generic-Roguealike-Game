@@ -1,3 +1,9 @@
+# Note about Beta 1.0
+Beta 1.0 will release around monday (17th) and is almost near completion and I have started to wrap up parts of Rougealike, I plan to not really develop anything to release publically in march, anyway Beta 1.0 will contain new features such as dungeons, New Weaponry, Enemy Drops
+
+Beta Revison 1 will release some time after this and will add fixes if needed and quests.
+
+
 # Note on 1.0
 After atempting to work on 0.9 it became increasingly clear that a complete rewrite of the code is needed which would take too much time to release before Febuary 14th so instead im moving the release date back to March 1st and taking this time to properly document features and clean the ever increasing bodged code I will also be including way more features, terrains, resources and enemys
 
@@ -32,6 +38,7 @@ To do: (In order of RELATIVE importance)
 - [ ] Achivements
 - [ ] Remove dependcies
 
+Complete:
 - [x] Reputation
 - [x] Multiple Resources in a area
 - [x] Fast Travel
