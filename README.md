@@ -28,9 +28,6 @@ To do: (In order of RELATIVE importance)
 - [ ] Multistage crafting
 - [ ] Map icons
 - [ ] Achivements
-- [ ] Cave types
-- [ ] Dungeons
-- [ ] Bosses
 - [ ] Enemy Drops
 - [ ] New Weapons types
 - [ ] Weapon &  Armor improvement (Village Forging)
@@ -39,6 +36,10 @@ To do: (In order of RELATIVE importance)
 - [ ] Respawning at Villages
 - [ ] Achivements
 - [ ] Remove dependcies
+
+- [x] Cave types
+- [x] Dungeons
+- [x] Bosses
 - [x] Weapon differences
 - [x] Clean and fix code
 - [x] Full intergration of alternate terrains (eg villages) and the world space
