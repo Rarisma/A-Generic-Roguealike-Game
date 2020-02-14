@@ -16,7 +16,7 @@ SystemInfo  = ["Build Version: 9/2/2020","1.0"]
 LatestVer   = "ERROR"
 Save = 0
 #Below is Varaibles that are saved
-PlayerInfo  = [0,0,random.randint(-2147483500,2147483500),random.randint(-2147483500,2147483500),50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0,50,0,0,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count,Last Village X Coord (20),Last Village Y Coord
+PlayerInfo  = [0,0,random.randint(-2147483500,2147483500),random.randint(-2147483500,2147483500),50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0,50,0,0,0,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count,Last Village X Coord (20),Last Village Y Coord,Reputation
 TerrainType = 0
 TerrainTypeMeta = 0
 Terrain  = 0
@@ -672,7 +672,7 @@ def World(): # Handles terrain and Player choices
             Loop3 = 1
             while Loop3 == 1:
                 os.system("cls")
-                print("Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[8]) + "/" + str(PlayerInfo[7] * 1000) +")\nHP: " + str(PlayerCurrentStats[0])+ "/" + str(PlayerInfo[4]) + "  Mana: " + str(PlayerInfo[18]) + "/" + str(PlayerCurrentStats[1]) +"  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[2]) + " Y:" + str(PlayerInfo[3]) + "  Gold:" + str(PlayerInfo[9]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12]) + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nEquipped Armour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17]) + "\n\n1) Equip Armor   2) Equip Weapons   3) View Items   4) Fast Travel   Q) Go Back")
+                print("Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[8]) + "/" + str(PlayerInfo[7] * 1000) +")\nHP: " + str(PlayerCurrentStats[0])+ "/" + str(PlayerInfo[4]) + "  Mana: " + str(PlayerInfo[18]) + "/" + str(PlayerCurrentStats[1]) +"  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[2]) + " Y:" + str(PlayerInfo[3]) + "  Gold:" + str(PlayerInfo[9]) + "  Reputation: " + str(PlayerInfo[22]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12]) + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nEquipped Armour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17]) + "\n\n1) Equip Armor   2) Equip Weapons   3) View Items   4) Fast Travel   Q) Go Back")
                 Loop2 = 1
                 time.sleep(1.5)
                 while Loop2 == 1:
@@ -765,20 +765,21 @@ def World(): # Handles terrain and Player choices
                     elif keyboard.is_pressed("4"): #Fast Travel
                         TempInt = 0
                         print("You can fast travel to any village you've been to.")
-                        while TempInt <= len(FastTravelX):
-                            print(TempInt + ")  X:" + str(FastTravelX[TempInt]) + " Y:" + str(FastTravelY[TempInt]))
+                        while TempInt <= len(FastTravelX) - 1:
+                            print(str(TempInt) + ")  X:" + str(FastTravelX[TempInt]) + " Y:" + str(FastTravelY[TempInt]))
                             TempInt = TempInt + 1
                         Loop0 = 1
                         while Loop0 == 1:
                             print("\nType the number in brackets to travel to it")
+                            time.sleep(2)
                             TempInt = input()
                             try:
-                                TempInt = str(TempInt)
+                                TempInt = int(TempInt)
                                 TestVar = FastTravelY[TempInt]
                             except:
                                 print("That ID is invalid.")
                             else:
-                                TempInt = str(TempInt)
+                                TempInt = int(TempInt)
                                 Loop0 = 2
                         
                         PlayerInfo[2] = FastTravelX[TempInt]
@@ -841,6 +842,14 @@ def World(): # Handles terrain and Player choices
                 # Crafting modes 0 -  just add to inventory 1 - Mark as equipable weapon (adds to playerInventoryWeapons) 2- Mark as equipable Armour (PlayerInventoryArmour)
                 os.system("cls")
                 print(Fore.RESET+ "You are at a village\n1) Use Workbench\n2) Shop\n3) leave")
+                if PlayerInfo[22] < 10 and PlayerInfo[22] > 0:
+                    print("Upon entering the village you recive some gold for killing some monsters!")
+                    PlayerInfo[9] = PlayerInfo[9] + random.randint(1,PlayerInfo[22] * 100)
+                    PlayerInfo[22] = 0
+                elif PlayerInfo[22] > 10 and PlayerInfo[22] > 10:
+                    print("Upon entering the village you recive some bonus XP for killing some monsters!")
+                    PlayerInfo[8] = PlayerInfo[8] + random.randint(1,PlayerInfo[22] * 100)
+                    PlayerInfo[22] = 0
                 BattleLog[5] = "You visted a Village"        
                 tm = 1
                 time.sleep(1)
@@ -1396,7 +1405,8 @@ def Battle():
             #PlayerInfo  = [0,0,0,0,50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0,50,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count (19)
             PlayerInfo[8] = PlayerInfo[8] + random.randint(0,250) #XP
             PlayerInfo[9] = PlayerInfo[9] + random.randint(random.randint(1,250),300) # Gold
-            print("You win!")
+            PlayerInfo[22] = PlayerInfo[22] + random.randint(0,2)
+            print("You got XP, Gold and some reputation for killing the monster!")
             PlayerCurrentStats[0] = PlayerInfo[4] - random.randint(1,10)
             if DungeonData[4] == 1:
                 print("You got bonus EXP and Gold for defeating the boss")
