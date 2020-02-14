@@ -14,6 +14,9 @@ To do: (In order of RELATIVE importance)
   - [ ] Crafting Requirements
   - [x] Enemys
 
+- [ ] Enemy Drops
+- [ ] New Weapons types
+- [ ] Weapon &  Armor improvement (Village Forging)
 - [ ] Mod support
 - [ ] Map showing 100 x 100 
 - [ ] Player Turn shows a 3x3 map
@@ -22,17 +25,14 @@ To do: (In order of RELATIVE importance)
 - [ ] Main Quest
 - [ ] Legendary weapons
 - [ ] Proffessions
-- [ ] Reputation
 - [ ] Multistage crafting
 - [ ] Map icons
 - [ ] Achivements
-- [ ] Enemy Drops
-- [ ] New Weapons types
-- [ ] Weapon &  Armor improvement (Village Forging)
 - [ ] Stat gems
 - [ ] Achivements
 - [ ] Remove dependcies
 
+- [x] Reputation
 - [x] Multiple Resources in a area
 - [x] Fast Travel
 - [x] Respawning at Villages
