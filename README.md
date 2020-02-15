@@ -19,8 +19,6 @@ To do: (In order of RELATIVE importance)
   - [ ] Caves
   - [ ] Crafting Requirements
 
-- [ ] New Weapons types
-- [ ] Weapon &  Armor improvement (Village Forging)
 - [ ] Mod support
 - [ ] Map showing 100 x 100 
 - [ ] Player Turn shows a 3x3 map
@@ -36,6 +34,8 @@ To do: (In order of RELATIVE importance)
 - [ ] Remove dependcies
 
 Complete:
+- [x] New Weapons types
+- [x] Weapon &  Armor improvement (Village Forging)
 - [x] Enemys Rebalance and name changes
 - [x] Enemy Drops
 - [x] Reputation
