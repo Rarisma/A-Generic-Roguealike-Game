@@ -112,8 +112,8 @@ WorldDataCraftArmorProd     = ["Iron Armour","Quartz Armour","Rolton Armour","Ja
 WorldDataCraftArmorReq      = ["Iron Bar","Quartz Bar","Rolton Bar","Jabraca Bar","Platnum Bar","Adamite Bar","Malachite Bar","Dawnite Bar"]
 WorldDataCraftArmorAmm      = [25,32,35,40,48,55,59,66,70,78]
 
-WorldDataTradeProd          = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal","Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar","Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches"]
-WorldDataTradePrice         = [50,70,80,100,150,250,500,250,50,245,750,5000,9500,4500,10000,100,100,500,100,3000,1000,1675,1500,750,2500,1000,10,5,25,35,5,5,5,50,10,65,15,75,250,150,15,20,100,1000,500,250,100,500,750,100,5,250,1000,100,100,2500,100,150,250,50,100,150]
+WorldDataTradeProd          = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal","Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar","Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches","Arrows","Bone Dust","Fabric","Fire Dust","Ice Dust","Meat","Odd artifact","Old Flesh","Old Relic","Old Spear","Scrap Metal","Spirit Dust"]
+WorldDataTradePrice         = [50,70,80,100,150,250,500,250,50,245,750,5000,9500,4500,10000,100,100,500,100,3000,1000,1675,1500,750,2500,1000,10,5,25,35,5,5,5,50,10,65,15,75,250,150,15,20,100,1000,500,250,100,500,750,100,5,250,1000,100,100,2500,100,150,250,50,100,150,30,150,250,1000,1000,250,1500,2000,2000,250,100,1000]
 
 def Intialise():    #Starts the game, Checks reqired modules are installed and runs AutoUpdate if enabled
     global SystemInfo
@@ -713,6 +713,7 @@ def World(): # Handles terrain and Player choices
                             try:
                                 TempInt = int(TempInt)
                                 TestVar = FastTravelY[TempInt]
+                                TestVar = TestVar
                             except:
                                 print("That ID is invalid.")
                             else:
@@ -778,7 +779,7 @@ def World(): # Handles terrain and Player choices
             elif TerrainType == 3:
                 # Crafting modes 0 -  just add to inventory 1 - Mark as equipable weapon (adds to playerInventoryWeapons) 2- Mark as equipable Armour (PlayerInventoryArmour)
                 os.system("cls")
-                print(Fore.RESET+ "You are at a village\n1) Use Workbench\n2) Shop\n3) leave")
+                print(Fore.RESET+ "You are at a village\n1) Use Workbench\n2) use Forge\nQ) leave")
                 if PlayerInfo[22] < 10 and PlayerInfo[22] > 0:
                     print("Upon entering the village you recive some gold for killing some monsters!")
                     PlayerInfo[9] = PlayerInfo[9] + random.randint(1,PlayerInfo[22] * 100)
@@ -1023,9 +1024,36 @@ def World(): # Handles terrain and Player choices
                                         PlayerInventoryWeaponCrt.append(100)
                                         PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 1000,Product.index(GreenProd[Select]) * 5000))
 
+                    elif keyboard.is_pressed("2"):  #Forge Code
+                        print("You can improve a Weapon/Armor here\n\n1) Improve Weapons\n2) Improve Armor\nQ) Leave")
+                        Loop0 = 1 
+                        while Loop0 == 1:
+                            if keyboard.is_pressed("1"):
+                                TempInt = 0
+                                while TempInt <= len(PlayerInventoryWeapon):
+                                    print(str(TempInt) + ") " + str(PlayerInventoryWeapon[TempInt]) + " - Requires: " + str(round(int(PlayerInventoryWeaponAtk[TempInt] + PlayerInventoryWeaponDur[TempInt]))) + " gold")
+                                    TempInt = TempInt + 1
+                                Loop1 = 1
+                                while Loop1 == 1:
+                                    TempInt = input("Select a number in brackets to improve it for that ammount of gold")
+                                    try:
+                                        TempInt = int(TempInt)
+                                        Test = PlayerInventoryWeapon[TempInt]
+                                    except:
+                                        print("This ID is invalid, make sure it's in brackets and a number")
+                                    else:
+                                        if PlayerInfo[9] >= int(PlayerInventoryWeaponAtk[TempInt] + PlayerInventoryWeaponDur[TempInt]):
+                                            PlayerInfo[9] = PlayerInfo[9] - int(PlayerInventoryWeaponAtk[TempInt] + PlayerInventoryWeaponDur[TempInt])
+                                            Loop1 = 0
+                                        else:
+                                            print("You dont have enough gold.")
 
+                                PlayerInventoryWeaponAtk[TempInt] = PlayerInventoryWeaponAtk[TempInt] * 2
+                                PlayerInventoryWeaponDur[TempInt] = PlayerInventoryWeaponDur[TempInt] * 2
+                                Loop0 = 0
+                                World()
 
-                    elif keyboard.is_pressed("3"):
+                    elif keyboard.is_pressed("Q"):
                         WorldGeneration()
 
             elif TerrainType == 4:
