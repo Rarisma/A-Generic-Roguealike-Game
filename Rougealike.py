@@ -16,7 +16,7 @@ SystemInfo  = ["Build Version: 9/2/2020","1.0"]
 LatestVer   = "ERROR"
 Save = 0
 #Below is Varaibles that are saved
-PlayerInfo  = [0,0,random.randint(-2147483500,2147483500),random.randint(-2147483500,2147483500),50,25,5,1,0,500,"Hands",0,100,0,0,"Nothing",0,0,50,0,0,0,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count,Last Village X Coord (20),Last Village Y Coord,Reputation
+PlayerInfo  = [0,0,random.randint(-2147483500,2147483500),random.randint(-2147483500,2147483500),50,25,5,1,0,500,"Hands",1,100,0,0,"Nothing",0,0,50,0,0,0,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count,Last Village X Coord (20),Last Village Y Coord,Reputation
 TerrainType = 0
 TerrainTypeMeta = 0
 Terrain  = 0
@@ -26,7 +26,7 @@ Enemy   = [""]
 Weather = 0
 BattleLog = ["","","","","",""]
 PlayerInventory = ["Pendant","Iron Bar"]
-PlayerInventoryAmmount = [1,1000000]
+PlayerInventoryAmmount = [1,1000]
 PlayerInventoryArmourDur = [0]
 PlayerInventoryArmour    = ["Nothing"]
 PlayerInventoryArmourDef = [0]
@@ -38,7 +38,7 @@ PlayerInventoryWeaponHit = [100]
 PlayerCurrentStats = [50,50] #HP,Mana
 PlayerMagic      = ["Wait","Phonon","Panacea"]   # Name of magic
 PlayerMagicType  = ["Damage","Damage","Heal"]   # HEAL - Vaule heals Damage - Damages the enemy
-PlayerMagicValue = [1,10,40] # Damage of spell
+PlayerMagicValue = [1,25,40] # Damage of spell
 PlayerMagicCost  = [0,5,5]   # How much does the spell cost to cast
 DungeonData          = [0,0,0,0,0,0] # 0 - Size  1 - Direction      2-X     3-Y   4- Battle redirect flag 5 - boss multiplier
 Log = []
@@ -55,6 +55,7 @@ WorldDataResourceBrightness = ["BRIGHT","DIM","BRIGHT","BRIGHT","DIM","DIM","BRI
 WorldDataEnemyPrefix        = ["Angry","Armoured","Beserk","Crazed","Demonic","Enemy","Enraged","Fallen","Frenzied","Giant","Greater","Infested","Leaping","Lesser","Possessed","Skeleton"]
 WorldDataEnemyName          = ["Archer","Artifact","Beast","Bull","Centaur","Demon","Dog","Elf","Fire","Fox","Giant","Goblin","God","Hunter","Ice","Madman","Ogre","Orc","Phantom","Rat","Relic","Robot","Skeleton","Soldier","Spider","Spirit","Troll","Villager","Warrior","Wolf","Zombie"]
 WorldDataEnemySuffix        = ["Lord","Monster","King","Creature"]
+WorldDataEnemyDrop          = ["Arrows","Odd artifact","Meat","Meat","Meat","Fire Dust","Meat","Fabric","Fire Dust","Meat","Meat","Gold Bar","Legendary Gem","Meat","Ice Dust","Faberic","Meat","Meat","Meat","Meat","Old Relic","Scrap Metal","Bone Dust","Scrap Metal","Meat","Spirit Dust","Meat","Meat","Old Spear","Meat","Old Flesh"]
 WorldDataWeather            = ["","Sunny","Cloudy","Hot","Cold","Windy"]
 WorldDataCaveGem            = ["Uncut Rubies","Uncut Emeralds","Uncut Saphires","Uncut Topaz","Uncut Diamonds","Uncut Opal"]
 WorldDataMonolithSpell      = ["Heal I","Bolt","Risma","Aquious","Ignis","Terra","Heal II","Rarisma","Taifau","Odurzony","hladan","Tembung","Heal III"]#These are just words in other langauges
@@ -75,9 +76,9 @@ WorldDataCraftWeaponAxeReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Ba
 WorldDataCraftWeaponAxeProd = ["Copper Axe","Iron Axe","Magnesium Axe","Boron Axe","Gallium Axe","Rolton Axe","Yosmite Axe","Yunotium Axe","Jabraca Axe","Ironite Axe","Platnum Axe","Cronite Axe","Adamite Axe","Dawnite Axe","Malachite Axe","Axe of Legends"]
 WorldDataCraftWeaponAxeAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76,84]
 
-WorldDataCraftWeaponBowProd = ["Copper Bow","Iron Bow","Magnesium Bow","Boron Bow","Gallium Bow","Rolton Bow","Yosmite Bow","Yunotium Bow","Jabraca Bow","Ironite Bow","Platnum Bow","Cronite Bow","Adamite Bow","Dawnite Bow","Malachite Bow","Bow of Legends"]
-WorldDataCraftWeaponBowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
-WorldDataCraftWeaponBowAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76,84]
+WorldDataCraftWeaponLbowProd = ["Copper Longbow","Iron Longbow","Magnesium Longbow","Boron Longbow","Gallium Longbow","Rolton Longbow","Yosmite Longbow","Yunotium Longbow","Jabraca Longbow","Ironite Longbow","Platnum Longbow","Cronite Longbow","Adamite Longbow","Dawnite Longbow","Malachite Longbow","Longbow of Legends"]
+WorldDataCraftWeaponLbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
+WorldDataCraftWeaponLbowAmm  = [12,16,20,36,49,53,57,65,72,77,82,87,93,96,98,99]
 
 WorldDataCraftWeaponLanProd = ["Copper Lance","Iron Lance","Magnesium Lance","Boron Lance","Gallium Lance","Rolton Lance","Yosmite Lance","Yunotium Lance","Jabraca Lance","Ironite Lance","Platnum Lance","Cronite Lance","Adamite Lance","Dawnite Lance","Malachite Lance","Lance of Legends"]
 WorldDataCraftWeaponLanReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
@@ -87,9 +88,25 @@ WorldDataCraftWeaponMacProd = ["Copper Mace","Iron Mace","Magnesium Mace","Boron
 WorldDataCraftWeaponMacReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
 WorldDataCraftWeaponMacAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76,84]
 
-WorldDataCraftWeaponSwoProd = ["Copper Sword","Iron Sword","Magnesium Sword","Boron Sword","Gallium Sword","Rolton Sword","Yosmite Sword","Yunotium Sword","Jabraca Sword","Ironite Sword","Platnum Sword","Cronite Sword","Adamite Sword","Dawnite Sword","Malachite Sword","Sword of Legends"]
-WorldDataCraftWeaponSwoReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
-WorldDataCraftWeaponSwoAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76,84]
+WorldDataCraftWeaponGSwoProd = ["Copper GreatSword","Iron GreatSword","Magnesium GreatSword","Boron GreatSword","Gallium GreatSword","Rolton GreatSword","Yosmite GreatSword","Yunotium GreatSword","Jabraca GreatSword","Ironite GreatSword","Platnum GreatSword","Cronite GreatSword","Adamite GreatSword","Dawnite GreatSword","Malachite GreatSword","GreatSword of Legends"]
+WorldDataCraftWeaponGSwoReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
+WorldDataCraftWeaponGSwoAmm  = [12,16,20,26,29,33,37,45,52,57,62,67,76,79,86,94]
+
+WorldDataCraftWeaponSSwoProd = ["Copper Shortsword","Iron Shortsword","Magnesium Shortsword","Boron Shortsword","Gallium Shortsword","Rolton Shortsword","Yosmite Shortsword","Yunotium Shortsword","Jabraca Shortsword","Ironite Shortsword","Platnum Shortsword","Cronite Shortsword","Adamite Shortsword","Dawnite Shortsword","Malachite Shortsword","Shortsword of Legends"]
+WorldDataCraftWeaponSSwoReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
+WorldDataCraftWeaponSSwoAmm  = [3,5,8,9,12,15,23,26,28,29,35,48,56,64,72,80]
+
+WorldDataCraftWeaponShuProd = ["Copper Shuriken","Iron Shuriken","Magnesium Shuriken","Boron Shuriken","Gallium Shuriken","Rolton Shuriken","Yosmite Shuriken","Yunotium Shuriken","Jabraca Shuriken","Ironite Shuriken","Platnum Shuriken","Cronite Shuriken","Adamite Shuriken","Dawnite Shuriken","Malachite Shuriken","Shuriken of Legends"]
+WorldDataCraftWeaponShuReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
+WorldDataCraftWeaponShuAmm  = [1,3,5,8,12,14,17,18,21,24,26,29,32,35,38,42]
+
+WorldDataCraftWeaponSbowProd = ["Copper Shortbow","Iron Shortbow","Magnesium Shortbow","Boron Shortbow","Gallium Shortbow","Rolton Shortbow","Yosmite Shortbow","Yunotium Shortbow","Jabraca Shortbow","Ironite Shortbow","Platnum Shortbow","Cronite Shortbow","Adamite Shortbow","Dawnite Shortbow","Malachite Shortbow","Shortbow of Legends"]
+WorldDataCraftWeaponSbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
+WorldDataCraftWeaponSbowAmm  = [2,6,10,26,39,43,47,55,62,67,72,77,83,86,88,89]
+
+WorldDataCraftWeaponCbowProd = ["Copper Crossbow","Iron Crossbow","Magnesium Crossbow","Boron Crossbow","Gallium Crossbow","Rolton Crossbow","Yosmite Crossbow","Yunotium Crossbow","Jabraca Crossbow","Ironite Crossbow","Platnum Crossbow","Cronite Crossbow","Adamite Crossbow","Dawnite Crossbow","Malachite Crossbow","Crossbow of Legends"]
+WorldDataCraftWeaponCbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
+WorldDataCraftWeaponCbowAmm  = [22,36,40,56,69,73,77,85,72,77,82,87,93,96,108,200]
 
 WorldDataCraftArmorProd     = ["Iron Armour","Quartz Armour","Rolton Armour","Jabraca Armour","Platnum Armour","Adamite Armour","Malachite Armour","Dawnite Armour"]
 WorldDataCraftArmorReq      = ["Iron Bar","Quartz Bar","Rolton Bar","Jabraca Bar","Platnum Bar","Adamite Bar","Malachite Bar","Dawnite Bar"]
@@ -225,93 +242,13 @@ def Intialise():    #Starts the game, Checks reqired modules are installed and r
     ModLoader()
 
 def ModLoader():
-    global WorldDataTerrainColor 
-    global WorldDataTerrainBrightness
-    global WorldDataResource
-    global WorldDataResourceColor
-    global WorldDataResourceBrightness
-    global WorldDataEnemyPrefix
-    global WorldDataEnemyName
-    global WorldDataEnemySuffix
-    global WorldDataWeather
-    global WorldDataMonolithSpell
-    global WorldDataMonolithSpellType
-    global WorldDataMonolithSpellValue
-    global WorldDataMonolithSpellCost
-    global WorldDataCaveMetal
-    global WorldDataCraftMetalReq
-    global WorldDataCraftMetalProd
-    global WorldDataCraftMetalAmm
-    global WorldDataCraftGemReq
-    global WorldDataCraftGemProd
-    global WorldDataCraftGemAmm
-    global WorldDataCraftWeaponAxeReq
-    global WorldDataCraftWeaponAxeProd
-    global WorldDataCraftWeaponAxeAmm
-    global WorldDataCraftWeaponBowProd
-    global WorldDataCraftWeaponBowReq
-    global WorldDataCraftWeaponBowAmm
-    global WorldDataCraftWeaponLanProd
-    global WorldDataCraftWeaponLanReq
-    global WorldDataCraftWeaponLanAmm
-    global WorldDataCraftWeaponMacProd
-    global WorldDataCraftWeaponMacReq
-    global WorldDataCraftWeaponMacAmm
-    global WorldDataCraftWeaponSwoProd
-    global WorldDataCraftWeaponSwoReq
-    global WorldDataCraftWeaponSwoAmm
-    global WorldDataCraftArmorProd
-    global WorldDataCraftArmorReq
-    global WorldDataCraftArmorAmm
-    global WorldDataTradeProd
-    global WorldDataTradePrice
-
     print("Initalising Mod loader")
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\mods\\"):
         ModDir = list(p for p in pathlib.Path(tets = list(p for p in pathlib.Path(os.path.dirname(os.path.abspath(__file__)) + "\\mods\\").iterdir() if p.is_dir())).iterdir() if p.is_dir())
         TempInt = 0
         while TempInt <= int(len(ModDir)-1):
             if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\mods\\" + str(ModDir[TempInt]) + "\\TerrainColor.txt"):
-                WorldDataTerrainColor
-            WorldDataTerrainBrightness
-            WorldDataResource
-            WorldDataResourceColor
-            WorldDataResourceBrightness
-            WorldDataEnemyPrefix
-            WorldDataEnemyName
-            WorldDataEnemySuffix
-            WorldDataWeather
-            WorldDataMonolithSpell
-            WorldDataMonolithSpellType
-            WorldDataMonolithSpellValue
-            WorldDataMonolithSpellCost
-            WorldDataCaveMetal
-            WorldDataCraftMetalReq
-            WorldDataCraftMetalProd
-            WorldDataCraftMetalAmm
-            WorldDataCraftGemReq
-            WorldDataCraftGemProd
-            WorldDataCraftGemAmm
-            WorldDataCraftWeaponAxeReq
-            WorldDataCraftWeaponAxeProd
-            WorldDataCraftWeaponAxeAmm
-            WorldDataCraftWeaponBowProd
-            WorldDataCraftWeaponBowReq
-            WorldDataCraftWeaponBowAmm
-            WorldDataCraftWeaponLanProd
-            WorldDataCraftWeaponLanReq
-            WorldDataCraftWeaponLanAmm
-            WorldDataCraftWeaponMacProd
-            WorldDataCraftWeaponMacReq
-            WorldDataCraftWeaponMacAmm
-            WorldDataCraftWeaponSwoProd
-            WorldDataCraftWeaponSwoReq
-            WorldDataCraftWeaponSwoAmm
-            WorldDataCraftArmorProd
-            WorldDataCraftArmorReq
-            WorldDataCraftArmorAmm
-            WorldDataTradeProd
-            WorldDataTradePrice
+                print("PLACEHOLDER")
     else:
         Menu()
 
@@ -448,7 +385,7 @@ def WorldGeneration(): # Loads or generates terrain
         Log.append("Set weather as " + str(Weather))
     else:   #Generates Terrain
         Log.append("Terrain doesn't exist")
-        if random.randint(1,25) == 25: # 4% Chance 
+        if random.randint(1,20) == 25: # 5% Chance 
             TerrainType = random.randint(1,4) # Terrain isn't needed to be generated
             TerrainTypeMeta = 0
         else:
@@ -643,7 +580,7 @@ def World(): # Handles terrain and Player choices
                     WorldGeneration()
         elif keyboard.is_pressed("3"): # Collection
             Log.append("Collection")
-            if sum(PlayerInventoryAmmount) >= 10 * 0:
+            if sum(PlayerInventoryAmmount) >= 20 * PlayerInfo[7]:
                 print("You are carrying too much.")
                 time.sleep(1.5)
                 World()
@@ -894,7 +831,7 @@ def World(): # Handles terrain and Player choices
                                 elif keyboard.is_pressed("3"): #Sets Opperating mode to 1
                                     C = 1
                                     CraftMode = 2
-                                    print("\nCraft:\n1) Axe\n2) Sword\n3) Lance\n4) Bow\n5) Mace")
+                                    print("\nCraft:\n1) Axe\n2) Greatsword\n3) Lance\n4) Longbow\n5) Mace\n6) Shuriken\n7) Shortsword\n8) Shortbow\n9) Crossbow")
                                     time.sleep(1)
                                     while C == 1:
                                         if keyboard.is_pressed("1"):
@@ -905,10 +842,10 @@ def World(): # Handles terrain and Player choices
                                             C = 0
                                             B = 0
                                         elif keyboard.is_pressed("2"):
-                                            Craft = "Sword"
-                                            ReqResource = WorldDataCraftWeaponSwoReq  #What Resource Required
-                                            Product     = WorldDataCraftWeaponSwoProd #What will be given to the player
-                                            ReqAmmount  = WorldDataCraftWeaponSwoAmm
+                                            Craft = "GSwo"
+                                            ReqResource = WorldDataCraftWeaponGSwoReq  #What Resource Required
+                                            Product     = WorldDataCraftWeaponGSwoProd #What will be given to the player
+                                            ReqAmmount  = WorldDataCraftWeaponGSwoAmm
                                             C = 0
                                             B = 0
                                         elif keyboard.is_pressed("3"):
@@ -919,10 +856,10 @@ def World(): # Handles terrain and Player choices
                                             C = 0
                                             B = 0
                                         elif keyboard.is_pressed("4"):
-                                            Craft = "Bow"
-                                            ReqResource = WorldDataCraftWeaponBowReq  #What Resource Required
-                                            Product     = WorldDataCraftWeaponBowProd #What will be given to the player
-                                            ReqAmmount  = WorldDataCraftWeaponBowAmm
+                                            Craft = "LBow"
+                                            ReqResource = WorldDataCraftWeaponLbowReq  #What Resource Required
+                                            Product     = WorldDataCraftWeaponLbowProd #What will be given to the player
+                                            ReqAmmount  = WorldDataCraftWeaponLbowAmm
                                             C = 0
                                             B = 0
                                         elif keyboard.is_pressed("5"):
@@ -932,7 +869,34 @@ def World(): # Handles terrain and Player choices
                                             ReqAmmount  = WorldDataCraftWeaponMacAmm
                                             C = 0
                                             B = 0
-
+                                        elif keyboard.is_pressed("6"):
+                                            Craft = "Shu"
+                                            ReqResource = WorldDataCraftWeaponShuReq  #What Resource Required
+                                            Product     = WorldDataCraftWeaponShuProd #What will be given to the player
+                                            ReqAmmount  = WorldDataCraftWeaponShuAmm
+                                            C = 0
+                                            B = 0
+                                        elif keyboard.is_pressed("7"):
+                                            Craft = "SSwo"
+                                            ReqResource = WorldDataCraftWeaponSSwoReq  #What Resource Required
+                                            Product     = WorldDataCraftWeaponSSwoProd #What will be given to the player
+                                            ReqAmmount  = WorldDataCraftWeaponSSwoAmm
+                                            C = 0
+                                            B = 0
+                                        elif keyboard.is_pressed("8"):
+                                            Craft = "SBow"
+                                            ReqResource = WorldDataCraftWeaponSbowReq  #What Resource Required
+                                            Product     = WorldDataCraftWeaponSbowProd #What will be given to the player
+                                            ReqAmmount  = WorldDataCraftWeaponSbowAmm
+                                            C = 0
+                                            B = 0
+                                        elif keyboard.is_pressed("9"):
+                                            Craft = "CBow"
+                                            ReqResource = WorldDataCraftWeaponCbowReq  #What Resource Required
+                                            Product     = WorldDataCraftWeaponCbowProd #What will be given to the player
+                                            ReqAmmount  = WorldDataCraftWeaponCbowAmm
+                                            C = 0
+                                            B = 0
                             G = 1
                             while G == 1:
                                 Temp = 1 # What line number to start from (Don't change)
@@ -1002,25 +966,32 @@ def World(): # Handles terrain and Player choices
                                     PlayerInventoryArmourDur.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
                                     print("Crafted 1 x " + str(GreenProd[Select]) + " - Def: " + str(PlayerInventoryArmourDef[len(PlayerInventoryArmourDef) - 1]) + " Durabilty: " + str(PlayerInventoryArmourDef[len(PlayerInventoryArmourDur) - 1]))
                                 elif CraftMode == 2:    #For weapons
+                                    #And then I saw him, torch in hand, He laid it out what he had planned.
                                     print("Crafted 1 x " + str(GreenProd[Select]) + " - Atk: " + str(PlayerInventoryWeaponAtk[len(PlayerInventoryWeaponAtk) - 1]) + " Durabilty: " + str(PlayerInventoryWeaponDur[len(PlayerInventoryWeaponDur) - 1]) + " Hit: " + str(PlayerInventoryWeaponHit[len(PlayerInventoryWeaponHit) - 1]) + "% Critical: " + str(PlayerInventoryWeaponCrt[len(PlayerInventoryWeaponCrt) - 1])) 
-                                    if Craft == "Sword":
+                                    if Craft == "GSwo":
                                         PlayerInventoryWeapon.append(GreenProd[Select])
                                         PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
-                                        PlayerInventoryWeaponHit.append(random.randint(random.randint(1,50),random.randint(50,100)))
-                                        PlayerInventoryWeaponCrt.append(random.randint(random.randint(0,25),random.randint(25,50)))
-                                        PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
+                                        PlayerInventoryWeaponHit.append(random.randint(random.randint(50,75),random.randint(75,100)))
+                                        PlayerInventoryWeaponCrt.append(random.randint(random.randint(10,25),random.randint(25,50)))
+                                        PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 50,Product.index(GreenProd[Select]) * 100))
+                                    elif Craft == "SSwo":
+                                        PlayerInventoryWeapon.append(GreenProd[Select])
+                                        PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 200))
+                                        PlayerInventoryWeaponHit.append(random.randint(random.randint(0,25),random.randint(25,50)))
+                                        PlayerInventoryWeaponCrt.append(random.randint(random.randint(0,10),random.randint(10,25)))
+                                        PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 1,Product.index(GreenProd[Select]) * 10))
                                     elif Craft == "Lance":
                                         PlayerInventoryWeapon.append(GreenProd[Select])
                                         PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
                                         PlayerInventoryWeaponHit.append(100)
                                         PlayerInventoryWeaponCrt.append(random.randint(random.randint(0,5),random.randint(5,10)))
                                         PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
-                                    elif Craft == "Bow":
+                                    elif Craft == "LBow":
                                         PlayerInventoryWeapon.append(GreenProd[Select])
-                                        PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 50,Product.index(GreenProd[Select]) * 100))
-                                        PlayerInventoryWeaponHit.append(random.randint(1,50))
+                                        PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 25,Product.index(GreenProd[Select]) * 50))
+                                        PlayerInventoryWeaponHit.append(random.randint(75,100))
                                         PlayerInventoryWeaponCrt.append(random.randint(random.randint(0,15),random.randint(15,30)))
-                                        PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 100))
+                                        PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 500,Product.index(GreenProd[Select]) * 1000))
                                     elif Craft == "Mace":
                                         PlayerInventoryWeapon.append(GreenProd[Select])
                                         PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 50,Product.index(GreenProd[Select]) * 100))
@@ -1033,6 +1004,24 @@ def World(): # Handles terrain and Player choices
                                         PlayerInventoryWeaponHit.append(random.randint(1,33))
                                         PlayerInventoryWeaponCrt.append(random.randint(random.randint(0,15),random.randint(20,75)))
                                         PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 1,Product.index(GreenProd[Select]) * 100))
+                                    elif Craft == "Shu":
+                                        PlayerInventoryWeapon.append(GreenProd[Select])
+                                        PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 100,Product.index(GreenProd[Select]) * 300))
+                                        PlayerInventoryWeaponHit.append(random.randint(1,25))
+                                        PlayerInventoryWeaponCrt.append(random.randint(random.randint(0,5),random.randint(5,10)))
+                                        PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 50))
+                                    elif Craft == "SBow":
+                                        PlayerInventoryWeapon.append(GreenProd[Select])
+                                        PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) * 100,Product.index(GreenProd[Select]) * 300))
+                                        PlayerInventoryWeaponHit.append(random.randint(1,25))
+                                        PlayerInventoryWeaponCrt.append(random.randint(50,75))
+                                        PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 10,Product.index(GreenProd[Select]) * 50))
+                                    elif Craft == "CBow":
+                                        PlayerInventoryWeapon.append(GreenProd[Select])
+                                        PlayerInventoryWeaponAtk.append(random.randint(Product.index(GreenProd[Select]) *500,Product.index(GreenProd[Select]) * 1500))
+                                        PlayerInventoryWeaponHit.append(random.randint(95,100))
+                                        PlayerInventoryWeaponCrt.append(100)
+                                        PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 1000,Product.index(GreenProd[Select]) * 5000))
 
 
 
@@ -1408,6 +1397,14 @@ def Battle():
             PlayerInfo[22] = PlayerInfo[22] + random.randint(0,2)
             print("You got XP, Gold and some reputation for killing the monster!")
             PlayerCurrentStats[0] = PlayerInfo[4] - random.randint(1,10)
+            if random.randint(1,5) == 5:
+                print("The enemy dropped a " + str(WorldDataEnemyDrop[Enemy[1]]) + ".")
+                if WorldDataEnemyDrop[Enemy[1]] in PlayerInventory:
+                    PlayerInventoryAmmount[WorldDataEnemyDrop[Enemy[1]]] = PlayerInventoryAmmount[WorldDataEnemyDrop[Enemy[1]]] + random.randint(1,2)
+                else:
+                    PlayerInventory.append(WorldDataEnemyDrop[Enemy[1]])
+                    PlayerInventoryAmmount.append(random.randint(1,2))
+
             if DungeonData[4] == 1:
                 print("You got bonus EXP and Gold for defeating the boss")
                 PlayerInfo[8] = PlayerInfo[8] + random.randint(1000,5000) #XP

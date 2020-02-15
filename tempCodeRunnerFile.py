@@ -1,1 +1,2 @@
- #Starts the game after all functions are declared
+
+            else:
