@@ -1,5 +1,5 @@
 # Note about Beta 1.0
-Beta 1.0 will release around monday (17th) and is almost near completion and I have started to wrap up parts of Rougealike, I plan to not really develop anything to release publically in march, anyway Beta 1.0 will contain new features such as dungeons, New Weaponry, Enemy Drops
+Beta 1.0 will release around monday (17th) and is almost near completion and I have started to wrap up parts of Rougealike, I plan to not really develop anything to release publically in march, anyway Beta 1.0 will contain new features such as dungeons, 5 new types of weapons, Enemy Drops
 
 Beta Revison 1 will release some time after this and will add fixes if needed and quests.
 
@@ -18,9 +18,7 @@ To do: (In order of RELATIVE importance)
   - [ ] Stats
   - [ ] Caves
   - [ ] Crafting Requirements
-  - [x] Enemys
 
-- [ ] Enemy Drops
 - [ ] New Weapons types
 - [ ] Weapon &  Armor improvement (Village Forging)
 - [ ] Mod support
@@ -35,10 +33,11 @@ To do: (In order of RELATIVE importance)
 - [ ] Map icons
 - [ ] Achivements
 - [ ] Stat gems
-- [ ] Achivements
 - [ ] Remove dependcies
 
 Complete:
+- [x] Enemys Rebalance and name changes
+- [x] Enemy Drops
 - [x] Reputation
 - [x] Multiple Resources in a area
 - [x] Fast Travel
