@@ -64,9 +64,9 @@ WorldDataMonolithSpellValue = [80,20,25,25,35,30,30,110,60,50,80,100,100,200]
 WorldDataMonolithSpellCost  = [5,15,25,20,40,20,10,75,40,10,75,90,60,100]
 WorldDataCaveMetal          = ["Iron Ore","Coal","Copper Ore","Potassium Ore","Magnesium Ore","Steel","Urainium Ore","Malachite Ore","Stone","Clay","Silicon","Boron Ore","Carbon","Dawnite Ore","Uncut OpalQuartz Ore","Rolton Ore","Vibrainum Ore","Yosmite Ore","Yunotium Ore","Gallium Ore","Jabraca Ore","Platnum Ore","Cronite Ore","Adamite Ore","Ironite Ore"]
 
-WorldDataCraftMetalReq      = ["Iron Ore","Copper Ore","Potassium Ore","Magnesium Ore","Urainium Ore","Malachite Ore","Boron Ore","Dawnite Ore","Quartz Ore","Rolton Ore","Vibrainum Ore","Yosmite Ore","Yunotium Ore","Gallium Ore","Jabraca Ore","Platnum Ore","Cronite Ore","Adamite Ore","Ironite Ore"]
-WorldDataCraftMetalProd     = ["Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar"]
-WorldDataCraftMetalAmm      = [3,3,3,3,5,5,2,10,1,5,3,5,5,5,5,5,3,10,5]
+WorldDataCraftMetalReq      = ["","Iron Ore","Copper Ore","Potassium Ore","Magnesium Ore","Urainium Ore","Malachite Ore","Boron Ore","Dawnite Ore","Quartz Ore","Rolton Ore","Vibrainum Ore","Yosmite Ore","Yunotium Ore","Gallium Ore","Jabraca Ore","Platnum Ore","Cronite Ore","Adamite Ore","Ironite Ore"]
+WorldDataCraftMetalProd     = ["","Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar"]
+WorldDataCraftMetalAmm      = ["",3,3,3,3,5,5,2,10,1,5,3,5,5,5,5,5,3,10,5]
 
 WorldDataCraftGemReq        = ["Uncut Rubies","Uncut Emeralds","Uncut Saphires","Uncut Topaz","Uncut Diamonds","Uncut Opal"]
 WorldDataCraftGemProd       = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal"]
@@ -108,9 +108,9 @@ WorldDataCraftWeaponCbowProd = ["Copper Crossbow","Iron Crossbow","Magnesium Cro
 WorldDataCraftWeaponCbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
 WorldDataCraftWeaponCbowAmm  = [22,36,40,56,69,73,77,85,72,77,82,87,93,96,108,200]
 
-WorldDataCraftArmorProd     = ["Iron Armour","Quartz Armour","Rolton Armour","Jabraca Armour","Platnum Armour","Adamite Armour","Malachite Armour","Dawnite Armour"]
-WorldDataCraftArmorReq      = ["Iron Bar","Quartz Bar","Rolton Bar","Jabraca Bar","Platnum Bar","Adamite Bar","Malachite Bar","Dawnite Bar"]
-WorldDataCraftArmorAmm      = [25,32,35,40,48,55,59,66,70,78]
+WorldDataCraftArmorProd     = ["","Iron Armour","Quartz Armour","Rolton Armour","Jabraca Armour","Platnum Armour","Adamite Armour","Malachite Armour","Dawnite Armour"]
+WorldDataCraftArmorReq      = ["","Iron Bar","Quartz Bar","Rolton Bar","Jabraca Bar","Platnum Bar","Adamite Bar","Malachite Bar","Dawnite Bar"]
+WorldDataCraftArmorAmm      = ["",25,32,35,40,48,55,59,66,70,78]
 
 WorldDataTradeProd          = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal","Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar","Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches","Arrows","Bone Dust","Fabric","Fire Dust","Ice Dust","Meat","Odd artifact","Old Flesh","Old Relic","Old Spear","Scrap Metal","Spirit Dust"]
 WorldDataTradePrice         = [50,70,80,100,150,250,500,250,50,245,750,5000,9500,4500,10000,100,100,500,100,3000,1000,1675,1500,750,2500,1000,10,5,25,35,5,5,5,50,10,65,15,75,250,150,15,20,100,1000,500,250,100,500,750,100,5,250,1000,100,100,2500,100,150,250,50,100,150,30,150,250,1000,1000,250,1500,2000,2000,250,100,1000]
@@ -1025,20 +1025,25 @@ def World(): # Handles terrain and Player choices
                                         PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 1000,Product.index(GreenProd[Select]) * 5000))
 
                     elif keyboard.is_pressed("2"):  #Forge Code
+                        os.system("cls")
                         print("You can improve a Weapon/Armor here\n\n1) Improve Weapons\n2) Improve Armor\nQ) Leave")
+                        time.sleep(1)
                         Loop0 = 1 
                         while Loop0 == 1:
-                            if keyboard.is_pressed("1"):
+                            if keyboard.is_pressed("1"):    #Weapons
                                 TempInt = 0
-                                while TempInt <= len(PlayerInventoryWeapon):
+                                while TempInt <= len(PlayerInventoryWeapon) - 1:
                                     print(str(TempInt) + ") " + str(PlayerInventoryWeapon[TempInt]) + " - Requires: " + str(round(int(PlayerInventoryWeaponAtk[TempInt] + PlayerInventoryWeaponDur[TempInt]))) + " gold")
                                     TempInt = TempInt + 1
                                 Loop1 = 1
                                 while Loop1 == 1:
-                                    TempInt = input("Select a number in brackets to improve it for that ammount of gold")
+                                    TempInt = input("\nSelect a number in brackets to improve it for that ammount of gold (or type leave to leave)\n")
+                                    if TempInt == "leave":
+                                        WorldGeneration()
                                     try:
                                         TempInt = int(TempInt)
-                                        Test = PlayerInventoryWeapon[TempInt]
+                                        Testvar = PlayerInventoryWeapon[TempInt]
+                                        Testvar = Testvar
                                     except:
                                         print("This ID is invalid, make sure it's in brackets and a number")
                                     else:
@@ -1048,11 +1053,42 @@ def World(): # Handles terrain and Player choices
                                         else:
                                             print("You dont have enough gold.")
 
-                                PlayerInventoryWeaponAtk[TempInt] = PlayerInventoryWeaponAtk[TempInt] * 2
-                                PlayerInventoryWeaponDur[TempInt] = PlayerInventoryWeaponDur[TempInt] * 2
+                                PlayerInventoryWeaponAtk[TempInt] = int(PlayerInventoryWeaponAtk[TempInt]  + 1) * 2
+                                PlayerInventoryWeaponDur[TempInt] = int(PlayerInventoryWeaponDur[TempInt] + 1) * 2
                                 Loop0 = 0
+                                print("Improved " + str(PlayerInventoryWeapon[TempInt]))
+                                time.sleep(1.5)
                                 World()
+                            elif keyboard.is_pressed("2"):    #Armor
+                                TempInt = 0
+                                while TempInt <= len(PlayerInventoryArmour) - 1:
+                                    print(str(TempInt) + ") " + str(PlayerInventoryArmour[TempInt]) + " - Requires: " + str(round(int(PlayerInventoryArmourDef[TempInt] + PlayerInventoryArmourDur[TempInt]))) + " gold")
+                                    TempInt = TempInt + 1
+                                Loop1 = 1
+                                while Loop1 == 1:
+                                    TempInt = input("\nSelect a number in brackets to improve it for that ammount of gold (or type leave to leave)\n")
+                                    if TempInt == "leave":
+                                        WorldGeneration()
+                                    try:
+                                        TempInt = int(TempInt)
+                                        Test = PlayerInventorArmor[TempInt]
+                                    except:
+                                        print("This ID is invalid, make sure it's in brackets and a number")
+                                    else:
+                                        if PlayerInfo[9] >= int(PlayerInventoryArmourDef[TempInt] + PlayerInventorArmorDur[TempInt]):
+                                            PlayerInfo[9] = PlayerInfo[9] - int(PlayerInventoryArmourDef[TempInt] + PlayerInventorArmorDur[TempInt])
+                                            Loop1 = 0
+                                        else:
+                                            print("You dont have enough gold.")
 
+                                PlayerInventoryArmourDef[TempInt] = int(PlayerInventoryArmourDef[TempInt]  + 1) * 2
+                                PlayerInventoryArmourDur[TempInt] = int(PlayerInventoryArmourDur[TempInt] + 1) * 2
+                                Loop0 = 0
+                                print("Improved " + str(PlayerInventoryArmourDur[TempInt]))
+                                time.sleep(1.5)
+                                World()
+                            elif keyboard.is_pressed("Q"):
+                                WorldGeneration()
                     elif keyboard.is_pressed("Q"):
                         WorldGeneration()
 
