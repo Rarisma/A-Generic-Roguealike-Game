@@ -10,8 +10,8 @@ After atempting to work on 0.9 it became increasingly clear that a complete rewr
 Furthermore I will be releasing several alpha versions of the 1.0 before the release date in the dev branch the next Alpha build will be released on the 7th of Febuary
 
 # Coming in update 1.0
-
-To do: (In order of RELATIVE importance)
+To do 
+In order of adding (Probably)
 - [ ] Updates and Rebalancing of
   - [ ] Areas
   - [ ] Items
@@ -19,18 +19,18 @@ To do: (In order of RELATIVE importance)
   - [ ] Caves
   - [ ] Crafting Requirements
 
-- [ ] Mod support
-- [ ] Map showing 100 x 100 
-- [ ] Player Turn shows a 3x3 map
-- [ ] Quests
-- [ ] Level based crafing
-- [ ] Main Quest
 - [ ] Legendary weapons
+- [ ] Stat gems
+- [ ] Quests
+- [ ] Main Quest
 - [ ] Proffessions
 - [ ] Multistage crafting
-- [ ] Map icons
+- [ ] Level based crafing
 - [ ] Achivements
-- [ ] Stat gems
+- [ ] Mod support
+- [ ] Player Turn shows a 3x3 map
+- [ ] Map icons
+- [ ] Map showing 100 x 100 
 - [ ] Remove dependcies
 
 Complete:
