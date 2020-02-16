@@ -19,7 +19,6 @@ In order of adding (Probably)
   - [ ] Caves
   - [ ] Crafting Requirements
 
-- [ ] Legendary weapons
 - [ ] Stat gems
 - [ ] Quests
 - [ ] Main Quest
@@ -34,6 +33,7 @@ In order of adding (Probably)
 - [ ] Remove dependcies
 
 Complete:
+- [x] Legendary weapons
 - [x] New Weapons types
 - [x] Weapon &  Armor improvement (Village Forging)
 - [x] Enemys Rebalance and name changes
