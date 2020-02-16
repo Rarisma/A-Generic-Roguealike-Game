@@ -72,41 +72,40 @@ WorldDataCraftGemReq        = ["Uncut Rubies","Uncut Emeralds","Uncut Saphires",
 WorldDataCraftGemProd       = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal"]
 WorldDataCraftGemAmm        = [1,1,1,1,1,1,1]
 
-WorldDataCraftWeaponAxeReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
-WorldDataCraftWeaponAxeProd = ["Copper Axe","Iron Axe","Magnesium Axe","Boron Axe","Gallium Axe","Rolton Axe","Yosmite Axe","Yunotium Axe","Jabraca Axe","Ironite Axe","Platnum Axe","Cronite Axe","Adamite Axe","Dawnite Axe","Malachite Axe","Axe of Legends"]
-WorldDataCraftWeaponAxeAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76,84]
+WorldDataCraftWeaponAxeReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
+WorldDataCraftWeaponAxeProd = ["Copper Axe","Iron Axe","Magnesium Axe","Boron Axe","Gallium Axe","Rolton Axe","Yosmite Axe","Yunotium Axe","Jabraca Axe","Ironite Axe","Platnum Axe","Cronite Axe","Adamite Axe","Dawnite Axe","Malachite Axe"]
+WorldDataCraftWeaponAxeAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76]
 
-WorldDataCraftWeaponLbowProd = ["Copper Longbow","Iron Longbow","Magnesium Longbow","Boron Longbow","Gallium Longbow","Rolton Longbow","Yosmite Longbow","Yunotium Longbow","Jabraca Longbow","Ironite Longbow","Platnum Longbow","Cronite Longbow","Adamite Longbow","Dawnite Longbow","Malachite Longbow","Longbow of Legends"]
-WorldDataCraftWeaponLbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
-WorldDataCraftWeaponLbowAmm  = [12,16,20,36,49,53,57,65,72,77,82,87,93,96,98,99]
+WorldDataCraftWeaponLbowProd = ["Copper Longbow","Iron Longbow","Magnesium Longbow","Boron Longbow","Gallium Longbow","Rolton Longbow","Yosmite Longbow","Yunotium Longbow","Jabraca Longbow","Ironite Longbow","Platnum Longbow","Cronite Longbow","Adamite Longbow","Dawnite Longbow","Malachite Longbow"]
+WorldDataCraftWeaponLbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
+WorldDataCraftWeaponLbowAmm  = [12,16,20,36,49,53,57,65,72,77,82,87,93,96,98]
 
-WorldDataCraftWeaponLanProd = ["Copper Lance","Iron Lance","Magnesium Lance","Boron Lance","Gallium Lance","Rolton Lance","Yosmite Lance","Yunotium Lance","Jabraca Lance","Ironite Lance","Platnum Lance","Cronite Lance","Adamite Lance","Dawnite Lance","Malachite Lance","Lance of Legends"]
-WorldDataCraftWeaponLanReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
-WorldDataCraftWeaponLanAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76,84]
+WorldDataCraftWeaponLanProd = ["Copper Lance","Iron Lance","Magnesium Lance","Boron Lance","Gallium Lance","Rolton Lance","Yosmite Lance","Yunotium Lance","Jabraca Lance","Ironite Lance","Platnum Lance","Cronite Lance","Adamite Lance","Dawnite Lance","Malachite Lance"]
+WorldDataCraftWeaponLanReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
+WorldDataCraftWeaponLanAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76]
 
-WorldDataCraftWeaponMacProd = ["Copper Mace","Iron Mace","Magnesium Mace","Boron Mace","Gallium Mace","Rolton Mace","Yosmite Mace","Yunotium Mace","Jabraca Mace","Ironite Mace","Platnum Mace","Cronite Mace","Adamite Mace","Dawnite Mace","Malachite Mace","Mace of Legends"]
-WorldDataCraftWeaponMacReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
-WorldDataCraftWeaponMacAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76,84]
+WorldDataCraftWeaponMacProd = ["Copper Mace","Iron Mace","Magnesium Mace","Boron Mace","Gallium Mace","Rolton Mace","Yosmite Mace","Yunotium Mace","Jabraca Mace","Ironite Mace","Platnum Mace","Cronite Mace","Adamite Mace","Dawnite Mace","Malachite Mace"]
+WorldDataCraftWeaponMacReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
+WorldDataCraftWeaponMacAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76]
 
-WorldDataCraftWeaponGSwoProd = ["Copper GreatSword","Iron GreatSword","Magnesium GreatSword","Boron GreatSword","Gallium GreatSword","Rolton GreatSword","Yosmite GreatSword","Yunotium GreatSword","Jabraca GreatSword","Ironite GreatSword","Platnum GreatSword","Cronite GreatSword","Adamite GreatSword","Dawnite GreatSword","Malachite GreatSword","GreatSword of Legends"]
-WorldDataCraftWeaponGSwoReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
-WorldDataCraftWeaponGSwoAmm  = [12,16,20,26,29,33,37,45,52,57,62,67,76,79,86,94]
+WorldDataCraftWeaponGSwoProd = ["Copper GreatSword","Iron GreatSword","Magnesium GreatSword","Boron GreatSword","Gallium GreatSword","Rolton GreatSword","Yosmite GreatSword","Yunotium GreatSword","Jabraca GreatSword","Ironite GreatSword","Platnum GreatSword","Cronite GreatSword","Adamite GreatSword","Dawnite GreatSword","Malachite GreatSword"]
+WorldDataCraftWeaponGSwoReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
+WorldDataCraftWeaponGSwoAmm  = [12,16,20,26,29,33,37,45,52,57,62,67,76,79]
 
-WorldDataCraftWeaponSSwoProd = ["Copper Shortsword","Iron Shortsword","Magnesium Shortsword","Boron Shortsword","Gallium Shortsword","Rolton Shortsword","Yosmite Shortsword","Yunotium Shortsword","Jabraca Shortsword","Ironite Shortsword","Platnum Shortsword","Cronite Shortsword","Adamite Shortsword","Dawnite Shortsword","Malachite Shortsword","Shortsword of Legends"]
-WorldDataCraftWeaponSSwoReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
-WorldDataCraftWeaponSSwoAmm  = [3,5,8,9,12,15,23,26,28,29,35,48,56,64,72,80]
+WorldDataCraftWeaponSSwoProd = ["Copper Shortsword","Iron Shortsword","Magnesium Shortsword","Boron Shortsword","Gallium Shortsword","Rolton Shortsword","Yosmite Shortsword","Yunotium Shortsword","Jabraca Shortsword","Ironite Shortsword","Platnum Shortsword","Cronite Shortsword","Adamite Shortsword","Dawnite Shortsword","Malachite Shortsword"]
+WorldDataCraftWeaponSSwoReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
+WorldDataCraftWeaponSSwoAmm  = [3,5,8,9,12,15,23,26,28,29,35,48,56,64,72]
 
-WorldDataCraftWeaponShuProd = ["Copper Shuriken","Iron Shuriken","Magnesium Shuriken","Boron Shuriken","Gallium Shuriken","Rolton Shuriken","Yosmite Shuriken","Yunotium Shuriken","Jabraca Shuriken","Ironite Shuriken","Platnum Shuriken","Cronite Shuriken","Adamite Shuriken","Dawnite Shuriken","Malachite Shuriken","Shuriken of Legends"]
-WorldDataCraftWeaponShuReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
-WorldDataCraftWeaponShuAmm  = [1,3,5,8,12,14,17,18,21,24,26,29,32,35,38,42]
+WorldDataCraftWeaponShuProd = ["Copper Shuriken","Iron Shuriken","Magnesium Shuriken","Boron Shuriken","Gallium Shuriken","Rolton Shuriken","Yosmite Shuriken","Yunotium Shuriken","Jabraca Shuriken","Ironite Shuriken","Platnum Shuriken","Cronite Shuriken","Adamite Shuriken","Dawnite Shuriken","Malachite Shuriken"]
+WorldDataCraftWeaponShuReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar",]
+WorldDataCraftWeaponShuAmm  = [1,3,5,8,12,14,17,18,21,24,26,29,32,35,38]
 
-WorldDataCraftWeaponSbowProd = ["Copper Shortbow","Iron Shortbow","Magnesium Shortbow","Boron Shortbow","Gallium Shortbow","Rolton Shortbow","Yosmite Shortbow","Yunotium Shortbow","Jabraca Shortbow","Ironite Shortbow","Platnum Shortbow","Cronite Shortbow","Adamite Shortbow","Dawnite Shortbow","Malachite Shortbow","Shortbow of Legends"]
-WorldDataCraftWeaponSbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
-WorldDataCraftWeaponSbowAmm  = [2,6,10,26,39,43,47,55,62,67,72,77,83,86,88,89]
+WorldDataCraftWeaponSbowProd = ["Copper Shortbow","Iron Shortbow","Magnesium Shortbow","Boron Shortbow","Gallium Shortbow","Rolton Shortbow","Yosmite Shortbow","Yunotium Shortbow","Jabraca Shortbow","Ironite Shortbow","Platnum Shortbow","Cronite Shortbow"]
+WorldDataCraftWeaponSbowAmm  = [2,6,10,26,39,43,47,55,62,67,72,77,83,86,88]
 
-WorldDataCraftWeaponCbowProd = ["Copper Crossbow","Iron Crossbow","Magnesium Crossbow","Boron Crossbow","Gallium Crossbow","Rolton Crossbow","Yosmite Crossbow","Yunotium Crossbow","Jabraca Crossbow","Ironite Crossbow","Platnum Crossbow","Cronite Crossbow","Adamite Crossbow","Dawnite Crossbow","Malachite Crossbow","Crossbow of Legends"]
-WorldDataCraftWeaponCbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar","Legendary Gem"]
-WorldDataCraftWeaponCbowAmm  = [22,36,40,56,69,73,77,85,72,77,82,87,93,96,108,200]
+WorldDataCraftWeaponCbowProd = ["Copper Crossbow","Iron Crossbow","Magnesium Crossbow","Boron Crossbow","Gallium Crossbow","Rolton Crossbow","Yosmite Crossbow","Yunotium Crossbow","Jabraca Crossbow","Ironite Crossbow","Platnum Crossbow","Cronite Crossbow","Adamite Crossbow","Dawnite Crossbow","Malachite Crossbow"]
+WorldDataCraftWeaponCbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
+WorldDataCraftWeaponCbowAmm  = [22,36,40,56,69,73,77,85,72,77,82,87,93,96,108]
 
 WorldDataCraftArmorProd     = ["","Iron Armour","Quartz Armour","Rolton Armour","Jabraca Armour","Platnum Armour","Adamite Armour","Malachite Armour","Dawnite Armour"]
 WorldDataCraftArmorReq      = ["","Iron Bar","Quartz Bar","Rolton Bar","Jabraca Bar","Platnum Bar","Adamite Bar","Malachite Bar","Dawnite Bar"]
@@ -115,6 +114,8 @@ WorldDataCraftArmorAmm      = ["",25,32,35,40,48,55,59,66,70,78]
 WorldDataTradeProd          = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal","Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar","Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches","Arrows","Bone Dust","Fabric","Fire Dust","Ice Dust","Meat","Odd artifact","Old Flesh","Old Relic","Old Spear","Scrap Metal","Spirit Dust"]
 WorldDataTradePrice         = [50,70,80,100,150,250,500,250,50,245,750,5000,9500,4500,10000,100,100,500,100,3000,1000,1675,1500,750,2500,1000,10,5,25,35,5,5,5,50,10,65,15,75,250,150,15,20,100,1000,500,250,100,500,750,100,5,250,1000,100,100,2500,100,150,250,50,100,150,30,150,250,1000,1000,250,1500,2000,2000,250,100,1000]
 
+WorldDataLegendsForgeProd   = ["Crossbow of the lost god","Shortbow of the godless one","Shuriken of the devils advocate","Shortsword of the void","GreatSword of the evangelical one","Mace of malice","Achient Lance of the long forgoten","Longbow of far-sighted","Axe of the axed"]
+WorldDataLegendsForgeAmm    = [50,20,10,25,40,50,50,50]
 def Intialise():    #Starts the game, Checks reqired modules are installed and runs AutoUpdate if enabled
     global SystemInfo
     global LatestVer
@@ -378,7 +379,7 @@ def WorldGeneration(): # Loads or generates terrain
         Resource = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",3)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",5)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",7)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",9))]
         ResourceAmmount = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",4)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",6)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",8)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",10))]
        
-        if random.randint(-50,5) > 0:
+        if random.randint(-49,6) > 0:
             Weather = random.randint(3,5)
         else:
             Weather = 0  
@@ -490,6 +491,8 @@ def World(): # Handles terrain and Player choices
             print("You are at a trader outpost.")
         elif TerrainType == 5:
             print("There is a dungeon here.")    
+        elif TerrainType == 6:
+            print("There is a legends forge here.")  
 
     Log.append("Printed Terrain")
     ResourceText = "There are "
@@ -535,6 +538,8 @@ def World(): # Handles terrain and Player choices
         print("7) Trade")
     elif TerrainType == 5 and TerrainTypeMeta == 0:
         print("7) Enter Dungeon")
+    elif TerrainType == 5 and TerrainTypeMeta == 0:
+        print("7) Enter Forge")
     Log.append("Printed Options")
 
     Loop = 1
@@ -1135,6 +1140,9 @@ def World(): # Handles terrain and Player choices
             elif TerrainType == 5:
                 DungeonData = [random.randint(1,PlayerInfo[7] * 10),random.randint(1,4),0,0,0]
                 Dungeon()
+
+            elif TerrainType == 6:
+                print("You seem to be able to forge weapons of magnificent power here.\nTo craft the weapons here you need to kill god enemies.")
 
 def SaveLoad(): 
     # I am the man who brings color to the bland image, determined to make orginallity a pandemic.
