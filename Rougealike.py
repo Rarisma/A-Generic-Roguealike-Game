@@ -102,6 +102,7 @@ WorldDataCraftWeaponShuAmm  = [1,3,5,8,12,14,17,18,21,24,26,29,32,35,38]
 
 WorldDataCraftWeaponSbowProd = ["Copper Shortbow","Iron Shortbow","Magnesium Shortbow","Boron Shortbow","Gallium Shortbow","Rolton Shortbow","Yosmite Shortbow","Yunotium Shortbow","Jabraca Shortbow","Ironite Shortbow","Platnum Shortbow","Cronite Shortbow"]
 WorldDataCraftWeaponSbowAmm  = [2,6,10,26,39,43,47,55,62,67,72,77,83,86,88]
+WorldDataCraftWeaponSbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar",]
 
 WorldDataCraftWeaponCbowProd = ["Copper Crossbow","Iron Crossbow","Magnesium Crossbow","Boron Crossbow","Gallium Crossbow","Rolton Crossbow","Yosmite Crossbow","Yunotium Crossbow","Jabraca Crossbow","Ironite Crossbow","Platnum Crossbow","Cronite Crossbow","Adamite Crossbow","Dawnite Crossbow","Malachite Crossbow"]
 WorldDataCraftWeaponCbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
@@ -114,8 +115,8 @@ WorldDataCraftArmorAmm      = ["",25,32,35,40,48,55,59,66,70,78]
 WorldDataTradeProd          = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal","Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar","Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches","Arrows","Bone Dust","Fabric","Fire Dust","Ice Dust","Meat","Odd artifact","Old Flesh","Old Relic","Old Spear","Scrap Metal","Spirit Dust"]
 WorldDataTradePrice         = [50,70,80,100,150,250,500,250,50,245,750,5000,9500,4500,10000,100,100,500,100,3000,1000,1675,1500,750,2500,1000,10,5,25,35,5,5,5,50,10,65,15,75,250,150,15,20,100,1000,500,250,100,500,750,100,5,250,1000,100,100,2500,100,150,250,50,100,150,30,150,250,1000,1000,250,1500,2000,2000,250,100,1000]
 
-WorldDataLegendsForgeProd   = ["Crossbow of the lost god","Shortbow of the godless one","Shuriken of the devils advocate","Shortsword of the void","GreatSword of the evangelical one","Mace of malice","Achient Lance of the long forgoten","Longbow of far-sighted","Axe of the axed"]
-WorldDataLegendsForgeAmm    = [50,20,10,25,40,50,50,50]
+WorldDataLegendsForgeProd   = ["Crossbow of the god","Shortbow of the godless","Shuriken of the advocate","Shortsword of the void","GreatSword of the evangelical","Mace of malice","Achient Lance of the long forgoten","Longbow of far-sighted","Axe of the last"]
+WorldDataLegendsForgeAmm    = [50,20,10,25,40,50,50,50,50]
 def Intialise():    #Starts the game, Checks reqired modules are installed and runs AutoUpdate if enabled
     global SystemInfo
     global LatestVer
@@ -538,7 +539,7 @@ def World(): # Handles terrain and Player choices
         print("7) Trade")
     elif TerrainType == 5 and TerrainTypeMeta == 0:
         print("7) Enter Dungeon")
-    elif TerrainType == 5 and TerrainTypeMeta == 0:
+    elif TerrainType == 6 and TerrainTypeMeta == 0:
         print("7) Enter Forge")
     Log.append("Printed Options")
 
@@ -1143,6 +1144,34 @@ def World(): # Handles terrain and Player choices
 
             elif TerrainType == 6:
                 print("You seem to be able to forge weapons of magnificent power here.\nTo craft the weapons here you need to kill god enemies.")
+                TempInt = 0
+                while TempInt <= len(WorldDataLegendsForgeProd) - 1:
+                    print(str(TempInt) + ") " + str(WorldDataLegendsForgeProd[TempInt]) + " - Requires " + str(WorldDataLegendsForgeAmm[TempInt]) + " Legends gems") 
+                    TempInt = TempInt  + 1
+                Loop0 = 1
+                while Loop0 == 1:
+                    TempInt = input("\nSelect a number in brackets, if you have enough legendary gems you will craft it")
+                    try:
+                        TempInt = int(TempInt)
+                        Test = WorldDataLegendsForgeProd[TempInt]
+                    except:
+                        print("Thats no a valid ID (Make sure its a number)") 
+                    else:
+                        if "Legendary Gem" in PlayerInventory:
+                            if PlayerInventoryAmmount[PlayerInventory.index("Legendary Gem")] >= WorldDataLegendsForgeAmm[TempInt]:
+                                TempInt = int(TempInt)
+                                Loop0 = 0
+                            else:
+                                print("You don't enough Legendary Gems")
+                        else:
+                            print("You don't have any Legendary Gems!")
+                            WorldGeneration()
+                
+                PlayerInventoryAmmount[PlayerInventory.index("Legendary Gem")] = PlayerInventoryAmmount[PlayerInventory.index("Legendary Gem")] - WorldDataLegendsForgeAmm[TempInt]
+                WorldDataLegendsForgeProd   = ["Crossbow of the god","Shortbow of the godless","Shuriken of the advocate","Shortsword of the void","GreatSword of the evangelical","Mace of malice","Achient Lance of the long forgoten","Longbow of far-sighted","Axe of the last"]
+                WorldDataLegendsForgeAmm    = [50,20,10,25,40,50,50,50,50]
+                if TempInt == 0:
+                    PlayerInventoryWeapon   
 
 def SaveLoad(): 
     # I am the man who brings color to the bland image, determined to make orginallity a pandemic.
