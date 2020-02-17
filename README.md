@@ -1,28 +1,19 @@
-# Note about Beta 1.0
-Beta 1.0 will release around monday (17th) and is almost near completion and I have started to wrap up parts of Rougealike, I plan to not really develop anything to release publically in march, anyway Beta 1.0 will contain new features such as dungeons, 5 new types of weapons, Enemy Drops
-
-Beta Revison 1 will release some time after this and will add fixes if needed and quests.
-
-
-# Note on 1.0
-After atempting to work on 0.9 it became increasingly clear that a complete rewrite of the code is needed which would take too much time to release before Febuary 14th so instead im moving the release date back to March 1st and taking this time to properly document features and clean the ever increasing bodged code I will also be including way more features, terrains, resources and enemys
-
-Furthermore I will be releasing several alpha versions of the 1.0 before the release date in the dev branch the next Alpha build will be released on the 7th of Febuary
-
-# Coming in update 1.0
-To do 
-In order of adding (Probably)
 - [ ] Updates and Rebalancing of
   - [ ] Areas
   - [ ] Items
   - [ ] Stats
   - [ ] Caves
   - [ ] Crafting Requirements
-
 - [ ] Quests
+- [ ] Level based crafing
 - [ ] Main Quest
 - [ ] Proffessions
 - [ ] Multistage crafting
+- [ ] Map icons
+- [ ] Achivements
+- [ ] Weapon &  Armor improvement (Village Forging)
+- [ ] Stat gems
+- [ ] Achivements
 - [ ] Level based crafing
 - [ ] Achivements
 - [ ] Mod support
