@@ -1,3 +1,7 @@
+# Beta Revsion 2 Info
+Beta Revison 2 will be released around wendnesday to friday and will include most of the features still to do
+  
+
 - [ ] Updates and Rebalancing of
   - [ ] Areas
   - [ ] Items
@@ -8,13 +12,8 @@
 - [ ] Level based crafing
 - [ ] Main Quest
 - [ ] Proffessions
-- [ ] Multistage crafting
-- [ ] Map icons
-- [ ] Achivements
-- [ ] Weapon &  Armor improvement (Village Forging)
-- [ ] Stat gems
-- [ ] Achivements
 - [ ] Level based crafing
+- [ ] Multistage crafting
 - [ ] Achivements
 - [ ] Mod support
 - [ ] Player Turn shows a 3x3 map
@@ -23,6 +22,7 @@
 - [ ] Remove dependcies
 
 Complete:
+- [x] Weapon &  Armor improvement (Village Forging)
 - [x] Stat gems
 - [x] Legendary weapons
 - [x] New Weapons types
