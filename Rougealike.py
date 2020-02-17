@@ -15,6 +15,7 @@ init(convert=True)
 SystemInfo  = ["Build Version: 17/2/2020","1.0r2"]
 LatestVer   = "ERROR"
 Save = 0
+Terrain = 0
 #Below is Varaibles that are saved
 PlayerInfo  = [0,0,random.randint(-2147483500,2147483500),random.randint(-2147483500,2147483500),50,25,5,1,0,500,"Hands",1,100,0,0,"Nothing",0,0,50,0,0,0,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count,Last Village X Coord (20),Last Village Y Coord,Reputation
 TerrainType = 0
@@ -365,6 +366,7 @@ def WorldGeneration(): # Loads or generates terrain
     global Enemy
     global Weather
     global Log
+    global Terrain
 
     Log.append("World Generation")
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt"):  #Terrain that needs to be generated
@@ -443,6 +445,7 @@ def World(): # Handles terrain and Player choices
     global DungeonData
     global FastTravelX
     global FastTravelY
+    global Terrain
 
     Log.append("Initalised world")
     os.system("cls")
@@ -469,33 +472,35 @@ def World(): # Handles terrain and Player choices
         print(BattleLog[5])
     Log.append("Battle Log printed ")
 
+    TerrainText = ""
     if TerrainType == 0:
-        print(Fore.__getattribute__(WorldDataTerrainColor[Terrain]) + Style.__getattribute__(WorldDataTerrainBrightness[Terrain]) + "You are " + str(WorldDataTerrain[Terrain]) + ".")
+        TerrainText = Fore.__getattribute__(WorldDataTerrainColor[Terrain]) + Style.__getattribute__(WorldDataTerrainBrightness[Terrain]) + "You are " + str(WorldDataTerrain[Terrain]) + "."
     else:
         if TerrainType == 1 and TerrainTypeMeta == 0:
-            print("You are at a monolith.")
+            TerrainText = "You are at a monolith."
         elif TerrainType == 2 and TerrainTypeMeta == 0:
             if ResourceAmmount[0] <= 5:
-                print("You are at a cave")
+                TerrainText = "You are at a cave"
                 CaveType = 0
             else:
-                print("You are at a gem cave")
+                TerrainText = "You are at a gem cave"
                 CaveType = 1
         elif TerrainType == 3 and TerrainTypeMeta == 0:
-            print("You are at a village.")
+            TerrainText = "You are at a village."
             PlayerInfo[20] = PlayerInfo[2]
             PlayerInfo[21] = PlayerInfo[3]
             if PlayerInfo[2] not in FastTravelX or PlayerInfo[3] not in FastTravelY:
                 FastTravelX.append(PlayerInfo[2])
                 FastTravelY.append(PlayerInfo[3])
         elif TerrainType == 4 and TerrainTypeMeta == 0:
-            print("You are at a trader outpost.")
+            TerrainText = "You are at a trader outpost."
         elif TerrainType == 5:
-            print("There is a dungeon here.")    
+            TerrainText = "There is a dungeon here."
         elif TerrainType == 6:
-            print("There is a legends forge here.")  
+            TerrainText = "There is a legends forge here."
         elif TerrainType == 7:
-            print("There is a strange shop here.")  
+            TerrainText = "There is a strange shop here."
+            Terrain = "There is a strange shop here." 
 
     Log.append("Printed Terrain")
     ResourceText = "There are "
@@ -510,7 +515,7 @@ def World(): # Handles terrain and Player choices
     if ResourceText == "There are ":
         time.sleep(0)
     else:
-        print(Fore.RESET + str(ResourceText) + Fore.RESET)
+        ResourceText = Fore.RESET + str(ResourceText) + Fore.RESET
     Log.append("Printed resource")
 
     EnemyText = ""
@@ -523,8 +528,29 @@ def World(): # Handles terrain and Player choices
     if Enemy[3] >= 0:
         EnemyText = EnemyText + WorldDataEnemySuffix[Enemy[3]]
     if Enemy[0] == 0:
-        print(EnemyText + " here.")
+        EnemyText = EnemyText + " here."
     Log.append("Printed enemy")
+
+    if len(TerrainText) >= len(ResourceText) and len(TerrainText) >= len(EnemyText):
+        TerrainText = TerrainText + "     "
+        while len(TerrainText) > len(ResourceText):
+            ResourceText = ResourceText + " "
+        while len(TerrainText) > len(EnemyText):
+            EnemyText = EnemyText + " "
+    elif len(ResourceText) >= len(TerrainText) and len(ResourceText) >= len(EnemyText):
+        ResourceText = ResourceText + "     "
+        while len(ResourceText) > len(TerrainText):
+            TerrainText = TerrainText + " "
+        while len(ResourceText) > len(EnemyText):
+            EnemyText = EnemyText + " "
+    elif len(EnemyText) >= len(TerrainText) and len(EnemyText) >= len(EnemyText):
+        EnemyText = EnemyText + "     "
+        while len(EnemyText) > len(TerrainText):
+            TerrainText = TerrainText + " "
+        while len(EnemyText) > len(ResourceText):
+            ResourceText = ResourceText + " "
+
+    print(Fore.__getattribute__(WorldDataTerrainColor[Terrain]) + Style.__getattribute__(WorldDataTerrainBrightness[Terrain]) + str(Terrain) + Fore.RESET + "Test\n" + str(ResourceText) + " Test\n" + str(EnemyText) + " Test")
 
     if Weather > 0:
         print(Fore.YELLOW + "It is also very " + WorldDataWeather[Weather] + "." + Fore.RESET)
@@ -1257,6 +1283,8 @@ def SaveLoad():
     global PlayerMagicType
     global PlayerMagicValue
     global PlayerMagicCost
+    global FastTravelY
+    global FastTravelX
     global Log
 
     Log.append("Log menu")
@@ -1368,7 +1396,7 @@ def SaveLoad():
 
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\FastTravelX.json"
         with open(destination, "w+") as file:
-            json.dump(FastTravelX, file)
+            json.dump(FastTravelY, file)
 
         print("Save complete!")
         time.sleep(2.5)
@@ -1443,7 +1471,6 @@ def SaveLoad():
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\FastTravelX.json"
         with open(destination) as file:
             FastTravelX = json.load(file)
-
 
         print("Load complete!")
         time.sleep(2.5)
