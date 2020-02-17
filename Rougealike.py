@@ -12,7 +12,7 @@ import pathlib
 init(convert=True)
 #chess pieces!
 
-SystemInfo  = ["Build Version: 9/2/2020","1.0"]
+SystemInfo  = ["Build Version: 17/2/2020","1.0r2"]
 LatestVer   = "ERROR"
 Save = 0
 #Below is Varaibles that are saved
@@ -25,8 +25,8 @@ ResourceAmmount = 0
 Enemy   = [""]
 Weather = 0
 BattleLog = ["","","","","",""]
-PlayerInventory = ["Pendant","Iron Bar"]
-PlayerInventoryAmmount = [1,1000]
+PlayerInventory = ["Pendant"]
+PlayerInventoryAmmount = [1]
 PlayerInventoryArmourDur = [0]
 PlayerInventoryArmour    = ["Nothing"]
 PlayerInventoryArmourDef = [0]
@@ -380,14 +380,14 @@ def WorldGeneration(): # Loads or generates terrain
         Resource = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",3)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",5)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",7)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",9))]
         ResourceAmmount = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",4)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",6)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",8)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",10))]
        
-        if random.randint(-49,6) > 0:
+        if random.randint(-23,7) > 0:
             Weather = random.randint(3,5)
         else:
             Weather = 0  
         Log.append("Set weather as " + str(Weather))
     else:   #Generates Terrain
         Log.append("Terrain doesn't exist")
-        if random.randint(1,20) == 25: # 5% Chance 
+        if random.randint(1,8) == 8: # 5% Chance 
             TerrainType = random.randint(1,4) # Terrain isn't needed to be generated
             TerrainTypeMeta = 0
         else:
@@ -494,6 +494,8 @@ def World(): # Handles terrain and Player choices
             print("There is a dungeon here.")    
         elif TerrainType == 6:
             print("There is a legends forge here.")  
+        elif TerrainType == 7:
+            print("There is a strange shop here.")  
 
     Log.append("Printed Terrain")
     ResourceText = "There are "
@@ -541,6 +543,8 @@ def World(): # Handles terrain and Player choices
         print("7) Enter Dungeon")
     elif TerrainType == 6 and TerrainTypeMeta == 0:
         print("7) Enter Forge")
+    elif TerrainType == 7 and TerrainTypeMeta == 0:
+        print("7) Enter Shop")
     Log.append("Printed Options")
 
     Loop = 1
@@ -663,7 +667,7 @@ def World(): # Handles terrain and Player choices
                                 print(str(PlayerInventoryWeapon[TempInt]) + "  Attack: " + str(PlayerInventoryWeaponAtk[TempInt]) + "  Durability: " + str(PlayerInventoryWeaponDur[TempInt]) + "  Critical Rate: " + str(PlayerInventoryWeaponCrt[TempInt]) + "%   Hit Rate: " + str(PlayerInventoryWeaponHit[TempInt]) +   "%   ID: " + str(TempInt))
                                 TempInt = TempInt + 1    
 
-                            TempStr = input("You have curently equiped: " + PlayerInfo[10] + "  Attack: " + str(PlayerInfo[11]) + "  Durability: " + str(PlayerInfo[14]) + "  Critical Rate: " + str(PlayerInfo[13]) + "%  Hit Rate: " + str(PlayerInfo[12]) + "%\nType the id of an armour to equip it (or type leave with no capitals to leave)\n")
+                            TempStr = input("You have curently equiped: " + PlayerInfo[10] + "  Attack: " + str(PlayerInfo[11]) + "  Durability: " + str(PlayerInfo[14]) + "  Critical Rate: " + str(PlayerInfo[13]) + "%  Hit Rate: " + str(PlayerInfo[12]) + "%\nType the id of a weapon to equip it (or type leave with no capitals to leave)\n")
                             TempInt = 0
                             if TempStr == "leave":
                                 World()
@@ -747,7 +751,7 @@ def World(): # Handles terrain and Player choices
                     World()
         elif keyboard.is_pressed("7"): # Non-Standard terrains
             Log.append("Non-Standard Terrains")
-            if TerrainType == 1 and TerrainTypeMeta == 0:
+            if TerrainType == 1:    # Monoliths:
                 PlayerInfo[18] = int(PlayerInfo[18] + random.randint(1,15))
                 print("You put your hand to the monolith")
                 if PlayerInfo[19] < len(WorldDataMonolithSpell)-1:
@@ -762,8 +766,7 @@ def World(): # Handles terrain and Player choices
                     WorldGeneration()
                 else:                   
                     print("The monlith seems to have no more infomation to bestow upon you.\nIt fears you have have grown too powerful.")
-            
-            elif TerrainType == 2 and TerrainTypeMeta == 0:
+            elif TerrainType == 2:  # Caves
                     if CaveType == 0:
                        CaveResource =  WorldDataCaveMetal[random.randint(0,len(WorldDataCaveMetal) - 1)]
                     else:
@@ -781,8 +784,7 @@ def World(): # Handles terrain and Player choices
                     if random.randint(0,10) == 0:    
                         os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
                     WorldGeneration()
-
-            elif TerrainType == 3:
+            elif TerrainType == 3:  # Villages
                 # Crafting modes 0 -  just add to inventory 1 - Mark as equipable weapon (adds to playerInventoryWeapons) 2- Mark as equipable Armour (PlayerInventoryArmour)
                 os.system("cls")
                 print(Fore.RESET+ "You are at a village\n1) Use Workbench\n2) use Forge\nQ) leave")
@@ -1097,8 +1099,7 @@ def World(): # Handles terrain and Player choices
                                 WorldGeneration()
                     elif keyboard.is_pressed("Q"):
                         WorldGeneration()
-
-            elif TerrainType == 4:
+            elif TerrainType == 4:  # Trader Outpost
                 Loop1 = 1
                 while Loop1 == 1:
                     TempInt = 0
@@ -1137,20 +1138,20 @@ def World(): # Handles terrain and Player choices
                     print("Sold 1 x " + str(GreenText[TempInt]) + " for " + str(WorldDataTradePrice[WorldDataTradeProd.index(GreenText[TempInt])]) + " Gold.")
                     time.sleep(1)
                     os.system("cls")
-
-            elif TerrainType == 5:
+            elif TerrainType == 5:  # Dungeons
                 DungeonData = [random.randint(1,PlayerInfo[7] * 10),random.randint(1,4),0,0,0]
                 Dungeon()
-
-            elif TerrainType == 6:
-                print("You seem to be able to forge weapons of magnificent power here.\nTo craft the weapons here you need to kill god enemies.")
+            elif TerrainType == 6:  # Legendary Forge
+                print("You seem to be able to forge weapons of magnificent power here.\nTo craft the weapons here you need to kill gods.")
                 TempInt = 0
                 while TempInt <= len(WorldDataLegendsForgeProd) - 1:
                     print(str(TempInt) + ") " + str(WorldDataLegendsForgeProd[TempInt]) + " - Requires " + str(WorldDataLegendsForgeAmm[TempInt]) + " Legends gems") 
                     TempInt = TempInt  + 1
                 Loop0 = 1
                 while Loop0 == 1:
-                    TempInt = input("\nSelect a number in brackets, if you have enough legendary gems you will craft it")
+                    TempInt = input("\nSelect a number in brackets, if you have enough legendary gems you will craft it (Type leave to leave)\n")
+                    if TempInt == "leave":
+                        WorldGeneration
                     try:
                         TempInt = int(TempInt)
                         Test = WorldDataLegendsForgeProd[TempInt]
@@ -1167,12 +1168,76 @@ def World(): # Handles terrain and Player choices
                             print("You don't have any Legendary Gems!")
                             WorldGeneration()
                 
+                print("Crafted " + str(WorldDataLegendsForgeProd[TempInt]))
                 PlayerInventoryAmmount[PlayerInventory.index("Legendary Gem")] = PlayerInventoryAmmount[PlayerInventory.index("Legendary Gem")] - WorldDataLegendsForgeAmm[TempInt]
-                WorldDataLegendsForgeProd   = ["Crossbow of the god","Shortbow of the godless","Shuriken of the advocate","Shortsword of the void","GreatSword of the evangelical","Mace of malice","Achient Lance of the long forgoten","Longbow of far-sighted","Axe of the last"]
-                WorldDataLegendsForgeAmm    = [50,20,10,25,40,50,50,50,50]
+                PlayerInventoryWeapon.append(WorldDataLegendsForgeProd[TempInt])
+                PlayerInventoryWeaponHit.append(100)
+                PlayerInventoryWeaponCrt.append(100)
                 if TempInt == 0:
-                    PlayerInventoryWeapon   
-
+                    PlayerInventoryWeaponAtk.append(random.randint(10000,100000))
+                    PlayerInventoryWeaponDur.append(random.randint(5000,50000))
+                elif TempInt == 1:
+                    PlayerInventoryWeaponAtk.append(random.randint(1000,10000))
+                    PlayerInventoryWeaponDur.append(random.randint(500,5000))
+                elif TempInt == 2:
+                    PlayerInventoryWeaponAtk.append(random.randint(5000,25000))
+                    PlayerInventoryWeaponDur.append(random.randint(10,1000))
+                elif TempInt == 3:
+                    PlayerInventoryWeaponAtk.append(random.randint(5000,25000))
+                    PlayerInventoryWeaponDur.append(random.randint(1000,10000))
+                elif TempInt == 4:
+                    PlayerInventoryWeaponAtk.append(random.randint(5000,50000))
+                    PlayerInventoryWeaponDur.append(random.randint(1000,10000))
+                elif TempInt == 5:
+                    PlayerInventoryWeaponAtk.append(random.randint(5000,50000))
+                    PlayerInventoryWeaponDur.append(random.randint(10000,100000))
+                elif TempInt == 6:
+                    PlayerInventoryWeaponAtk.append(random.randint(50000,5000000))
+                    PlayerInventoryWeaponDur.append(random.randint(100,100000))
+                elif TempInt == 7:
+                    PlayerInventoryWeaponAtk.append(random.randint(1000,10000))
+                    PlayerInventoryWeaponDur.append(random.randint(100,10000))
+                elif TempInt == 8:
+                    PlayerInventoryWeaponAtk.append(random.randint(1000,10000))
+                    PlayerInventoryWeaponDur.append(random.randint(1000,10000))
+                elif TempInt == 9:
+                    PlayerInventoryWeaponAtk.append(random.randint(1000,10000))
+                    PlayerInventoryWeaponDur.append(random.randint(1000,10000))
+                os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
+                WorldGeneration()
+            elif TerrainType == 7:  # Shady shop
+                os.system("cls")
+                print("You are at a strange shop\nAs you enter, you see lots of special pristinely-cut crystals\n\nYour gold: "  + str(PlayerInfo[9]) + "\n1) Health Crystal\n2) Defence Crystal\n3) Attack Crystal\nQ) Leave\n\nThe shopkeeper tells you that each crystal will boost your stats perminantly for 500 gold")
+                time.sleep(1.5)
+                Loop1 = 1
+                while Loop1 == 1:#hp,5atk,def
+                    if keyboard.is_pressed("1") and PlayerInfo[9] >= 500:
+                        if PlayerInfo[9] >= 500: 
+                            PlayerInfo[4] = PlayerInfo[4] + random.randint(20,50)
+                            Loop1 = 0
+                        else:
+                            print("You don't have enough gold")
+                    elif keyboard.is_pressed("2") and PlayerInfo[9] >= 500:
+                        if PlayerInfo[9] >= 500:
+                            PlayerInfo[5] = PlayerInfo[5] + random.randint(20,50)
+                            Loop1 = 0
+                        else:
+                            print("You don't have enough gold")
+                    elif keyboard.is_pressed("3"):
+                        if PlayerInfo[9] >= 500:
+                            PlayerInfo[6] = PlayerInfo[6] + random.randint(20,50)
+                            Loop1 = 0
+                        else:
+                            print("You don't have enough gold")
+                    elif keyboard.is_pressed("Q"):
+                        os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
+                        WorldGeneration()
+                PlayerInfo[9] = PlayerInfo[9] - 500
+                os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
+                print("Suddenly the shop vanishes!")
+                time.sleep(1.5)
+                WorldGeneration()
+                
 def SaveLoad(): 
     # I am the man who brings color to the bland image, determined to make orginallity a pandemic.
     global PlayerInfo
@@ -1297,6 +1362,14 @@ def SaveLoad():
         with open(destination, "w+") as file:
             json.dump(PlayerInfo, file)
 
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\FastTravelY.json"
+        with open(destination, "w+") as file:
+            json.dump(FastTravelY, file)
+
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\FastTravelX.json"
+        with open(destination, "w+") as file:
+            json.dump(FastTravelX, file)
+
         print("Save complete!")
         time.sleep(2.5)
         WorldGeneration()
@@ -1363,7 +1436,16 @@ def SaveLoad():
         with open(destination) as file:
             PlayerMagicCost = json.load(file)
 
-        print("Save complete!")
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\FastTravelY.json"
+        with open(destination) as file:
+            FastTravelY = json.load(file)
+
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\FastTravelX.json"
+        with open(destination) as file:
+            FastTravelX = json.load(file)
+
+
+        print("Load complete!")
         time.sleep(2.5)
         WorldGeneration()
 
@@ -1465,6 +1547,7 @@ def Battle():
 
             elif keyboard.is_pressed("3"):
                 Def = Def * 2
+                Attack = 0
                 Loop2 = 0
             elif keyboard.is_pressed("4"):
                 Attack = 0
@@ -1475,7 +1558,7 @@ def Battle():
                     Loop2 = 0
         
         EnemyAttack = EnemyATK + random.randint(-10 * PlayerInfo[7],10 * PlayerInfo[7])
-        EnemyAttack = EnemyAttack - PlayerInfo[6]
+        EnemyAttack = EnemyAttack - Def
         EnemyHP = EnemyHP - Attack
         if EnemyAttack <= 0:
             EnemyAttack = 0
@@ -1546,6 +1629,7 @@ def Death():
             PlayerInfo[3] = PlayerInfo[21]
             PlayerInfo[7] = 0
             PlayerInfo[8] = 0
+            PlayerCurrentStats[0] = PlayerInfo[4]
             WorldGeneration()
         elif keyboard.is_pressed("4"):
             exit()
