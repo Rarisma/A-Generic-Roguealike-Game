@@ -19,7 +19,6 @@ In order of adding (Probably)
   - [ ] Caves
   - [ ] Crafting Requirements
 
-- [ ] Stat gems
 - [ ] Quests
 - [ ] Main Quest
 - [ ] Proffessions
@@ -33,6 +32,7 @@ In order of adding (Probably)
 - [ ] Remove dependcies
 
 Complete:
+- [x] Stat gems
 - [x] Legendary weapons
 - [x] New Weapons types
 - [x] Weapon &  Armor improvement (Village Forging)
