@@ -472,57 +472,6 @@ def World(): # Handles terrain and Player choices
         print(BattleLog[5])
     Log.append("Battle Log printed ")
 
-    TopRow = ["","",""]
-    MidRow = ["","",""]
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt")):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
-            TopRow[0] = "[ " + Fore.__getattribute__(WorldDataTerrainColor[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))]) + Style.__getattribute__(int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))) + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + Fore.RESET + Style.RESET_ALL + " ] "
-        else:
-            TopRow[0] = "[ ? ] "
-    else:
-        TopRow[0] = "[ # ] "
-
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt")):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
-            TopRow[1] = "[ " + Fore.__getattribute__(WorldDataTerrainColor[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))]) + Style.__getattribute__(int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))) + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + Fore.RESET + Style.RESET_ALL + " ] "
-        else:
-            TopRow[1] = "[ ? ]"
-    else:
-        TopRow[1] = "[ # ] "
-
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt")):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
-            TopRow[2] = "[ " + Fore.__getattribute__(WorldDataTerrainColor[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))]) + Style.__getattribute__(int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))) + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + Fore.RESET + Style.RESET_ALL + " ] "
-        else:
-            TopRow[2] = "[ ? ] "
-    else:
-        TopRow[2] = "[ # ] "
-
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt")):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
-            MidRow[0] = "[ " + Fore.__getattribute__(WorldDataTerrainColor[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))]) + Style.__getattribute__(int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))) + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + Fore.RESET + Style.RESET_ALL + " ] "
-        else:
-            MidRow[0] = "[ ? ] "
-    else:
-        MidRow[0] = "[ # ] "
-
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt")):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
-            MidRow[0] = "[ " + Fore.__getattribute__(WorldDataTerrainColor[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))]) + Style.__getattribute__(int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))) + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + Fore.RESET + Style.RESET_ALL + " ] "
-        else:
-            MidRow[0] = "[ ? ] "
-    else:
-        MidRow[0] = "[ # ] "
-
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt")):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
-            MidRow[0] = "[ " + Fore.__getattribute__(WorldDataTerrainColor[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))]) + Style.__getattribute__(int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))) + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + Fore.RESET + Style.RESET_ALL + " ] "
-        else:
-            MidRow[0] = "[ ? ] "
-    else:
-        MidRow[0] = "[ # ] "
-
-
     if TerrainType == 0:
         print(Fore.__getattribute__(WorldDataTerrainColor[Terrain]) + Style.__getattribute__(WorldDataTerrainBrightness[Terrain]) + "You are " + str(WorldDataTerrain[Terrain]) + ".")
     else:
@@ -549,7 +498,84 @@ def World(): # Handles terrain and Player choices
         elif TerrainType == 6:
             print("There is a legends forge here.")  
         elif TerrainType == 7:
-            print("There is a strange shop here.")  
+            print("There is a strange shop here.") 
+    
+
+    TopRow = ["","",""]
+    MidRow = ["","",""]
+    LowRow = ["","",""]
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
+            TopRow[0] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + " ] "
+        else:
+            TopRow[0] = "[ ? ] "
+    else:
+        TopRow[0] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
+            TopRow[1] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + " ] "
+        else:
+            TopRow[1] = "[ ? ] "
+    else:
+        TopRow[1] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
+            TopRow[2] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + " ] "
+        else:
+            TopRow[2] = "[ ? ] "
+    else:
+        TopRow[2] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
+            MidRow[0] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + " ] "
+        else:
+            MidRow[0] = "[ ? ] "
+    else:
+        MidRow[0] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] )) + " Y" + str(int(PlayerInfo[3])) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
+            MidRow[1] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + " ] "
+        else:
+            MidRow[1] = "[ ? ] "
+    else:
+        MidRow[1] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
+            MidRow[2] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + " ] "
+        else:
+            MidRow[2] = "[ ? ] "
+    else:
+        MidRow[2] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",1)) == 0:
+            LowRow[0] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",2))] + " ] "
+        else:
+            LowRow[0] = "[ ? ] "
+    else:
+        LowRow[0] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",1)) == 0:
+            LowRow[1] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",2))] + " ] "
+        else:
+            LowRow[1] = "[ ? ] "
+    else:
+        LowRow[1] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",1)) == 0:
+            LowRow[2] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",2))] + " ] "
+        else:
+            LowRow[2] = "[ ? ] "
+    else:
+        LowRow[2] = "[ # ] "
 
     Log.append("Printed Terrain")
     ResourceText = "There are "
@@ -584,21 +610,23 @@ def World(): # Handles terrain and Player choices
         print(Fore.YELLOW + "It is also very " + WorldDataWeather[Weather] + "." + Fore.RESET)
     Log.append("Printed Weather")
 
-    print(Fore.RESET + "\n\n1) Battle    2) Move      3) Collect Items     " + str(TopRow[0]) +  str(TopRow[1]) + str(TopRow[2]) + "\n4) Character 5) Save/Load 6) Quit              " + str(MidRow[0]) +  str(MidRow[1]) + str(MidRow[2]) + str(MidRow))
+    print(Fore.RESET + "\n\n1) Battle    2) Move      3) Collect Items     " + str(TopRow[0]) +  str(TopRow[1]) + str(TopRow[2]) + "\n4) Character 5) Save/Load 6) Quit              " + str(MidRow[0]) +  str(MidRow[1]) + str(MidRow[2]))
     if TerrainType == 1 and TerrainTypeMeta == 0:
-        print("7) Use Monolith     ")
+        print("7) Use Monolith                                " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 2 and TerrainTypeMeta == 0:
-        print("7) Mine             ")
+        print("7) Mine                                        " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 3 and TerrainTypeMeta == 0:
-        print("7) Enter Village    ")
+        print("7) Enter Village                               " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 4 and TerrainTypeMeta == 0:
-        print("7) Trade            ")
+        print("7) Trade                                       " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 5 and TerrainTypeMeta == 0:
-        print("7) Enter Dungeon    ")
+        print("7) Enter Dungeon                               " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 6 and TerrainTypeMeta == 0:
-        print("7) Enter Forge      ")
+        print("7) Enter Forge                                 " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 7 and TerrainTypeMeta == 0:
-        print("7) Enter Shop       ")
+        print("7) Enter Shop                                  " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
+    else:
+        print("                                               " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     Log.append("Printed Options")
 
     Loop = 1
