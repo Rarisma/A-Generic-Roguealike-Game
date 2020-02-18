@@ -48,6 +48,7 @@ FastTravelY = [0]
 
 #WorldData Variables SHOULD NOT be modifyed instead unless its for a master branch (USE THE MOD API)
 WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside"]
+WorldDataMapIcon            = ["G","F","M","T","A","V","H","A","V","L","B","C","F","S","F","F","H","C","F","M","D","O","A","P","M","R"]
 WorldDataTerrainColor       = ["GREEN","RESET","WHITE","RESET","RESET","RED","GREEN","WHITE","CYAN","BLUE","YELLOW","RESET","WHITE","GREEN","GREEN","GREEN","RESET","CYAN","YELLOW","YELLOW","YELLOW","BLUE","RESET","WHITE","WHITE","CYAN"]
 WorldDataTerrainBrightness  = ["BRIGHT","NORMAL","BRIGHT","NORMAL","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","NORMAL","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","BRIGHT","BRIGHT","DIM"]
 WorldDataResource           = ["Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches","Spruce logs"]
@@ -445,7 +446,6 @@ def World(): # Handles terrain and Player choices
     global DungeonData
     global FastTravelX
     global FastTravelY
-    global Terrain
 
     Log.append("Initalised world")
     os.system("cls")
@@ -472,35 +472,84 @@ def World(): # Handles terrain and Player choices
         print(BattleLog[5])
     Log.append("Battle Log printed ")
 
-    TerrainText = ""
+    TopRow = ["","",""]
+    MidRow = ["","",""]
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt")):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
+            TopRow[0] = "[ " + Fore.__getattribute__(WorldDataTerrainColor[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))]) + Style.__getattribute__(int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))) + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + Fore.RESET + Style.RESET_ALL + " ] "
+        else:
+            TopRow[0] = "[ ? ] "
+    else:
+        TopRow[0] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt")):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
+            TopRow[1] = "[ " + Fore.__getattribute__(WorldDataTerrainColor[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))]) + Style.__getattribute__(int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))) + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + Fore.RESET + Style.RESET_ALL + " ] "
+        else:
+            TopRow[1] = "[ ? ]"
+    else:
+        TopRow[1] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt")):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
+            TopRow[2] = "[ " + Fore.__getattribute__(WorldDataTerrainColor[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))]) + Style.__getattribute__(int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))) + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + Fore.RESET + Style.RESET_ALL + " ] "
+        else:
+            TopRow[2] = "[ ? ] "
+    else:
+        TopRow[2] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt")):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
+            MidRow[0] = "[ " + Fore.__getattribute__(WorldDataTerrainColor[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))]) + Style.__getattribute__(int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))) + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + Fore.RESET + Style.RESET_ALL + " ] "
+        else:
+            MidRow[0] = "[ ? ] "
+    else:
+        MidRow[0] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt")):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
+            MidRow[0] = "[ " + Fore.__getattribute__(WorldDataTerrainColor[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))]) + Style.__getattribute__(int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))) + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + Fore.RESET + Style.RESET_ALL + " ] "
+        else:
+            MidRow[0] = "[ ? ] "
+    else:
+        MidRow[0] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt")):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
+            MidRow[0] = "[ " + Fore.__getattribute__(WorldDataTerrainColor[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))]) + Style.__getattribute__(int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))) + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + Fore.RESET + Style.RESET_ALL + " ] "
+        else:
+            MidRow[0] = "[ ? ] "
+    else:
+        MidRow[0] = "[ # ] "
+
+
     if TerrainType == 0:
-        TerrainText = Fore.__getattribute__(WorldDataTerrainColor[Terrain]) + Style.__getattribute__(WorldDataTerrainBrightness[Terrain]) + "You are " + str(WorldDataTerrain[Terrain]) + "."
+        print(Fore.__getattribute__(WorldDataTerrainColor[Terrain]) + Style.__getattribute__(WorldDataTerrainBrightness[Terrain]) + "You are " + str(WorldDataTerrain[Terrain]) + ".")
     else:
         if TerrainType == 1 and TerrainTypeMeta == 0:
-            TerrainText = "You are at a monolith."
+            print("You are at a monolith.")
         elif TerrainType == 2 and TerrainTypeMeta == 0:
             if ResourceAmmount[0] <= 5:
-                TerrainText = "You are at a cave"
+                print("You are at a cave")
                 CaveType = 0
             else:
-                TerrainText = "You are at a gem cave"
+                print("You are at a gem cave")
                 CaveType = 1
         elif TerrainType == 3 and TerrainTypeMeta == 0:
-            TerrainText = "You are at a village."
+            print("You are at a village.")
             PlayerInfo[20] = PlayerInfo[2]
             PlayerInfo[21] = PlayerInfo[3]
             if PlayerInfo[2] not in FastTravelX or PlayerInfo[3] not in FastTravelY:
                 FastTravelX.append(PlayerInfo[2])
                 FastTravelY.append(PlayerInfo[3])
         elif TerrainType == 4 and TerrainTypeMeta == 0:
-            TerrainText = "You are at a trader outpost."
+            print("You are at a trader outpost.")
         elif TerrainType == 5:
-            TerrainText = "There is a dungeon here."
+            print("There is a dungeon here.")    
         elif TerrainType == 6:
-            TerrainText = "There is a legends forge here."
+            print("There is a legends forge here.")  
         elif TerrainType == 7:
-            TerrainText = "There is a strange shop here."
-            Terrain = "There is a strange shop here." 
+            print("There is a strange shop here.")  
 
     Log.append("Printed Terrain")
     ResourceText = "There are "
@@ -515,7 +564,7 @@ def World(): # Handles terrain and Player choices
     if ResourceText == "There are ":
         time.sleep(0)
     else:
-        ResourceText = Fore.RESET + str(ResourceText) + Fore.RESET
+        print(Fore.RESET + str(ResourceText) + Fore.RESET)
     Log.append("Printed resource")
 
     EnemyText = ""
@@ -528,49 +577,28 @@ def World(): # Handles terrain and Player choices
     if Enemy[3] >= 0:
         EnemyText = EnemyText + WorldDataEnemySuffix[Enemy[3]]
     if Enemy[0] == 0:
-        EnemyText = EnemyText + " here."
+        print(EnemyText + " here.")
     Log.append("Printed enemy")
-
-    if len(TerrainText) >= len(ResourceText) and len(TerrainText) >= len(EnemyText):
-        TerrainText = TerrainText + "     "
-        while len(TerrainText) > len(ResourceText):
-            ResourceText = ResourceText + " "
-        while len(TerrainText) > len(EnemyText):
-            EnemyText = EnemyText + " "
-    elif len(ResourceText) >= len(TerrainText) and len(ResourceText) >= len(EnemyText):
-        ResourceText = ResourceText + "     "
-        while len(ResourceText) > len(TerrainText):
-            TerrainText = TerrainText + " "
-        while len(ResourceText) > len(EnemyText):
-            EnemyText = EnemyText + " "
-    elif len(EnemyText) >= len(TerrainText) and len(EnemyText) >= len(EnemyText):
-        EnemyText = EnemyText + "     "
-        while len(EnemyText) > len(TerrainText):
-            TerrainText = TerrainText + " "
-        while len(EnemyText) > len(ResourceText):
-            ResourceText = ResourceText + " "
-
-    print(Fore.__getattribute__(WorldDataTerrainColor[Terrain]) + Style.__getattribute__(WorldDataTerrainBrightness[Terrain]) + str(Terrain) + Fore.RESET + "Test\n" + str(ResourceText) + " Test\n" + str(EnemyText) + " Test")
 
     if Weather > 0:
         print(Fore.YELLOW + "It is also very " + WorldDataWeather[Weather] + "." + Fore.RESET)
     Log.append("Printed Weather")
 
-    print(Fore.RESET + "\n\n1) Battle    2) Move      3) Collect Items\n4) Character 5) Save/Load 6) Quit")
+    print(Fore.RESET + "\n\n1) Battle    2) Move      3) Collect Items     " + str(TopRow[0]) +  str(TopRow[1]) + str(TopRow[2]) + "\n4) Character 5) Save/Load 6) Quit              " + str(MidRow[0]) +  str(MidRow[1]) + str(MidRow[2]) + str(MidRow))
     if TerrainType == 1 and TerrainTypeMeta == 0:
-        print("7) Use Monolith")
+        print("7) Use Monolith     ")
     elif TerrainType == 2 and TerrainTypeMeta == 0:
-        print("7) Mine")
+        print("7) Mine             ")
     elif TerrainType == 3 and TerrainTypeMeta == 0:
-        print("7) Enter Village")
+        print("7) Enter Village    ")
     elif TerrainType == 4 and TerrainTypeMeta == 0:
-        print("7) Trade")
+        print("7) Trade            ")
     elif TerrainType == 5 and TerrainTypeMeta == 0:
-        print("7) Enter Dungeon")
+        print("7) Enter Dungeon    ")
     elif TerrainType == 6 and TerrainTypeMeta == 0:
-        print("7) Enter Forge")
+        print("7) Enter Forge      ")
     elif TerrainType == 7 and TerrainTypeMeta == 0:
-        print("7) Enter Shop")
+        print("7) Enter Shop       ")
     Log.append("Printed Options")
 
     Loop = 1
@@ -1263,7 +1291,7 @@ def World(): # Handles terrain and Player choices
                 print("Suddenly the shop vanishes!")
                 time.sleep(1.5)
                 WorldGeneration()
-                
+                              
 def SaveLoad(): 
     # I am the man who brings color to the bland image, determined to make orginallity a pandemic.
     global PlayerInfo
