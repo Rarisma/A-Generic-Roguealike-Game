@@ -2,7 +2,7 @@
 Rougealike is randomised RPG where you can find lots of things such as monoliths, villages and caves
 
 # Beta Revsion 2 Info
-Beta Revison 2 will be released around wendnesday to friday and will include most of the features still to do
+Beta Revison 2 will be released around wendnesday to friday and will include most of the features still on the to do list
   
 
 - [ ] Updates and Rebalancing of
@@ -17,12 +17,11 @@ Beta Revison 2 will be released around wendnesday to friday and will include mos
 - [ ] Multistage crafting
 - [ ] Achivements
 - [ ] Mod support
-- [ ] Player Turn shows a 3x3 map
-- [ ] Map icons
-- [ ] Map showing 100 x 100 
 - [ ] Remove dependcies
 
 Complete:
+- [x] Player Turn shows a 3x3 map
+- [x] Map icons
 - [x] Weapon &  Armor improvement (Village Forging)
 - [x] Stat gems
 - [x] Legendary weapons
