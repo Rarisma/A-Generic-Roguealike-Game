@@ -640,8 +640,6 @@ def World(): # Handles terrain and Player choices
             print("                                               " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     Log.append("Printed Options")
 
-
-
     Loop = 1
     time.sleep(1)
     Log.append("Initalised options loop")
@@ -1332,8 +1330,36 @@ def World(): # Handles terrain and Player choices
                 print("Suddenly the shop vanishes!")
                 time.sleep(1.5)
                 WorldGeneration()
-        elif keyboard.is_pressed("8"): # Proffessions
-    
+        elif keyboard.is_pressed("8") and WorldDataProffessionData[Terrain] > 0: # Proffessions
+            if WorldDataProffessionData[Terrain] == 1:      #fishigng
+                print("You started fishing")
+                time.sleep(random.randint(1,7))
+                if random.randint(1,4) == 1:
+                    print("You caught a fish!")
+                    if "Fish" in PlayerInventory:
+                        PlayerInventoryAmmount[PlayerInventory.index("Fish")] = PlayerInventoryAmmount[PlayerInventory.index("Fish")] + 1
+                    else:
+                        PlayerInventory.append("Fish")
+                        PlayerInventoryAmmount.append(1)
+                else:
+                    print("You caught nothing.")
+                time.sleep(1)
+                World()
+            elif WorldDataProffessionData[Terrain] == 2:    #Logging
+                print("You started cutting down trees.")
+                time.sleep(random.randint(1,7.5))
+                if random.randint(1,4) == 1:
+                    print("You got some useable logs!")
+                    if "Fish" in PlayerInventory:
+                        PlayerInventoryAmmount[PlayerInventory.index("Fish")] = PlayerInventoryAmmount[PlayerInventory.index("Fish")] + random.randint(1,5)
+                    else:
+                        PlayerInventory.append("Logs")
+                        PlayerInventoryAmmount.append(random.randint(1,5))
+                else:
+                    print("None of the wood is usable.")
+                time.sleep(1)
+                World()
+
 def SaveLoad(): 
     # I am the man who brings color to the bland image, determined to make orginallity a pandemic.
     global PlayerInfo
