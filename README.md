@@ -13,13 +13,12 @@ Beta Revison 2 will be released around wendnesday to friday and will include mos
   - [ ] Crafting Requirements
 - [ ] Quests
 - [ ] Main Quest
-- [ ] Proffessions
-- [ ] Multistage crafting
 - [ ] Achivements
 - [ ] Mod support
 - [ ] Remove dependcies
 
 Complete:
+- [x] Proffessions
 - [x] Player Turn shows a 3x3 map
 - [x] Map icons
 - [x] Weapon &  Armor improvement (Village Forging)
