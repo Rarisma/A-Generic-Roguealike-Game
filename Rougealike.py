@@ -45,7 +45,10 @@ DungeonData          = [0,0,0,0,0,0] # 0 - Size  1 - Direction      2-X     3-Y 
 Log = []
 FastTravelX = [0]
 FastTravelY = [0]
-
+PlayerQuestName       = [""]
+PlayerQuestRewardType = [0]
+PlayerQuestReqRes     = [""]
+PlayerQuestReqAmm     = [0]
 #WorldData Variables SHOULD NOT be modifyed instead unless its for a master branch (USE THE MOD API)
 WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside"]
 WorldDataMapIcon            = ["G","F","M","T","A","V","H","A","V","L","B","C","F","S","F","F","H","C","F","M","D","O","A","P","M","R"]
@@ -353,8 +356,6 @@ def Menu(): #  Menu
                         Loop1 = 0
                     elif keyboard.is_pressed("Q"):
                         Menu()
-
-
         elif keyboard.is_pressed("u"):
             Intialise()
 
@@ -384,7 +385,7 @@ def WorldGeneration(): # Loads or generates terrain
         Resource = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",3)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",5)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",7)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",9))]
         ResourceAmmount = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",4)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",6)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",8)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",10))]
        
-        if random.randint(-23,7) > 0:
+        if random.randint(-24,8) > 0:
             Weather = random.randint(3,5)
         else:
             Weather = 0  
@@ -447,7 +448,10 @@ def World(): # Handles terrain and Player choices
     global DungeonData
     global FastTravelX
     global FastTravelY
-
+    global PlayerQuestName
+    global PlayerQuestRewardType
+    global PlayerQuestReqRes
+    global PlayerQuestReqAmm
     Log.append("Initalised world")
     os.system("cls")
     if DungeonData[4] == 1:
@@ -500,7 +504,9 @@ def World(): # Handles terrain and Player choices
             print("There is a legends forge here.")  
         elif TerrainType == 7:
             print("There is a strange shop here.") 
-    
+        elif TerrainType == 8:
+            print("There is a Noticeboard here") 
+
     TopRow = ["","",""]
     MidRow = ["","",""]
     LowRow = ["","",""]
@@ -630,6 +636,8 @@ def World(): # Handles terrain and Player choices
         print("7) Enter Forge                                 " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 7 and TerrainTypeMeta == 0:
         print("7) Enter Shop                                  " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
+    elif TerrainType == 8 and TerrainTypeMeta == 0:
+        print("7) Read Noticeboard                            " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     else:
         if  WorldDataProffessionData[Terrain] == 1:
             print("8) Fish                                        "+ str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
@@ -712,11 +720,11 @@ def World(): # Handles terrain and Player choices
             Loop3 = 1
             while Loop3 == 1:
                 os.system("cls")
-                print("Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[8]) + "/" + str(PlayerInfo[7] * 1000) +")\nHP: " + str(PlayerCurrentStats[0])+ "/" + str(PlayerInfo[4]) + "  Mana: " + str(PlayerInfo[18]) + "/" + str(PlayerCurrentStats[1]) +"  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[2]) + " Y:" + str(PlayerInfo[3]) + "  Gold:" + str(PlayerInfo[9]) + "  Reputation: " + str(PlayerInfo[22]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12]) + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nEquipped Armour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17]) + "\n\n1) Equip Armor   2) Equip Weapons   3) View Items   4) Fast Travel   Q) Go Back")
+                print("Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[8]) + "/" + str(PlayerInfo[7] * 1000) +")\nHP: " + str(PlayerCurrentStats[0])+ "/" + str(PlayerInfo[4]) + "  Mana: " + str(PlayerInfo[18]) + "/" + str(PlayerCurrentStats[1]) +"  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[2]) + " Y:" + str(PlayerInfo[3]) + "  Gold:" + str(PlayerInfo[9]) + "  Reputation: " + str(PlayerInfo[22]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12]) + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nEquipped Armour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17]) + "\n\n1) Equip Armor   2) Equip Weapons   3) View Items   4) Fast Travel    5) Quests   Q) Go Back")
                 Loop2 = 1
                 time.sleep(1.5)
                 while Loop2 == 1:
-                    if keyboard.is_pressed("1"):  #Equip armor
+                    if keyboard.is_pressed("1"):   # Equip armor
                         TempInt = 0
                         while TempInt <= int(len(PlayerInventoryArmour) - 1):
                             print(PlayerInventoryArmour[TempInt] + "  Defence: " + str(PlayerInventoryArmourDef[TempInt]) + "  Durability: " + str(PlayerInventoryArmourDur[TempInt]) + "  ID: " + str(TempInt))
@@ -750,8 +758,7 @@ def World(): # Handles terrain and Player choices
                             Loop2 = 0
                         else:
                             print("an error occured while processing your ID, please use numbers only for IDs and your ID exists.")
-
-                    elif keyboard.is_pressed("2"): #Equip Weapons
+                    elif keyboard.is_pressed("2"): # Equip Weapons
                         Loop2 = 1
                         while Loop2 == 1:
                             os.system("cls")
@@ -793,16 +800,14 @@ def World(): # Handles terrain and Player choices
                                 World()
                             else:
                                 print("an error occured while processing your ID, please use numbers only for IDs and your ID exists.")
-        
-                    elif keyboard.is_pressed("3"): #Items
+                    elif keyboard.is_pressed("3"): # Items
                         TempInt = 0
                         while TempInt <= int(len(PlayerInventory)-1):
                             print(str(PlayerInventory[TempInt]) + "  (" + str(PlayerInventoryAmmount[TempInt]) +")")
                             TempInt = TempInt + 1
                         input("Press enter to continue\n")
                         Loop2 = 0
-                    
-                    elif keyboard.is_pressed("4"): #Fast Travel
+                    elif keyboard.is_pressed("4"): # Fast Travel
                         TempInt = 0
                         print("You can fast travel to any village you've been to.")
                         while TempInt <= len(FastTravelX) - 1:
@@ -826,8 +831,37 @@ def World(): # Handles terrain and Player choices
                         PlayerInfo[2] = FastTravelX[TempInt]
                         PlayerInfo[3] = FastTravelY[TempInt]
                         WorldGeneration()
-
-                    elif keyboard.is_pressed("Q"):
+                    elif keyboard.is_pressed("5"): # Quests
+                        TempInt = 1
+                        while TempInt <= len(PlayerQuestName) - 1:  #Checks if any are complete
+                            if PlayerQuestReqRes[TempInt] in PlayerInventory:
+                                if PlayerQuestReqAmm >= PlayerInventoryAmmount[PlayerInventory.index(PlayerQuestReqRes[TempInt])]:
+                                    PlayerInventoryAmmount[PlayerInventory.index(PlayerQuestReqRes[TempInt])] = PlayerInventoryAmmount[PlayerInventory.index(PlayerQuestReqRes[TempInt])] - PlayerQuestReqAmm[TempInt]
+                                    if PlayerQuestRewardType == 1:
+                                        PlayerInventory.append(WorldDataCaveGem[random.randint(0,WorldDataCaveGem - 1)])
+                                    else:
+                                        PlayerInventory.append(WorldDataCaveMetal[random.randint(0,WorldDataCaveMetal - 1)])
+                                    PlayerInventoryAmmount.append(random.randint(1,10))
+                                    PlayerQuestName.pop(TempInt)
+                                    PlayerQuestReqAmm.pop(TempInt)
+                                    PlayerQuestReqRes.pop(TempInt)
+                                    PlayerQuestRewardType.pop(TempInt)
+                                    if PlayerInventoryAmmount[PlayerInventory.index(PlayerQuestReqRes[TempInt])] <= 0:
+                                        PlayerInventoryAmmount.pop(PlayerInventory.index(PlayerQuestReqRes[TempInt]))
+                                        PlayerInventory.pop(PlayerInventory.index(PlayerQuestReqRes[TempInt]))
+                                    TempInt = TempInt + 1
+                                else:
+                                    TempInt = TempInt + 1
+                            else:
+                                TempInt = TempInt + 1
+                        
+                        TempInt = 1
+                        while TempInt <= len(PlayerQuestName) - 1:
+                            print(str(PlayerQuestName[TempInt]) + " - Requires " + str(PlayerQuestReqAmm[TempInt]) + " x " + str(PlayerQuestReqRes[TempInt]))    
+                            TempInt = TempInt + 1
+                        input("\nPress Enter to continue")
+                        World()
+                    elif keyboard.is_pressed("Q"): # Leave
                         World()
         elif keyboard.is_pressed("5"): # Saves and load
             Log.append("Sending to save")
@@ -1330,8 +1364,27 @@ def World(): # Handles terrain and Player choices
                 print("Suddenly the shop vanishes!")
                 time.sleep(1.5)
                 WorldGeneration()
+            elif TerrainType == 8:  # Noticeboard
+                print("You read a post on the notice board")
+                time.sleep(1)
+                if random.randint(1,2) == 1:    #Collect Quest (Can find in terrains)
+                    TempInt = random.randint(0,len(WorldDataResource) - 1)
+                    PlayerQuestName.append(str("Collect " + str(WorldDataResource[TempInt])))
+                    PlayerQuestReqRes.append(str(WorldDataResource[TempInt]))
+                    PlayerQuestReqAmm.append(random.randint(1,10))
+                else:
+                    TempInt = random.randint(0,len(WorldDataEnemyDrop) - 1)
+                    PlayerQuestName.append(str("Kill monsters to collect " + str(WorldDataEnemyDrop[TempInt])))
+                    PlayerQuestReqRes.append(str(WorldDataEnemyDrop[TempInt]))
+                    PlayerQuestReqAmm.append(random.randint(1,10))
+                if random.randint(1,2) == 1:
+                    PlayerQuestRewardType.append(1)
+                else:
+                    PlayerQuestRewardType.append(2)
+                os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
+                WorldGeneration()
         elif keyboard.is_pressed("8") and WorldDataProffessionData[Terrain] > 0: # Proffessions
-            if WorldDataProffessionData[Terrain] == 1:      #fishigng
+            if WorldDataProffessionData[Terrain] == 1:      #fishing
                 print("You started fishing")
                 time.sleep(random.randint(1,7))
                 if random.randint(1,4) == 1:
