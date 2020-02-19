@@ -51,6 +51,7 @@ WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mo
 WorldDataMapIcon            = ["G","F","M","T","A","V","H","A","V","L","B","C","F","S","F","F","H","C","F","M","D","O","A","P","M","R"]
 WorldDataTerrainColor       = ["GREEN","RESET","WHITE","RESET","RESET","RED","GREEN","WHITE","CYAN","BLUE","YELLOW","RESET","WHITE","GREEN","GREEN","GREEN","RESET","CYAN","YELLOW","YELLOW","YELLOW","BLUE","RESET","WHITE","WHITE","CYAN"]
 WorldDataTerrainBrightness  = ["BRIGHT","NORMAL","BRIGHT","NORMAL","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","NORMAL","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","BRIGHT","BRIGHT","DIM"]
+WorldDataProffessionData    = [0,0,0,0,0,0,0,0,1,1,1,0,2,0,2,2,0,0,0,0,0,1,0,0,0,1]
 WorldDataResource           = ["Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches","Spruce logs"]
 WorldDataResourceColor      = ["RED","WHITE","RED","BLUE","GREEN","GREEN","GREEN","YELLOW","WHITE","GREEN","YELLOW","WHITE","GREEN","CYAN","MAGENTA","GREEN","GREEN","WHITE","YELLOW","GREEN","BLUE","RED","RED","RED","GREEN","CYAN","RESET","YELLOW","YELLOW","MAGENTA","YELLOW","RED","RED","GREEN","CYAN","CYAN"]
 WorldDataResourceBrightness = ["BRIGHT","DIM","BRIGHT","BRIGHT","DIM","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","DIM","DIM","DIM","BRIGHT","BRIGHT","BRIGHT","BRIGHT","BRIGHT","DIM","DIM","NORMAL","NORMAL","DIM","DIM"]
@@ -472,7 +473,7 @@ def World(): # Handles terrain and Player choices
         print(BattleLog[5])
     Log.append("Battle Log printed ")
 
-    if TerrainType == 0:
+    if TerrainType == 0:    #Terrain
         print(Fore.__getattribute__(WorldDataTerrainColor[Terrain]) + Style.__getattribute__(WorldDataTerrainBrightness[Terrain]) + "You are " + str(WorldDataTerrain[Terrain]) + ".")
     else:
         if TerrainType == 1 and TerrainTypeMeta == 0:
@@ -500,11 +501,11 @@ def World(): # Handles terrain and Player choices
         elif TerrainType == 7:
             print("There is a strange shop here.") 
     
-
     TopRow = ["","",""]
     MidRow = ["","",""]
     LowRow = ["","",""]
-
+    
+    #map code
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt"):
         if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
             TopRow[0] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + " ] "
@@ -577,6 +578,7 @@ def World(): # Handles terrain and Player choices
     else:
         LowRow[2] = "[ # ] "
 
+    #Terrain code
     Log.append("Printed Terrain")
     ResourceText = "There are "
     if Resource[0] >= 0:
@@ -593,6 +595,7 @@ def World(): # Handles terrain and Player choices
         print(Fore.RESET + str(ResourceText) + Fore.RESET)
     Log.append("Printed resource")
 
+    #Enemy code
     EnemyText = ""
     if Enemy[0] == 0:
         EnemyText = Fore.RED + "There is a "
@@ -611,6 +614,8 @@ def World(): # Handles terrain and Player choices
     Log.append("Printed Weather")
 
     print(Fore.RESET + "\n\n1) Battle    2) Move      3) Collect Items     " + str(TopRow[0]) +  str(TopRow[1]) + str(TopRow[2]) + "\n4) Character 5) Save/Load 6) Quit              " + str(MidRow[0]) +  str(MidRow[1]) + str(MidRow[2]))
+    
+    
     if TerrainType == 1 and TerrainTypeMeta == 0:
         print("7) Use Monolith                                " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 2 and TerrainTypeMeta == 0:
@@ -626,8 +631,16 @@ def World(): # Handles terrain and Player choices
     elif TerrainType == 7 and TerrainTypeMeta == 0:
         print("7) Enter Shop                                  " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     else:
-        print("                                               " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
+        if  WorldDataProffessionData[Terrain] == 1:
+            print("8) Fish                                        "+ str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
+        elif WorldDataProffessionData[Terrain] == 2:
+            print("8) Log                                         " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2])) 
+        else:
+            time.sleep(0)
+            print("                                               " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     Log.append("Printed Options")
+
+
 
     Loop = 1
     time.sleep(1)
@@ -1319,7 +1332,8 @@ def World(): # Handles terrain and Player choices
                 print("Suddenly the shop vanishes!")
                 time.sleep(1.5)
                 WorldGeneration()
-                              
+        elif keyboard.is_pressed("8"): # Proffessions
+    
 def SaveLoad(): 
     # I am the man who brings color to the bland image, determined to make orginallity a pandemic.
     global PlayerInfo
