@@ -203,21 +203,21 @@ def Intialise():    #Starts the game, Checks reqired modules are installed and r
     TempStr = TempStr.strip()
     if TempStr == "False":  #Checks if AutoUpdate is disabled if so then it goes to the menu
         LatestVer = "DISABLED"
-        Menu()
+        ModLoader()
 
     try:    #Tries to get check github
         urllib.request.urlretrieve("https://raw.githubusercontent.com/TMAltair/RougalikeRPG/master/metadata.txt",os.path.dirname(os.path.abspath(__file__)) + "\\meta.txt")
         LatestVer = str(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\meta.txt",3))
     except: #Upon any type of failure it skips AutoUpdate
         LatestVer = "Failed"
-        Menu()
+        ModLoader()
     LatestVer = LatestVer.strip()
     
     try:#Checks AutoUpdate
         testvar = LatestVer = int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\meta.txt",7))
         if testvar == 1: 
             LatestVer = "GLOBALLY DISABLED"
-            Menu()
+            ModLoader()
     except:
         print()
 
@@ -246,14 +246,355 @@ def Intialise():    #Starts the game, Checks reqired modules are installed and r
                 exit()
             elif keyboard.is_pressed("n"):
                 LatestVer = "Declined"
-                Menu()
+                ModLoader()
     LatestVer = "Up to date"
     ModLoader()
 
 def ModLoader():
+    global WorldDataTerrain
     print("Initalising Mod loader")
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\info.txt"):
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\achivement.txt"):
         PlayerAchivements[0] = 1
+        
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTerrain.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTerrain.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataTerrain = WorldDataTerrain + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMapIcon.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMapIcon.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataMapIcon  = WorldDataMapIcon  + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTerrainColor.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTerrainColor.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataTerrainColor   = WorldDataTerrainColor   + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTerrainBrightness.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTerrainBrightness.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataTerrainBrightness  = WorldDataTerrainBrightness + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataProffessionData.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataProffessionData.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataProffessionData = WorldDataProffessionData + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResource.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResource.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataResource = WorldDataResource  + TempString
+
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResourceColor .json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResourceColor .json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataResourceColor  = WorldDataResourceColor   + TempString
+
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResourceBrightness.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResourceBrightness.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataResourceBrightness = WorldDataResourceBrightness + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemyPrefix.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemyPrefix.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataEnemyPrefix = WorldDataEnemyPrefix + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemyName.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemyName.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataEnemyName = WorldDataEnemyName  + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemySuffix .json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemySuffix .json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataEnemySuffix = WorldDataEnemySuffix + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemyDrop.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemyDrop.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataEnemyDrop = WorldDataEnemyDrop  + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCaveGem.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCaveGem.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCaveGem = WorldDataCaveGem   + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpell.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpell.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataMonolithSpell = WorldDataMonolithSpell + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpellType.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpellType.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataMonolithSpellType = WorldDataMonolithSpellType  + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpellValue.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpellValue.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataMonolithSpellValue = WorldDataMonolithSpellValue + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpellCost.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpellCost.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataMonolithSpellCost = WorldDataMonolithSpellCost + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCaveMetal.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCaveMetal.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCaveMetal = WorldDataCaveMetal  + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftMetalReq.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftMetalReq.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftMetalReq = WorldDataCraftMetalReq + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftMetalAmm.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftMetalAmm.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftMetalAmm  = WorldDataCraftMetalAmm  + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftMetalProd.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftMetalProd.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftMetalAmm  = WorldDataCraftMetalProd   + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftGemReq.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftGemReq.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftGemReq = WorldDataCraftGemReq + TempString
+
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftGemAmm.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftGemAmm.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftGemAmm = WorldDataCraftGemAmm + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftGemProd .json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftGemProd.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftGemProd = WorldDataCraftGemProd + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeReq.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeReq.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponAxeReq  = WorldDataCraftWeaponAxeReq  + TempString
+
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeAmm.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeAmm.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponAxeAmm   = WorldDataCraftWeaponAxeAmm   + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeProd.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeProd.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponAxeProd = WorldDataCraftWeaponAxeProd + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLbowProd.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLbowProd.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponLbowProd = WorldDataCraftWeaponLbowProd + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLbowReq.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLbowReq.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponLbowReq  = WorldDataCraftWeaponLbowReq  + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLbowAmm.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLbowAmm.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponLbowAmm   = WorldDataCraftWeaponLbowAmm   + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLanProd.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLanProd.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponLanProd = WorldDataCraftWeaponLanProd + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLanReq.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLanReq.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponLanReq = WorldDataCraftWeaponLanReq + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLanAmm.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLanAmm.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponLanAmm = WorldDataCraftWeaponLanAmm + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponMacProd.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponMacProd.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponMacProd = WorldDataCraftWeaponMacProd + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponMacReq.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponMacReq.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponMacReq = WorldDataCraftWeaponMacReq + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponMacAmm.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponMacAmm.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponMacAmm = WorldDataCraftWeaponMacAmm + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponGSwoProd.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponGSwoProd.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponGSwoProd = WorldDataCraftWeaponGSwoProd + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponGSwoReq.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponGSwoReq.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponGSwoReq =  WorldDataCraftWeaponGSwoReq + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponGSwoAmm.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponGSwoAmm.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponGSwoAmm = WorldDataCraftWeaponGSwoAmm  + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSSwoProd.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSSwoProd.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponSSwoProd  = WorldDataCraftWeaponSSwoProd   + TempString
+   
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSSwoReq.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSSwoReq.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponSSwoReq  = WorldDataCraftWeaponSSwoReq  + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSSwoAmm.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSSwoAmm.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponSSwoAmm = WorldDataCraftWeaponSSwoAmm + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponShuProd.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponShuProd.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponShuProd = WorldDataCraftWeaponShuProd + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponShuReq.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponShuReq.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponShuReq = WorldDataCraftWeaponShuReq + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponShuAmm.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponShuAmm.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponShuAmm = WorldDataCraftWeaponShuAmm + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSbowProd.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSbowProd.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponSbowProd = WorldDataCraftWeaponSbowProd + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSbowAmm.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSbowAmm.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponSbowAmm = WorldDataCraftWeaponSbowAmm + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSbowReq.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSbowReq.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponSbowReq = WorldDataCraftWeaponSbowReq + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponCbowProd.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponCbowProd.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponCbowProd = WorldDataCraftWeaponCbowProd + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponCbowReq.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponCbowReq.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponCbowReq = WorldDataCraftWeaponCbowReq + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponCbowAmm.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponCbowAmm.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftWeaponCbowAmm = WorldDataCraftWeaponCbowAmm + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftArmorProd.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftArmorProd.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftArmorProd = WorldDataCraftArmorProd + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftArmorReq.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftArmorReq.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftArmorReq = WorldDataCraftArmorReq + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftArmorAmm.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftArmorAmm.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataCraftArmorAmm = WorldDataCraftArmorAmm + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTradeProd.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTradeProd.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataTradeProd = WorldDataTradeProd + TempString
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTradePrice.json"):
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTradePrice.json"
+        with open(destination) as file:
+            TempString = json.load(file)
+            WorldDataTradePrice = WorldDataTradePrice + TempString
 
     Menu()
 
@@ -975,7 +1316,7 @@ def World(): # Handles terrain and Player choices
 
                         if PlayerAchivements[1 and 2 and 3 and 4 and 5 and 6 and 7 and 8 and 9 and 10 and 11 and 12 and 13 and 14 and 15 and 16] == 1:
                             PlayerAchivements[17] = 1
-                            print("\n\nTrancendence\nBring color to the bland image by getting all normal achivements\n" + Fore.GREEN + "Complete" + Fore.RESET)
+                            print("\n\nTrancendence \nBring color to the bland image by getting all normal achivements\n" + Fore.GREEN + "Complete" + Fore.RESET)
 
                         if PlayerAchivements[18] == 1:
                             print("\n\nnerd\nMessage TMAltair or be smart enough to unlock it\n" + Fore.GREEN + "Complete" + Fore.RESET)
@@ -1557,7 +1898,6 @@ def World(): # Handles terrain and Player choices
                 World()
 
 def SaveLoad(): 
-    # I am the man who brings color to the bland image, determined to make orginallity a pandemic.
     global PlayerInfo
     global BattleLog
     global PlayerInventory
