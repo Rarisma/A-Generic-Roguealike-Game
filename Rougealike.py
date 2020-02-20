@@ -12,9 +12,10 @@ import pathlib
 init(convert=True)
 #chess pieces!
 
-SystemInfo  = ["Build Version: 17/2/2020","1.0r2"]
+SystemInfo  = ["Build Version: 20/2/2020","1.0B2"]
 LatestVer   = "ERROR"
 Save = 0
+Terrain = 0
 #Below is Varaibles that are saved
 PlayerInfo  = [0,0,random.randint(-2147483500,2147483500),random.randint(-2147483500,2147483500),50,25,5,1,0,500,"Hands",1,100,0,0,"Nothing",0,0,50,0,0,0,0] #0name,difficulty,x,y,hp,5atk,def,level,exp,gold,10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty,EquipedArmorName,EquippedArmourDefence,EquipedArmorDurabilty,Mana,Monolith Spell count,Last Village X Coord (20),Last Village Y Coord,Reputation
 TerrainType = 0
@@ -44,11 +45,17 @@ DungeonData          = [0,0,0,0,0,0] # 0 - Size  1 - Direction      2-X     3-Y 
 Log = []
 FastTravelX = [0]
 FastTravelY = [0]
-
+PlayerQuestName       = [""]
+PlayerQuestRewardType = [0]
+PlayerQuestReqRes     = [""]
+PlayerQuestReqAmm     = [0]
+PlayerAchivements     = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 #WorldData Variables SHOULD NOT be modifyed instead unless its for a master branch (USE THE MOD API)
 WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside"]
+WorldDataMapIcon            = ["G","F","M","T","A","V","H","A","V","L","B","C","F","S","F","F","H","C","F","M","D","O","A","P","M","R"]
 WorldDataTerrainColor       = ["GREEN","RESET","WHITE","RESET","RESET","RED","GREEN","WHITE","CYAN","BLUE","YELLOW","RESET","WHITE","GREEN","GREEN","GREEN","RESET","CYAN","YELLOW","YELLOW","YELLOW","BLUE","RESET","WHITE","WHITE","CYAN"]
 WorldDataTerrainBrightness  = ["BRIGHT","NORMAL","BRIGHT","NORMAL","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","NORMAL","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","BRIGHT","BRIGHT","DIM"]
+WorldDataProffessionData    = [0,0,0,0,0,0,0,0,1,1,1,0,2,0,2,2,0,0,0,0,0,1,0,0,0,1]
 WorldDataResource           = ["Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches","Spruce logs"]
 WorldDataResourceColor      = ["RED","WHITE","RED","BLUE","GREEN","GREEN","GREEN","YELLOW","WHITE","GREEN","YELLOW","WHITE","GREEN","CYAN","MAGENTA","GREEN","GREEN","WHITE","YELLOW","GREEN","BLUE","RED","RED","RED","GREEN","CYAN","RESET","YELLOW","YELLOW","MAGENTA","YELLOW","RED","RED","GREEN","CYAN","CYAN"]
 WorldDataResourceBrightness = ["BRIGHT","DIM","BRIGHT","BRIGHT","DIM","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","DIM","DIM","DIM","BRIGHT","BRIGHT","BRIGHT","BRIGHT","BRIGHT","DIM","DIM","NORMAL","NORMAL","DIM","DIM"]
@@ -245,14 +252,10 @@ def Intialise():    #Starts the game, Checks reqired modules are installed and r
 
 def ModLoader():
     print("Initalising Mod loader")
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\mods\\"):
-        ModDir = list(p for p in pathlib.Path(tets = list(p for p in pathlib.Path(os.path.dirname(os.path.abspath(__file__)) + "\\mods\\").iterdir() if p.is_dir())).iterdir() if p.is_dir())
-        TempInt = 0
-        while TempInt <= int(len(ModDir)-1):
-            if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\mods\\" + str(ModDir[TempInt]) + "\\TerrainColor.txt"):
-                print("PLACEHOLDER")
-    else:
-        Menu()
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\info.txt"):
+        PlayerAchivements[0] = 1
+
+    Menu()
 
 def Menu(): #  Menu
     global LatestVer
@@ -350,8 +353,6 @@ def Menu(): #  Menu
                         Loop1 = 0
                     elif keyboard.is_pressed("Q"):
                         Menu()
-
-
         elif keyboard.is_pressed("u"):
             Intialise()
 
@@ -365,6 +366,7 @@ def WorldGeneration(): # Loads or generates terrain
     global Enemy
     global Weather
     global Log
+    global Terrain
 
     Log.append("World Generation")
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt"):  #Terrain that needs to be generated
@@ -380,7 +382,7 @@ def WorldGeneration(): # Loads or generates terrain
         Resource = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",3)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",5)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",7)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",9))]
         ResourceAmmount = [int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",4)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",6)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",8)),int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt",10))]
        
-        if random.randint(-23,7) > 0:
+        if random.randint(-24,8) > 0:
             Weather = random.randint(3,5)
         else:
             Weather = 0  
@@ -443,6 +445,22 @@ def World(): # Handles terrain and Player choices
     global DungeonData
     global FastTravelX
     global FastTravelY
+    global PlayerQuestName
+    global PlayerQuestRewardType
+    global PlayerQuestReqRes
+    global PlayerQuestReqAmm
+    global PlayerAchivements
+    
+    if PlayerInfo[4] >= 100 and PlayerInfo[5] >= 100 and PlayerInfo[6] >= 100:
+        PlayerAchivements[3] = 1
+    if PlayerInfo[7] >= 10:
+        PlayerAchivements[4] = 1
+    if PlayerInfo[7] >= 20:
+        PlayerAchivements[5] = 1
+    if PlayerInfo[2 or 3] == 2147483500 or 2147483500:
+        PlayerAchivements[19] = 1
+    if PlayerInfo [9] == 1000000:
+        PlayerAchivements[20] = 1
 
     Log.append("Initalised world")
     os.system("cls")
@@ -469,7 +487,7 @@ def World(): # Handles terrain and Player choices
         print(BattleLog[5])
     Log.append("Battle Log printed ")
 
-    if TerrainType == 0:
+    if TerrainType == 0:    #Terrain
         print(Fore.__getattribute__(WorldDataTerrainColor[Terrain]) + Style.__getattribute__(WorldDataTerrainBrightness[Terrain]) + "You are " + str(WorldDataTerrain[Terrain]) + ".")
     else:
         if TerrainType == 1 and TerrainTypeMeta == 0:
@@ -495,8 +513,88 @@ def World(): # Handles terrain and Player choices
         elif TerrainType == 6:
             print("There is a legends forge here.")  
         elif TerrainType == 7:
-            print("There is a strange shop here.")  
+            print("There is a strange shop here.") 
+        elif TerrainType == 8:
+            print("There is a Noticeboard here") 
 
+    TopRow = ["","",""]
+    MidRow = ["","",""]
+    LowRow = ["","",""]
+    
+    #map code
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
+            TopRow[0] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + " ] "
+        else:
+            TopRow[0] = "[ ? ] "
+    else:
+        TopRow[0] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
+            TopRow[1] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + " ] "
+        else:
+            TopRow[1] = "[ ? ] "
+    else:
+        TopRow[1] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
+            TopRow[2] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + " ] "
+        else:
+            TopRow[2] = "[ ? ] "
+    else:
+        TopRow[2] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
+            MidRow[0] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + " ] "
+        else:
+            MidRow[0] = "[ ? ] "
+    else:
+        MidRow[0] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] )) + " Y" + str(int(PlayerInfo[3])) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
+            MidRow[1] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + " ] "
+        else:
+            MidRow[1] = "[ ? ] "
+    else:
+        MidRow[1] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
+            MidRow[2] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + " ] "
+        else:
+            MidRow[2] = "[ ? ] "
+    else:
+        MidRow[2] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",1)) == 0:
+            LowRow[0] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",2))] + " ] "
+        else:
+            LowRow[0] = "[ ? ] "
+    else:
+        LowRow[0] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",1)) == 0:
+            LowRow[1] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",2))] + " ] "
+        else:
+            LowRow[1] = "[ ? ] "
+    else:
+        LowRow[1] = "[ # ] "
+
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt"):
+        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",1)) == 0:
+            LowRow[2] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",2))] + " ] "
+        else:
+            LowRow[2] = "[ ? ] "
+    else:
+        LowRow[2] = "[ # ] "
+
+    #Terrain code
     Log.append("Printed Terrain")
     ResourceText = "There are "
     if Resource[0] >= 0:
@@ -513,6 +611,7 @@ def World(): # Handles terrain and Player choices
         print(Fore.RESET + str(ResourceText) + Fore.RESET)
     Log.append("Printed resource")
 
+    #Enemy code
     EnemyText = ""
     if Enemy[0] == 0:
         EnemyText = Fore.RED + "There is a "
@@ -530,21 +629,32 @@ def World(): # Handles terrain and Player choices
         print(Fore.YELLOW + "It is also very " + WorldDataWeather[Weather] + "." + Fore.RESET)
     Log.append("Printed Weather")
 
-    print(Fore.RESET + "\n\n1) Battle    2) Move      3) Collect Items\n4) Character 5) Save/Load 6) Quit")
+    print(Fore.RESET + "\n\n1) Battle    2) Move      3) Collect Items     " + str(TopRow[0]) +  str(TopRow[1]) + str(TopRow[2]) + "\n4) Character 5) Save/Load 6) Quit              " + str(MidRow[0]) +  str(MidRow[1]) + str(MidRow[2]))
+    
     if TerrainType == 1 and TerrainTypeMeta == 0:
-        print("7) Use Monolith")
+        print("7) Use Monolith                                " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 2 and TerrainTypeMeta == 0:
-        print("7) Mine")
+        print("7) Mine                                        " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 3 and TerrainTypeMeta == 0:
-        print("7) Enter Village")
+        print("7) Enter Village                               " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 4 and TerrainTypeMeta == 0:
-        print("7) Trade")
+        print("7) Trade                                       " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 5 and TerrainTypeMeta == 0:
-        print("7) Enter Dungeon")
+        print("7) Enter Dungeon                               " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 6 and TerrainTypeMeta == 0:
-        print("7) Enter Forge")
+        print("7) Enter Forge                                 " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     elif TerrainType == 7 and TerrainTypeMeta == 0:
-        print("7) Enter Shop")
+        print("7) Enter Shop                                  " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
+    elif TerrainType == 8 and TerrainTypeMeta == 0:
+        print("7) Read Noticeboard                            " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
+    else:
+        if  WorldDataProffessionData[Terrain] == 1:
+            print("8) Fish                                        "+ str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
+        elif WorldDataProffessionData[Terrain] == 2:
+            print("8) Log                                         " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2])) 
+        else:
+            time.sleep(0)
+            print("                                               " + str(LowRow[0]) + str(LowRow[1]) + str(LowRow[2]))
     Log.append("Printed Options")
 
     Loop = 1
@@ -592,6 +702,7 @@ def World(): # Handles terrain and Player choices
             Log.append("Collection")
             if sum(PlayerInventoryAmmount) >= 20 * PlayerInfo[7]:
                 print("You are carrying too much.")
+                PlayerAchivements[15] = 1
                 time.sleep(1.5)
                 World()
 
@@ -619,11 +730,11 @@ def World(): # Handles terrain and Player choices
             Loop3 = 1
             while Loop3 == 1:
                 os.system("cls")
-                print("Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[8]) + "/" + str(PlayerInfo[7] * 1000) +")\nHP: " + str(PlayerCurrentStats[0])+ "/" + str(PlayerInfo[4]) + "  Mana: " + str(PlayerInfo[18]) + "/" + str(PlayerCurrentStats[1]) +"  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[2]) + " Y:" + str(PlayerInfo[3]) + "  Gold:" + str(PlayerInfo[9]) + "  Reputation: " + str(PlayerInfo[22]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12]) + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nEquipped Armour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17]) + "\n\n1) Equip Armor   2) Equip Weapons   3) View Items   4) Fast Travel   Q) Go Back")
+                print("Name: " + str(PlayerInfo[0]) + " Level: " + str(PlayerInfo[7]) +" (" + str(PlayerInfo[8]) + "/" + str(PlayerInfo[7] * 1000) +")\nHP: " + str(PlayerCurrentStats[0])+ "/" + str(PlayerInfo[4]) + "  Mana: " + str(PlayerInfo[18]) + "/" + str(PlayerCurrentStats[1]) +"  Attack: " + str(PlayerInfo[5]) + "  Defence: " +  str(PlayerInfo[6]) + "\nLocation: X:" + str(PlayerInfo[2]) + " Y:" + str(PlayerInfo[3]) + "  Gold:" + str(PlayerInfo[9]) + "  Reputation: " + str(PlayerInfo[22]) + "\nEquipped Weapon: " + str(PlayerInfo[10]) + "    Attack: " + str(PlayerInfo[11]) + "    Hit:" + str(PlayerInfo[12]) + "%   Critical:" + str(PlayerInfo[13]) + "%    Durabilty: " + str(PlayerInfo[14]) + "%\nEquipped Armour: " + str(PlayerInfo[15]) + "    Defence:" + str(PlayerInfo[16]) + "    Durabilty: " + str(PlayerInfo[17]) + "\n\n1) Equip Armor   2) Equip Weapons   3) View Items   4) Fast Travel\n5) Quests        6) Achivements     Q) Go Back")
                 Loop2 = 1
                 time.sleep(1.5)
                 while Loop2 == 1:
-                    if keyboard.is_pressed("1"):  #Equip armor
+                    if keyboard.is_pressed("1"):   # Equip armor
                         TempInt = 0
                         while TempInt <= int(len(PlayerInventoryArmour) - 1):
                             print(PlayerInventoryArmour[TempInt] + "  Defence: " + str(PlayerInventoryArmourDef[TempInt]) + "  Durability: " + str(PlayerInventoryArmourDur[TempInt]) + "  ID: " + str(TempInt))
@@ -657,8 +768,7 @@ def World(): # Handles terrain and Player choices
                             Loop2 = 0
                         else:
                             print("an error occured while processing your ID, please use numbers only for IDs and your ID exists.")
-
-                    elif keyboard.is_pressed("2"): #Equip Weapons
+                    elif keyboard.is_pressed("2"): # Equip Weapons
                         Loop2 = 1
                         while Loop2 == 1:
                             os.system("cls")
@@ -700,16 +810,14 @@ def World(): # Handles terrain and Player choices
                                 World()
                             else:
                                 print("an error occured while processing your ID, please use numbers only for IDs and your ID exists.")
-        
-                    elif keyboard.is_pressed("3"): #Items
+                    elif keyboard.is_pressed("3"): # Items
                         TempInt = 0
                         while TempInt <= int(len(PlayerInventory)-1):
                             print(str(PlayerInventory[TempInt]) + "  (" + str(PlayerInventoryAmmount[TempInt]) +")")
                             TempInt = TempInt + 1
                         input("Press enter to continue\n")
                         Loop2 = 0
-                    
-                    elif keyboard.is_pressed("4"): #Fast Travel
+                    elif keyboard.is_pressed("4"): # Fast Travel
                         TempInt = 0
                         print("You can fast travel to any village you've been to.")
                         while TempInt <= len(FastTravelX) - 1:
@@ -730,11 +838,165 @@ def World(): # Handles terrain and Player choices
                                 TempInt = int(TempInt)
                                 Loop0 = 2
                         
+                        PlayerAchivements[12] = 1
                         PlayerInfo[2] = FastTravelX[TempInt]
                         PlayerInfo[3] = FastTravelY[TempInt]
                         WorldGeneration()
+                    elif keyboard.is_pressed("5"): # Quests
+                        TempInt = 1
+                        while TempInt <= len(PlayerQuestName) - 1:  #Checks if any are complete
+                            if PlayerQuestReqRes[TempInt] in PlayerInventory:
+                                if PlayerQuestReqAmm >= PlayerInventoryAmmount[PlayerInventory.index(PlayerQuestReqRes[TempInt])]:
+                                    PlayerInventoryAmmount[PlayerInventory.index(PlayerQuestReqRes[TempInt])] = PlayerInventoryAmmount[PlayerInventory.index(PlayerQuestReqRes[TempInt])] - PlayerQuestReqAmm[TempInt]
+                                    if PlayerQuestRewardType == 1:
+                                        PlayerInventory.append(WorldDataCaveGem[random.randint(0,WorldDataCaveGem - 1)])
+                                    else:
+                                        PlayerInventory.append(WorldDataCaveMetal[random.randint(0,WorldDataCaveMetal - 1)])
+                                    PlayerInventoryAmmount.append(random.randint(1,10))
+                                    PlayerQuestName.pop(TempInt)
+                                    PlayerQuestReqAmm.pop(TempInt)
+                                    PlayerQuestReqRes.pop(TempInt)
+                                    PlayerQuestRewardType.pop(TempInt)
+                                    if PlayerInventoryAmmount[PlayerInventory.index(PlayerQuestReqRes[TempInt])] <= 0:
+                                        PlayerInventoryAmmount.pop(PlayerInventory.index(PlayerQuestReqRes[TempInt]))
+                                        PlayerInventory.pop(PlayerInventory.index(PlayerQuestReqRes[TempInt]))
+                                    TempInt = TempInt + 1
+                                else:
+                                    TempInt = TempInt + 1
+                            else:
+                                TempInt = TempInt + 1
+                        
+                        TempInt = 1
+                        while TempInt <= len(PlayerQuestName) - 1:
+                            print(str(PlayerQuestName[TempInt]) + " - Requires " + str(PlayerQuestReqAmm[TempInt]) + " x " + str(PlayerQuestReqRes[TempInt]))    
+                            TempInt = TempInt + 1
+                        input("\nPress Enter to continue")
+                        World()
+                    elif keyboard.is_pressed("6"): # Achivements
+                        print("\n\nLimitless\nExpand the limits by using mods")
+                        if PlayerAchivements[0] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
 
-                    elif keyboard.is_pressed("Q"):
+                        print("\n\nGodlike\nBuy a stat gem")
+                        if PlayerAchivements[1] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+                        
+                        print("\n\nChallenger I\nGet 100 points in ATK, DEF and HP")
+                        if PlayerAchivements[2] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        print("\n\nChallenger II\nGet to level 10")
+                        if PlayerAchivements[3] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        print("\n\nA certified challeger\nGet to level 20")
+                        if PlayerAchivements[4] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        print("\n\nOn the defensive\nUse defence")
+                        if PlayerAchivements[5] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        print("\n\nCourt jester\nUse magic")
+                        if PlayerAchivements[6] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        print("\n\nZeppeli!\nUnlock all magic")#
+                        if PlayerAchivements[7] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        print("\n\nGone missing\nEnter a dungeon")
+                        if PlayerAchivements[8] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        print("\n\nGone fishing\nCatch a fish")
+                        if PlayerAchivements[9] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        print("\n\nSalesman\nSell somthing at a outpost")
+                        if PlayerAchivements[10] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        print("\n\nTimber!\nSuccessfully log a tree")
+                        if PlayerAchivements[11] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        print("\n\nQuantum!\nUse fast travel")
+                        if PlayerAchivements[12] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        print("\n\nAlvor\nForge somthing")
+                        if PlayerAchivements[13] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        print("\n\nA gift from the gods\nForge a legendary weapon")
+                        if PlayerAchivements[14] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        print("\n\nSpace?\nCarry too much")
+                        if PlayerAchivements[15] == 1:
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+                        else:
+                            print(Fore.RED + "Not Complete." + Fore.RESET)
+
+                        if PlayerAchivements[16] == 1:
+                            print("\n\nThe Wizards Ransom\nComplete the final battle")
+                            print(Fore.GREEN + "Complete" + Fore.RESET)
+
+                        if PlayerAchivements[1 and 2 and 3 and 4 and 5 and 6 and 7 and 8 and 9 and 10 and 11 and 12 and 13 and 14 and 15 and 16] == 1:
+                            PlayerAchivements[17] = 1
+                            print("\n\nTrancendence\nBring color to the bland image by getting all normal achivements\n" + Fore.GREEN + "Complete" + Fore.RESET)
+
+                        if PlayerAchivements[18] == 1:
+                            print("\n\nnerd\nMessage TMAltair or be smart enough to unlock it\n" + Fore.GREEN + "Complete" + Fore.RESET)
+
+                        if PlayerAchivements[19] == 1:
+                            print("\n\nWord Aesthetics\nReach the world border" + Fore.GREEN + "Complete" + Fore.RESET)
+
+                        if PlayerAchivements[20] == 1:
+                            print("\n\nYoshi\nCommit tax fraud and have 1 mil gold at one time" + Fore.GREEN + "Complete" + Fore.RESET)
+                        
+                        if PlayerAchivements[18 and 19 and 20] == 1:
+                            PlayerAchivements[21] = 1
+                            print("\n\nPet cheetah\nStop time by getting all secret achivements" + Fore.GREEN + "Complete" + Fore.RESET)
+
+                        if PlayerAchivements[21  and 15] == 1:
+                            print("\n\nall stones aquired\nbeat the russian at his own game by unlocking all achivements" + Fore.GREEN + "Complete" + Fore.RESET) 
+                            #Stonks
+                        
+                        input("Press enter to continue")
+                        World()
+                    elif keyboard.is_pressed("Q"): # Leave
                         World()
         elif keyboard.is_pressed("5"): # Saves and load
             Log.append("Sending to save")
@@ -764,7 +1026,8 @@ def World(): # Handles terrain and Player choices
 
                     os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
                     WorldGeneration()
-                else:                   
+                else:      
+                    PlayerAchivements[7] = 1        
                     print("The monlith seems to have no more infomation to bestow upon you.\nIt fears you have have grown too powerful.")
             elif TerrainType == 2:  # Caves
                     if CaveType == 0:
@@ -1031,7 +1294,6 @@ def World(): # Handles terrain and Player choices
                                         PlayerInventoryWeaponHit.append(random.randint(95,100))
                                         PlayerInventoryWeaponCrt.append(100)
                                         PlayerInventoryWeaponDur.append(random.randint(Product.index(GreenProd[Select]) * 1000,Product.index(GreenProd[Select]) * 5000))
-
                     elif keyboard.is_pressed("2"):  #Forge Code
                         os.system("cls")
                         print("You can improve a Weapon/Armor here\n\n1) Improve Weapons\n2) Improve Armor\nQ) Leave")
@@ -1061,6 +1323,7 @@ def World(): # Handles terrain and Player choices
                                         else:
                                             print("You dont have enough gold.")
 
+                                PlayerAchivements[13] = 1
                                 PlayerInventoryWeaponAtk[TempInt] = int(PlayerInventoryWeaponAtk[TempInt]  + 1) * 2
                                 PlayerInventoryWeaponDur[TempInt] = int(PlayerInventoryWeaponDur[TempInt] + 1) * 2
                                 Loop0 = 0
@@ -1079,20 +1342,21 @@ def World(): # Handles terrain and Player choices
                                         WorldGeneration()
                                     try:
                                         TempInt = int(TempInt)
-                                        Test = PlayerInventorArmor[TempInt]
+                                        Test = PlayerInventoryArmour[TempInt]
                                     except:
                                         print("This ID is invalid, make sure it's in brackets and a number")
                                     else:
-                                        if PlayerInfo[9] >= int(PlayerInventoryArmourDef[TempInt] + PlayerInventorArmorDur[TempInt]):
-                                            PlayerInfo[9] = PlayerInfo[9] - int(PlayerInventoryArmourDef[TempInt] + PlayerInventorArmorDur[TempInt])
+                                        if PlayerInfo[9] >= int(PlayerInventoryArmourDef[TempInt] + PlayerInventoryArmourDur[TempInt]):
+                                            PlayerInfo[9] = PlayerInfo[9] - int(PlayerInventoryArmourDef[TempInt] + PlayerInventoryArmourDur[TempInt])
                                             Loop1 = 0
                                         else:
                                             print("You dont have enough gold.")
 
+                                PlayerAchivements[13] = 1
                                 PlayerInventoryArmourDef[TempInt] = int(PlayerInventoryArmourDef[TempInt]  + 1) * 2
                                 PlayerInventoryArmourDur[TempInt] = int(PlayerInventoryArmourDur[TempInt] + 1) * 2
                                 Loop0 = 0
-                                print("Improved " + str(PlayerInventoryArmourDur[TempInt]))
+                                print("Improved " + str(PlayerInventoryArmour[TempInt]))
                                 time.sleep(1.5)
                                 World()
                             elif keyboard.is_pressed("Q"):
@@ -1127,7 +1391,7 @@ def World(): # Handles terrain and Player choices
                     
                     if TempInt == 0:
                         WorldGeneration()
-                    
+                    PlayerAchivements[10] = 1
                     if PlayerInventoryAmmount[PlayerInventory.index(GreenText[TempInt])] - 1 <= 0:
                         PlayerInventoryAmmount.pop(PlayerInventory.index(GreenText[TempInt]))
                         PlayerInventory.pop(PlayerInventory.index(GreenText[TempInt]))
@@ -1139,6 +1403,7 @@ def World(): # Handles terrain and Player choices
                     time.sleep(1)
                     os.system("cls")
             elif TerrainType == 5:  # Dungeons
+                PlayerAchivements[8] = 1
                 DungeonData = [random.randint(1,PlayerInfo[7] * 10),random.randint(1,4),0,0,0]
                 Dungeon()
             elif TerrainType == 6:  # Legendary Forge
@@ -1203,6 +1468,8 @@ def World(): # Handles terrain and Player choices
                 elif TempInt == 9:
                     PlayerInventoryWeaponAtk.append(random.randint(1000,10000))
                     PlayerInventoryWeaponDur.append(random.randint(1000,10000))
+                
+                PlayerAchivements[14] = 1
                 os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
                 WorldGeneration()
             elif TerrainType == 7:  # Shady shop
@@ -1234,10 +1501,61 @@ def World(): # Handles terrain and Player choices
                         WorldGeneration()
                 PlayerInfo[9] = PlayerInfo[9] - 500
                 os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
+                PlayerAchivements[1] = 1
                 print("Suddenly the shop vanishes!")
                 time.sleep(1.5)
                 WorldGeneration()
-                
+            elif TerrainType == 8:  # Noticeboard
+                print("You read a post on the notice board")
+                time.sleep(1)
+                if random.randint(1,2) == 1:    #Collect Quest (Can find in terrains)
+                    TempInt = random.randint(0,len(WorldDataResource) - 1)
+                    PlayerQuestName.append(str("Collect " + str(WorldDataResource[TempInt])))
+                    PlayerQuestReqRes.append(str(WorldDataResource[TempInt]))
+                    PlayerQuestReqAmm.append(random.randint(1,10))
+                else:
+                    TempInt = random.randint(0,len(WorldDataEnemyDrop) - 1)
+                    PlayerQuestName.append(str("Kill monsters to collect " + str(WorldDataEnemyDrop[TempInt])))
+                    PlayerQuestReqRes.append(str(WorldDataEnemyDrop[TempInt]))
+                    PlayerQuestReqAmm.append(random.randint(1,10))
+                if random.randint(1,2) == 1:
+                    PlayerQuestRewardType.append(1)
+                else:
+                    PlayerQuestRewardType.append(2)
+                os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
+                WorldGeneration()
+        elif keyboard.is_pressed("8") and WorldDataProffessionData[Terrain] > 0: # Proffessions
+            if WorldDataProffessionData[Terrain] == 1:      #fishing
+                print("You started fishing")
+                time.sleep(random.randint(1,7))
+                if random.randint(1,4) == 1:
+                    print("You caught a fish!")
+                    PlayerAchivements[9] = 1
+                    if "Fish" in PlayerInventory:
+                        PlayerInventoryAmmount[PlayerInventory.index("Fish")] = PlayerInventoryAmmount[PlayerInventory.index("Fish")] + 1
+                    else:
+                        PlayerInventory.append("Fish")
+                        PlayerInventoryAmmount.append(1)
+                else:
+                    print("You caught nothing.")
+                time.sleep(1)
+                World()
+            elif WorldDataProffessionData[Terrain] == 2:    #Logging
+                print("You started cutting down trees.")
+                time.sleep(random.randint(1,7))
+                if random.randint(1,4) == 1:
+                    PlayerAchivements[11] = 1
+                    print("You got some useable logs!")
+                    if "Fish" in PlayerInventory:
+                        PlayerInventoryAmmount[PlayerInventory.index("Fish")] = PlayerInventoryAmmount[PlayerInventory.index("Fish")] + random.randint(1,5)
+                    else:
+                        PlayerInventory.append("Logs")
+                        PlayerInventoryAmmount.append(random.randint(1,5))
+                else:
+                    print("None of the wood is usable.")
+                time.sleep(1)
+                World()
+
 def SaveLoad(): 
     # I am the man who brings color to the bland image, determined to make orginallity a pandemic.
     global PlayerInfo
@@ -1257,6 +1575,8 @@ def SaveLoad():
     global PlayerMagicType
     global PlayerMagicValue
     global PlayerMagicCost
+    global FastTravelY
+    global FastTravelX
     global Log
 
     Log.append("Log menu")
@@ -1368,7 +1688,7 @@ def SaveLoad():
 
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + SlotNo + "\\FastTravelX.json"
         with open(destination, "w+") as file:
-            json.dump(FastTravelX, file)
+            json.dump(FastTravelY, file)
 
         print("Save complete!")
         time.sleep(2.5)
@@ -1444,7 +1764,6 @@ def SaveLoad():
         with open(destination) as file:
             FastTravelX = json.load(file)
 
-
         print("Load complete!")
         time.sleep(2.5)
         WorldGeneration()
@@ -1454,6 +1773,8 @@ def Battle():
     global PlayerInfo
     global Log
     global Dungeon
+    global PlayerAchivements
+
     Log.append("Battle initalised")
     if DungeonData[4] != 1:
         EnemyMult = int(round(len(WorldDataEnemyName[Enemy[2]]) / random.randint(1,25)))
@@ -1515,6 +1836,7 @@ def Battle():
                 Loop2 = 0
             elif keyboard.is_pressed("2"):
                 TempInt = 0
+                PlayerAchivements[6] = 1
                 while TempInt <= int(len(PlayerMagic)-1):
                     print(str(PlayerMagic[TempInt]) + "  Cost: " + str(PlayerMagicCost[TempInt]) + " Effect: " + str(PlayerMagicValue[TempInt]) + " " + str(PlayerMagicType[TempInt]) + " ID: " + str(TempInt))
                     TempInt = TempInt + 1
@@ -1548,6 +1870,7 @@ def Battle():
             elif keyboard.is_pressed("3"):
                 Def = Def * 2
                 Attack = 0
+                PlayerAchivements[5] = 1
                 Loop2 = 0
             elif keyboard.is_pressed("4"):
                 Attack = 0
@@ -1603,7 +1926,13 @@ def Battle():
             else:
                 print("")
             time.sleep(2.5)
+            if PlayerInfo[7] == 25:
+                PlayerInfo[7] = PlayerInfo[7] + 1
+                PlayerAchivements[16] = 1
+                Battle()
             if DungeonData[4] == 1:
+                DungeonData[4] = 1
+
                 Dungeon()
             else:
                 World()
@@ -1637,6 +1966,7 @@ def Death():
 def Dungeon():
     global DungeonData
     global PlayerInfo
+    global PlayerAchivements
 
     os.system("cls")
     Loop0 = 1
