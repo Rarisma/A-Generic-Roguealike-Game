@@ -1,8 +1,8 @@
 # Rougealike 1.0
 Rougealike is randomised RPG where you can find lots of things such as monoliths, villages and caves
 
-# Beta Revsion 2 Info
-Beta Revison 2 will be released around wendnesday to friday and will include most of the features still on the to do list
+# Release 1.0
+A final revison of 1.0 will be released soon. Once all items are done 1.0 will be thoroughly tested and released before March 1st
   
 
 - [ ] Updates and Rebalancing of
