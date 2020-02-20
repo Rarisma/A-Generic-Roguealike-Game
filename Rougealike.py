@@ -51,79 +51,65 @@ PlayerQuestReqRes     = [""]
 PlayerQuestReqAmm     = [0]
 PlayerAchivements     = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 #WorldData Variables SHOULD NOT be modifyed instead unless its for a master branch (USE THE MOD API)
-WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside","in a bog","at a Strange Forest","at a Mushroom Forest","at a Meteor","At a Shipwreck","At a port"]
-WorldDataMapIcon            = ["G","F","M","T","A","V","H","A","V","L","B","C","F","S","F","F","H","C","F","M","D","O","A","P","M","R","B","F","M","M","P"]
-WorldDataTerrainColor       = ["GREEN","RESET","WHITE","RESET","RESET","RED","GREEN","WHITE","CYAN","BLUE","YELLOW","RESET","WHITE","GREEN","GREEN","GREEN","RESET","CYAN","YELLOW","YELLOW","YELLOW","BLUE","RESET","WHITE","WHITE","CYAN","GREEN","MAGENTA","RED","BLUE","BLUE","BLUE"]
-WorldDataTerrainBrightness  = ["BRIGHT","NORMAL","BRIGHT","NORMAL","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","NORMAL","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","BRIGHT","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","DIM"]
-WorldDataProffessionData    = [0,0,0,0,0,0,0,0,1,1,1,0,2,0,2,2,0,0,0,0,0,1,0,0,0,1,0,1]
-WorldDataResource           = ["Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches","Spruce logs"]
-WorldDataResourceColor      = ["RED","WHITE","RED","BLUE","GREEN","GREEN","GREEN","YELLOW","WHITE","GREEN","YELLOW","WHITE","GREEN","CYAN","MAGENTA","GREEN","GREEN","WHITE","YELLOW","GREEN","BLUE","RED","RED","RED","GREEN","CYAN","RESET","YELLOW","YELLOW","MAGENTA","YELLOW","RED","RED","GREEN","CYAN","CYAN"]
-WorldDataResourceBrightness = ["BRIGHT","DIM","BRIGHT","BRIGHT","DIM","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","DIM","DIM","DIM","BRIGHT","BRIGHT","BRIGHT","BRIGHT","BRIGHT","DIM","DIM","NORMAL","NORMAL","DIM","DIM"]
-WorldDataEnemyPrefix        = ["Angry","Armoured","Beserk","Crazed","Demonic","Enemy","Enraged","Fallen","Frenzied","Giant","Greater","Infested","Leaping","Lesser","Possessed","Skeleton"]
-WorldDataEnemyName          = ["Archer","Artifact","Beast","Bull","Centaur","Demon","Dog","Elf","Fire","Fox","Giant","Goblin","God","Hunter","Ice","Madman","Ogre","Orc","Phantom","Rat","Relic","Robot","Skeleton","Soldier","Spider","Spirit","Troll","Villager","Warrior","Wolf","Zombie"]
-WorldDataEnemySuffix        = ["Lord","Monster","King","Creature"]
-WorldDataEnemyDrop          = ["Arrows","Odd artifact","Meat","Meat","Meat","Fire Dust","Meat","Fabric","Fire Dust","Meat","Meat","Gold Bar","Legendary Gem","Meat","Ice Dust","Faberic","Meat","Meat","Meat","Meat","Old Relic","Scrap Metal","Bone Dust","Scrap Metal","Meat","Spirit Dust","Meat","Meat","Old Spear","Meat","Old Flesh"]
-WorldDataWeather            = ["","Sunny","Cloudy","Hot","Cold","Windy"]
-WorldDataCaveGem            = ["Uncut Rubies","Uncut Emeralds","Uncut Saphires","Uncut Topaz","Uncut Diamonds","Uncut Opal"]
-WorldDataMonolithSpell      = ["Heal I","Bolt","Risma","Aquious","Ignis","Terra","Heal II","Rarisma","Taifau","Odurzony","hladan","Tembung","Heal III"]#These are just words in other langauges
-WorldDataMonolithSpellType  = ["HEAL","Damage","Damage","Damage","Damage","Damage","HEAL", "Damage","Damage", "Damage", "Damage","Damage",  "HEAL"]
-WorldDataMonolithSpellValue = [80,20,25,25,35,30,30,110,60,50,80,100,100,200]
-WorldDataMonolithSpellCost  = [5,15,25,20,40,20,10,75,40,10,75,90,60,100]
-WorldDataCaveMetal          = ["Iron Ore","Coal","Copper Ore","Potassium Ore","Magnesium Ore","Steel","Urainium Ore","Malachite Ore","Stone","Clay","Silicon","Boron Ore","Carbon","Dawnite Ore","Uncut OpalQuartz Ore","Rolton Ore","Vibrainum Ore","Yosmite Ore","Yunotium Ore","Gallium Ore","Jabraca Ore","Platnum Ore","Cronite Ore","Adamite Ore","Ironite Ore"]
-
-WorldDataCraftMetalReq      = ["","Iron Ore","Copper Ore","Potassium Ore","Magnesium Ore","Urainium Ore","Malachite Ore","Boron Ore","Dawnite Ore","Quartz Ore","Rolton Ore","Vibrainum Ore","Yosmite Ore","Yunotium Ore","Gallium Ore","Jabraca Ore","Platnum Ore","Cronite Ore","Adamite Ore","Ironite Ore"]
-WorldDataCraftMetalProd     = ["","Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar"]
-WorldDataCraftMetalAmm      = ["",3,3,3,3,5,5,2,10,1,5,3,5,5,5,5,5,3,10,5]
-
-WorldDataCraftGemReq        = ["Uncut Rubies","Uncut Emeralds","Uncut Saphires","Uncut Topaz","Uncut Diamonds","Uncut Opal"]
-WorldDataCraftGemProd       = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal"]
-WorldDataCraftGemAmm        = [1,1,1,1,1,1,1]
-
-WorldDataCraftWeaponAxeReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
-WorldDataCraftWeaponAxeProd = ["Copper Axe","Iron Axe","Magnesium Axe","Boron Axe","Gallium Axe","Rolton Axe","Yosmite Axe","Yunotium Axe","Jabraca Axe","Ironite Axe","Platnum Axe","Cronite Axe","Adamite Axe","Dawnite Axe","Malachite Axe"]
-WorldDataCraftWeaponAxeAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76]
-
+WorldDataTerrain             = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside","in a bog","at a Strange Forest","at a Mushroom Forest","at a Meteor","At a Shipwreck","At a port"]
+WorldDataMapIcon             = ["G","F","M","T","A","V","H","A","V","L","B","C","F","S","F","F","H","C","F","M","D","O","A","P","M","R","B","F","M","M","P"]
+WorldDataTerrainColor        = ["GREEN","RESET","WHITE","RESET","RESET","RED","GREEN","WHITE","CYAN","BLUE","YELLOW","RESET","WHITE","GREEN","GREEN","GREEN","RESET","CYAN","YELLOW","YELLOW","YELLOW","BLUE","RESET","WHITE","WHITE","CYAN","GREEN","MAGENTA","RED","BLUE","BLUE","BLUE"]
+WorldDataTerrainBrightness   = ["BRIGHT","NORMAL","BRIGHT","NORMAL","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","NORMAL","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","BRIGHT","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","DIM"]
+WorldDataProffessionData     = [0,0,0,0,0,0,0,0,1,1,1,0,2,0,2,2,0,0,0,0,0,1,0,0,0,1,0,1,0,0,0,0]
+WorldDataResource            = ["Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches","Spruce logs", "Mushrooms"]
+WorldDataResourceColor       = ["RED","WHITE","RED","BLUE","GREEN","GREEN","GREEN","YELLOW","WHITE","GREEN","YELLOW","WHITE","GREEN","CYAN","MAGENTA","GREEN","GREEN","WHITE","YELLOW","GREEN","BLUE","RED","RED","RED","GREEN","CYAN","RESET","YELLOW","YELLOW","MAGENTA","YELLOW","RED","RED","GREEN","CYAN","CYAN","RED"]
+WorldDataResourceBrightness  = ["BRIGHT","DIM","BRIGHT","BRIGHT","DIM","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","DIM","DIM","DIM","BRIGHT","BRIGHT","BRIGHT","BRIGHT","BRIGHT","DIM","DIM","NORMAL","NORMAL","DIM","DIM","DIM"]
+WorldDataEnemyPrefix         = ["Angry","Armoured","Beserk","Crazed","Demonic","Enemy","Enraged","Fallen","Frenzied","Giant","Greater","Infested","Leaping","Lesser","Possessed","Skeleton"]
+WorldDataEnemyName           = ["Archer","Artifact","Beast","Bull","Centaur","Demon","Dog","Elf","Fire","Fox","Giant","Goblin","God","Hunter","Ice","Madman","Ogre","Orc","Phantom","Rat","Relic","Robot","Skeleton","Soldier","Spider","Spirit","Troll","Villager","Warrior","Wolf","Zombie"]
+WorldDataEnemySuffix         = ["Lord","Monster","King","Creature"]
+WorldDataEnemyDrop           = ["Arrows","Odd artifact","Meat","Meat","Meat","Fire Dust","Meat","Fabric","Fire Dust","Meat","Meat","Gold Bar","Legendary Gem","Meat","Ice Dust","Faberic","Meat","Meat","Meat","Meat","Old Relic","Scrap Metal","Bone Dust","Scrap Metal","Meat","Spirit Dust","Meat","Meat","Old Spear","Meat","Old Flesh"]
+WorldDataWeather             = ["","Sunny","Cloudy","Hot","Cold","Windy"]
+WorldDataCaveGem             = ["Uncut Rubies","Uncut Emeralds","Uncut Saphires","Uncut Topaz","Uncut Diamonds","Uncut Opal"]
+WorldDataMonolithSpell       = ["Heal I","Bolt","Risma","Aquious","Ignis","Terra","Heal II","Rarisma","Taifau","Odurzony","hladan","Tembung","Heal III"]#These are just words in other langauges
+WorldDataMonolithSpellType   = ["HEAL","Damage","Damage","Damage","Damage","Damage","HEAL", "Damage","Damage", "Damage", "Damage","Damage",  "HEAL"]
+WorldDataMonolithSpellValue  = [80,20,25,25,35,30,30,110,60,50,80,100,100,200]
+WorldDataMonolithSpellCost   = [5,15,25,20,40,20,10,75,40,10,75,90,60,100]
+WorldDataCaveMetal           = ["Iron Ore","Coal","Copper Ore","Potassium Ore","Magnesium Ore","Steel","Urainium Ore","Malachite Ore","Stone","Clay","Silicon","Boron Ore","Carbon","Dawnite Ore","Uncut OpalQuartz Ore","Rolton Ore","Vibrainum Ore","Yosmite Ore","Yunotium Ore","Gallium Ore","Jabraca Ore","Platnum Ore","Cronite Ore","Adamite Ore","Ironite Ore"]
+WorldDataCraftMetalReq       = ["","Iron Ore","Copper Ore","Potassium Ore","Magnesium Ore","Urainium Ore","Malachite Ore","Boron Ore","Dawnite Ore","Quartz Ore","Rolton Ore","Vibrainum Ore","Yosmite Ore","Yunotium Ore","Gallium Ore","Jabraca Ore","Platnum Ore","Cronite Ore","Adamite Ore","Ironite Ore"]
+WorldDataCraftMetalProd      = ["","Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar"]
+WorldDataCraftMetalAmm       = ["",3,3,3,3,5,5,2,10,1,5,3,5,5,5,5,5,3,10,5]
+WorldDataCraftGemReq         = ["Uncut Rubies","Uncut Emeralds","Uncut Saphires","Uncut Topaz","Uncut Diamonds","Uncut Opal"]
+WorldDataCraftGemProd        = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal"]
+WorldDataCraftGemAmm         = [1,1,1,1,1,1,1]
+WorldDataCraftWeaponAxeReq   = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
+WorldDataCraftWeaponAxeProd  = ["Copper Axe","Iron Axe","Magnesium Axe","Boron Axe","Gallium Axe","Rolton Axe","Yosmite Axe","Yunotium Axe","Jabraca Axe","Ironite Axe","Platnum Axe","Cronite Axe","Adamite Axe","Dawnite Axe","Malachite Axe"]
+WorldDataCraftWeaponAxeAmm   = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76]
 WorldDataCraftWeaponLbowProd = ["Copper Longbow","Iron Longbow","Magnesium Longbow","Boron Longbow","Gallium Longbow","Rolton Longbow","Yosmite Longbow","Yunotium Longbow","Jabraca Longbow","Ironite Longbow","Platnum Longbow","Cronite Longbow","Adamite Longbow","Dawnite Longbow","Malachite Longbow"]
 WorldDataCraftWeaponLbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
 WorldDataCraftWeaponLbowAmm  = [12,16,20,36,49,53,57,65,72,77,82,87,93,96,98]
-
-WorldDataCraftWeaponLanProd = ["Copper Lance","Iron Lance","Magnesium Lance","Boron Lance","Gallium Lance","Rolton Lance","Yosmite Lance","Yunotium Lance","Jabraca Lance","Ironite Lance","Platnum Lance","Cronite Lance","Adamite Lance","Dawnite Lance","Malachite Lance"]
-WorldDataCraftWeaponLanReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
-WorldDataCraftWeaponLanAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76]
-
-WorldDataCraftWeaponMacProd = ["Copper Mace","Iron Mace","Magnesium Mace","Boron Mace","Gallium Mace","Rolton Mace","Yosmite Mace","Yunotium Mace","Jabraca Mace","Ironite Mace","Platnum Mace","Cronite Mace","Adamite Mace","Dawnite Mace","Malachite Mace"]
-WorldDataCraftWeaponMacReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
-WorldDataCraftWeaponMacAmm  = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76]
-
+WorldDataCraftWeaponLanProd  = ["Copper Lance","Iron Lance","Magnesium Lance","Boron Lance","Gallium Lance","Rolton Lance","Yosmite Lance","Yunotium Lance","Jabraca Lance","Ironite Lance","Platnum Lance","Cronite Lance","Adamite Lance","Dawnite Lance","Malachite Lance"]
+WorldDataCraftWeaponLanReq   = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
+WorldDataCraftWeaponLanAmm   = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76]
+WorldDataCraftWeaponMacProd  = ["Copper Mace","Iron Mace","Magnesium Mace","Boron Mace","Gallium Mace","Rolton Mace","Yosmite Mace","Yunotium Mace","Jabraca Mace","Ironite Mace","Platnum Mace","Cronite Mace","Adamite Mace","Dawnite Mace","Malachite Mace"]
+WorldDataCraftWeaponMacReq   = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
+WorldDataCraftWeaponMacAmm   = [2,6,10,16,19,23,27,35,42,47,52,57,63,69,76]
 WorldDataCraftWeaponGSwoProd = ["Copper GreatSword","Iron GreatSword","Magnesium GreatSword","Boron GreatSword","Gallium GreatSword","Rolton GreatSword","Yosmite GreatSword","Yunotium GreatSword","Jabraca GreatSword","Ironite GreatSword","Platnum GreatSword","Cronite GreatSword","Adamite GreatSword","Dawnite GreatSword","Malachite GreatSword"]
 WorldDataCraftWeaponGSwoReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
 WorldDataCraftWeaponGSwoAmm  = [12,16,20,26,29,33,37,45,52,57,62,67,76,79]
-
 WorldDataCraftWeaponSSwoProd = ["Copper Shortsword","Iron Shortsword","Magnesium Shortsword","Boron Shortsword","Gallium Shortsword","Rolton Shortsword","Yosmite Shortsword","Yunotium Shortsword","Jabraca Shortsword","Ironite Shortsword","Platnum Shortsword","Cronite Shortsword","Adamite Shortsword","Dawnite Shortsword","Malachite Shortsword"]
 WorldDataCraftWeaponSSwoReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
 WorldDataCraftWeaponSSwoAmm  = [3,5,8,9,12,15,23,26,28,29,35,48,56,64,72]
-
-WorldDataCraftWeaponShuProd = ["Copper Shuriken","Iron Shuriken","Magnesium Shuriken","Boron Shuriken","Gallium Shuriken","Rolton Shuriken","Yosmite Shuriken","Yunotium Shuriken","Jabraca Shuriken","Ironite Shuriken","Platnum Shuriken","Cronite Shuriken","Adamite Shuriken","Dawnite Shuriken","Malachite Shuriken"]
-WorldDataCraftWeaponShuReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar",]
-WorldDataCraftWeaponShuAmm  = [1,3,5,8,12,14,17,18,21,24,26,29,32,35,38]
-
+WorldDataCraftWeaponShuProd  = ["Copper Shuriken","Iron Shuriken","Magnesium Shuriken","Boron Shuriken","Gallium Shuriken","Rolton Shuriken","Yosmite Shuriken","Yunotium Shuriken","Jabraca Shuriken","Ironite Shuriken","Platnum Shuriken","Cronite Shuriken","Adamite Shuriken","Dawnite Shuriken","Malachite Shuriken"]
+WorldDataCraftWeaponShuReq   = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar",]
+WorldDataCraftWeaponShuAmm   = [1,3,5,8,12,14,17,18,21,24,26,29,32,35,38]
 WorldDataCraftWeaponSbowProd = ["Copper Shortbow","Iron Shortbow","Magnesium Shortbow","Boron Shortbow","Gallium Shortbow","Rolton Shortbow","Yosmite Shortbow","Yunotium Shortbow","Jabraca Shortbow","Ironite Shortbow","Platnum Shortbow","Cronite Shortbow"]
 WorldDataCraftWeaponSbowAmm  = [2,6,10,26,39,43,47,55,62,67,72,77,83,86,88]
 WorldDataCraftWeaponSbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar",]
-
 WorldDataCraftWeaponCbowProd = ["Copper Crossbow","Iron Crossbow","Magnesium Crossbow","Boron Crossbow","Gallium Crossbow","Rolton Crossbow","Yosmite Crossbow","Yunotium Crossbow","Jabraca Crossbow","Ironite Crossbow","Platnum Crossbow","Cronite Crossbow","Adamite Crossbow","Dawnite Crossbow","Malachite Crossbow"]
 WorldDataCraftWeaponCbowReq  = ["Copper Bar","Iron Bar","Magnesium Bar","Boron Bar","Gallium Bar","Rolton Bar","Yosmite Bar","Yunotium Bar","Jabraca Bar","Ironite Bar","Platnum Bar","Cronite Bar","Adamite Bar","Dawnite Bar","Malachite Bar"]
 WorldDataCraftWeaponCbowAmm  = [22,36,40,56,69,73,77,85,72,77,82,87,93,96,108]
-
-WorldDataCraftArmorProd     = ["","Iron Armour","Quartz Armour","Rolton Armour","Jabraca Armour","Platnum Armour","Adamite Armour","Malachite Armour","Dawnite Armour"]
-WorldDataCraftArmorReq      = ["","Iron Bar","Quartz Bar","Rolton Bar","Jabraca Bar","Platnum Bar","Adamite Bar","Malachite Bar","Dawnite Bar"]
-WorldDataCraftArmorAmm      = ["",25,32,35,40,48,55,59,66,70,78]
-
-WorldDataTradeProd          = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal","Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar","Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches","Arrows","Bone Dust","Fabric","Fire Dust","Ice Dust","Meat","Odd artifact","Old Flesh","Old Relic","Old Spear","Scrap Metal","Spirit Dust"]
-WorldDataTradePrice         = [50,70,80,100,150,250,500,250,50,245,750,5000,9500,4500,10000,100,100,500,100,3000,1000,1675,1500,750,2500,1000,10,5,25,35,5,5,5,50,10,65,15,75,250,150,15,20,100,1000,500,250,100,500,750,100,5,250,1000,100,100,2500,100,150,250,50,100,150,30,150,250,1000,1000,250,1500,2000,2000,250,100,1000]
-
-WorldDataLegendsForgeProd   = ["Crossbow of the god","Shortbow of the godless","Shuriken of the advocate","Shortsword of the void","GreatSword of the evangelical","Mace of malice","Achient Lance of the long forgoten","Longbow of far-sighted","Axe of the last"]
-WorldDataLegendsForgeAmm    = [50,20,10,25,40,50,50,50,50]
+WorldDataCraftArmorProd      = ["","Iron Armour","Quartz Armour","Rolton Armour","Jabraca Armour","Platnum Armour","Adamite Armour","Malachite Armour","Dawnite Armour"]
+WorldDataCraftArmorReq       = ["","Iron Bar","Quartz Bar","Rolton Bar","Jabraca Bar","Platnum Bar","Adamite Bar","Malachite Bar","Dawnite Bar"]
+WorldDataCraftArmorAmm       = ["",25,32,35,40,48,55,59,66,70,78]
+WorldDataTradeProd           = ["Topaz","Saphires","Rubies","Emeralds","Diamonds","Opal","Iron Bar","Copper Bar","Potassium Bar","Magnesium Bar","Urainium Bar","Malachite Bar","Boron Bar","Dawnite Bar","Quartz Bar","Rolton Bar","Vibrainum Bar","Yosmite Bar","Yunotium Bar","Gallium Bar","Jabraca Bar","Platnum Bar","Cronite Bar","Adamite Bar","Ironite Bar","Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches","Arrows","Bone Dust","Fabric","Fire Dust","Ice Dust","Meat","Odd artifact","Old Flesh","Old Relic","Old Spear","Scrap Metal","Spirit Dust"]
+WorldDataTradePrice          = [50,70,80,100,150,250,500,250,50,245,750,5000,9500,4500,10000,100,100,500,100,3000,1000,1675,1500,750,2500,1000,10,5,25,35,5,5,5,50,10,65,15,75,250,150,15,20,100,1000,500,250,100,500,750,100,5,250,1000,100,100,2500,100,150,250,50,100,150,30,150,250,1000,1000,250,1500,2000,2000,250,100,1000]
+WorldDataLegendsForgeProd    = ["Crossbow of the god","Shortbow of the godless","Shuriken of the advocate","Shortsword of the void","GreatSword of the evangelical","Mace of malice","Achient Lance of the long forgoten","Longbow of far-sighted","Axe of the last"]
+WorldDataLegendsForgeAmm     = [50,20,10,25,40,50,50,50,50]
 def Intialise():    #Starts the game, Checks reqired modules are installed and runs AutoUpdate if enabled
     global SystemInfo
     global LatestVer
@@ -252,341 +238,339 @@ def Intialise():    #Starts the game, Checks reqired modules are installed and r
 
 def ModLoader():
     global WorldDataTerrain
+    global WorldDataMapIcon
+    global WorldDataTerrainColor
+    global WorldDataTerrainBrightness
+    global WorldDataProffessionData
+    global WorldDataResource
+    global WorldDataResourceColor
+    global WorldDataResourceBrightness
+    global WorldDataEnemyPrefix
+    global WorldDataEnemyName
+    global WorldDataEnemySuffix
+    global WorldDataEnemyDrop
+    global WorldDataCaveGem
+    global WorldDataMonolithSpell
+    global WorldDataMonolithSpellType
+    global WorldDataMonolithSpellValue
+    global WorldDataMonolithSpellCost
+    global WorldDataCaveMetal
+    global WorldDataCraftMetalReq
+    global WorldDataCraftMetalAmm
+    global WorldDataCraftMetalProd
+    global WorldDataCraftGemReq
+    global WorldDataCraftGemAmm
+    global WorldDataCraftGemProd
+    global WorldDataCraftWeaponAxeReq
+    global WorldDataCraftWeaponAxeAmm
+    global WorldDataCraftWeaponAxeProd
+    global WorldDataCraftWeaponLbowProd
+    global WorldDataCraftWeaponLbowReq
+    global WorldDataCraftWeaponLbowAmm
+    global WorldDataCraftWeaponLanProd
+    global WorldDataCraftWeaponLanReq
+    global WorldDataCraftWeaponLanAmm
+    global WorldDataCraftWeaponMacProd
+    global WorldDataCraftWeaponMacReq
+    global WorldDataCraftWeaponMacAmm
+    global WorldDataCraftWeaponGSwoProd
+    global WorldDataCraftWeaponGSwoReq
+    global WorldDataCraftWeaponGSwoAmm
+    global WorldDataCraftWeaponSSwoProd
+    global WorldDataCraftWeaponSSwoReq
+    global WorldDataCraftWeaponSSwoAmm
+    global WorldDataCraftWeaponShuProd
+    global WorldDataCraftWeaponShuReq
+    global WorldDataCraftWeaponShuAmm
+    global WorldDataCraftWeaponSbowProd
+    global WorldDataCraftWeaponSbowAmm
+    global WorldDataCraftWeaponSbowReq
+    global WorldDataCraftWeaponCbowProd
+    global WorldDataCraftWeaponCbowReq
+    global WorldDataCraftArmorProd
+    global WorldDataCraftArmorReq
+    global WorldDataCraftArmorAmm
+    global WorldDataTradeProd
+    global WorldDataCraftWeaponCbowAmm
+    global WorldDataTradePrice
     print("Initalising Mod loader")
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\achivement.txt"):
         PlayerAchivements[0] = 1
-        
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTerrain.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTerrain.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataTerrain = WorldDataTerrain + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMapIcon.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMapIcon.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataMapIcon  = WorldDataMapIcon  + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTerrainColor.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTerrainColor.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataTerrainColor   = WorldDataTerrainColor   + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTerrainBrightness.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTerrainBrightness.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataTerrainBrightness  = WorldDataTerrainBrightness + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataProffessionData.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataProffessionData.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataProffessionData = WorldDataProffessionData + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResource.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResource.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataResource = WorldDataResource  + TempString
-
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResourceColor .json"):
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResourceColor.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResourceColor .json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataResourceColor  = WorldDataResourceColor   + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResourceBrightness.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResourceBrightness.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataResourceBrightness = WorldDataResourceBrightness + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemyPrefix.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemyPrefix.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataEnemyPrefix = WorldDataEnemyPrefix + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemyName.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemyName.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataEnemyName = WorldDataEnemyName  + TempString
-
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemySuffix .json"):
+    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemySuffix.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemySuffix .json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataEnemySuffix = WorldDataEnemySuffix + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemyDrop.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataEnemyDrop.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataEnemyDrop = WorldDataEnemyDrop  + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCaveGem.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCaveGem.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCaveGem = WorldDataCaveGem   + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpell.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpell.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataMonolithSpell = WorldDataMonolithSpell + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpellType.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpellType.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataMonolithSpellType = WorldDataMonolithSpellType  + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpellValue.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpellValue.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataMonolithSpellValue = WorldDataMonolithSpellValue + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpellCost.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataMonolithSpellCost.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataMonolithSpellCost = WorldDataMonolithSpellCost + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCaveMetal.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCaveMetal.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCaveMetal = WorldDataCaveMetal  + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftMetalReq.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftMetalReq.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftMetalReq = WorldDataCraftMetalReq + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftMetalAmm.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftMetalAmm.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftMetalAmm  = WorldDataCraftMetalAmm  + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftMetalProd.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftMetalProd.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftMetalAmm  = WorldDataCraftMetalProd   + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftGemReq.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftGemReq.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftGemReq = WorldDataCraftGemReq + TempString
-
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftGemAmm.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftGemAmm.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftGemAmm = WorldDataCraftGemAmm + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftGemProd .json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftGemProd.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftGemProd = WorldDataCraftGemProd + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeReq.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeReq.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponAxeReq  = WorldDataCraftWeaponAxeReq  + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeAmm.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeAmm.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponAxeAmm   = WorldDataCraftWeaponAxeAmm   + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeProd.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeProd.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponAxeProd = WorldDataCraftWeaponAxeProd + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLbowProd.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLbowProd.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponLbowProd = WorldDataCraftWeaponLbowProd + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLbowReq.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLbowReq.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponLbowReq  = WorldDataCraftWeaponLbowReq  + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLbowAmm.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLbowAmm.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponLbowAmm   = WorldDataCraftWeaponLbowAmm   + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLanProd.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLanProd.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponLanProd = WorldDataCraftWeaponLanProd + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLanReq.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLanReq.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponLanReq = WorldDataCraftWeaponLanReq + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLanAmm.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponLanAmm.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponLanAmm = WorldDataCraftWeaponLanAmm + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponMacProd.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponMacProd.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponMacProd = WorldDataCraftWeaponMacProd + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponMacReq.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponMacReq.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponMacReq = WorldDataCraftWeaponMacReq + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponMacAmm.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponMacAmm.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponMacAmm = WorldDataCraftWeaponMacAmm + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponGSwoProd.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponGSwoProd.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponGSwoProd = WorldDataCraftWeaponGSwoProd + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponGSwoReq.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponGSwoReq.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponGSwoReq =  WorldDataCraftWeaponGSwoReq + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponGSwoAmm.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponGSwoAmm.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponGSwoAmm = WorldDataCraftWeaponGSwoAmm  + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSSwoProd.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSSwoProd.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponSSwoProd  = WorldDataCraftWeaponSSwoProd   + TempString
-   
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSSwoReq.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSSwoReq.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponSSwoReq  = WorldDataCraftWeaponSSwoReq  + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSSwoAmm.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSSwoAmm.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponSSwoAmm = WorldDataCraftWeaponSSwoAmm + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponShuProd.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponShuProd.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponShuProd = WorldDataCraftWeaponShuProd + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponShuReq.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponShuReq.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponShuReq = WorldDataCraftWeaponShuReq + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponShuAmm.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponShuAmm.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponShuAmm = WorldDataCraftWeaponShuAmm + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSbowProd.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSbowProd.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponSbowProd = WorldDataCraftWeaponSbowProd + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSbowAmm.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSbowAmm.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponSbowAmm = WorldDataCraftWeaponSbowAmm + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSbowReq.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponSbowReq.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponSbowReq = WorldDataCraftWeaponSbowReq + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponCbowProd.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponCbowProd.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponCbowProd = WorldDataCraftWeaponCbowProd + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponCbowReq.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponCbowReq.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponCbowReq = WorldDataCraftWeaponCbowReq + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponCbowAmm.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponCbowAmm.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponCbowAmm = WorldDataCraftWeaponCbowAmm + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftArmorProd.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftArmorProd.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftArmorProd = WorldDataCraftArmorProd + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftArmorReq.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftArmorReq.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftArmorReq = WorldDataCraftArmorReq + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftArmorAmm.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftArmorAmm.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftArmorAmm = WorldDataCraftArmorAmm + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTradeProd.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTradeProd.json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataTradeProd = WorldDataTradeProd + TempString
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTradePrice.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataTradePrice.json"
         with open(destination) as file:
@@ -626,8 +610,6 @@ def Menu(): #  Menu
             PlayerInfo[0] = str(input("Enter a name: "))
             Log.append("Player name set (" + str(PlayerInfo[0]) +")")
             PlayerInfo[1] = -1
-            PlayerInfo[2] = 0
-            PlayerInfo[3] = 0
             os.system("cls")
             Loop2 = 1
             print("Select a difficulty:\n1) Easy\nEnemies have less HP and do more damage\n\n2) Normal\nBattles should be fun\n\n3) Hard\nBattles require merticulous planning of healing and equipment\n\n4) Insane\n\"Good for short people who want to do somthing.\"")
@@ -645,9 +627,6 @@ def Menu(): #  Menu
                     PlayerInfo[1] = 4
                     Loop2 = 2
             Log.append("Difficulty set to " + str(PlayerInfo[1]))
-
-            PlayerInfo[2] = 0   #X Coord
-            PlayerInfo[3] = 0   #Y Coord 
             WorldGeneration()
         elif keyboard.is_pressed("2"):
             Save = 2 
@@ -795,7 +774,7 @@ def World(): # Handles terrain and Player choices
         PlayerAchivements[4] = 1
     if PlayerInfo[7] >= 20:
         PlayerAchivements[5] = 1
-    if PlayerInfo[2 or 3] == 2147483500 or 2147483500:
+    if PlayerInfo[2] == 2147483500:
         PlayerAchivements[19] = 1
     if PlayerInfo [9] == 1000000:
         PlayerAchivements[20] = 1
@@ -860,77 +839,86 @@ def World(): # Handles terrain and Player choices
     LowRow = ["","",""]
     
     #map code
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt"):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
-            TopRow[0] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + " ] "
+    try:    #Top row
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt"):
+            if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
+                TopRow[0] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + " ] "
+            else:
+                TopRow[0] = "[ ? ] "
         else:
-            TopRow[0] = "[ ? ] "
-    else:
-        TopRow[0] = "[ # ] "
+            TopRow[0] = "[ # ] "
 
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt"):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
-            TopRow[1] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + " ] "
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt"):
+            if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
+                TopRow[1] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + " ] "
+            else:
+                TopRow[1] = "[ ? ] "
         else:
-            TopRow[1] = "[ ? ] "
-    else:
-        TopRow[1] = "[ # ] "
+            TopRow[1] = "[ # ] "
 
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt"):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
-            TopRow[2] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + " ] "
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt"):
+            if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",1)) == 0:
+                TopRow[2] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3] + 1)) + ".txt",2))] + " ] "
+            else:
+                TopRow[2] = "[ ? ] "
         else:
-            TopRow[2] = "[ ? ] "
-    else:
-        TopRow[2] = "[ # ] "
+            TopRow[2] = "[ # ] "
+    except:
+        TopRow = ["#","#","#"]
 
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt"):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
-            MidRow[0] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + " ] "
+    try:    #Middle row
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt"):
+            if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
+                MidRow[0] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + " ] "
+            else:
+                MidRow[0] = "[ ? ] "
         else:
-            MidRow[0] = "[ ? ] "
-    else:
-        MidRow[0] = "[ # ] "
+            MidRow[0] = "[ # ] "
 
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] )) + " Y" + str(int(PlayerInfo[3])) + ".txt"):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
-            MidRow[1] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + " ] "
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] )) + " Y" + str(int(PlayerInfo[3])) + ".txt"):
+            if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
+                MidRow[1] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + " ] "
+            else:
+                MidRow[1] = "[ ? ] "
         else:
-            MidRow[1] = "[ ? ] "
-    else:
-        MidRow[1] = "[ # ] "
+            MidRow[1] = "[ # ] "
 
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt"):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
-            MidRow[2] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + " ] "
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt"):
+            if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",1)) == 0:
+                MidRow[2] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] + 1)) + " Y" + str(int(PlayerInfo[3])) + ".txt",2))] + " ] "
+            else:
+                MidRow[2] = "[ ? ] "
         else:
-            MidRow[2] = "[ ? ] "
-    else:
-        MidRow[2] = "[ # ] "
+            MidRow[2] = "[ # ] "
+    except:
+        MidRow = ["#","#","#"]
 
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt"):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",1)) == 0:
-            LowRow[0] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",2))] + " ] "
+    try: #Bottom Row
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt"):
+            if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",1)) == 0:
+                LowRow[0] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",2))] + " ] "
+            else:
+                LowRow[0] = "[ ? ] "
         else:
-            LowRow[0] = "[ ? ] "
-    else:
-        LowRow[0] = "[ # ] "
+            LowRow[0] = "[ # ] "
 
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt"):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",1)) == 0:
-            LowRow[1] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",2))] + " ] "
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt"):
+            if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",1)) == 0:
+                LowRow[1] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2])) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",2))] + " ] "
+            else:
+                LowRow[1] = "[ ? ] "
         else:
-            LowRow[1] = "[ ? ] "
-    else:
-        LowRow[1] = "[ # ] "
+            LowRow[1] = "[ # ] "
 
-    if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt"):
-        if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",1)) == 0:
-            LowRow[2] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",2))] + " ] "
+        if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt"):
+            if int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",1)) == 0:
+                LowRow[2] = "[ " + WorldDataMapIcon[int(linecache.getline(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(int(PlayerInfo[2] - 1)) + " Y" + str(int(PlayerInfo[3] - 1)) + ".txt",2))] + " ] "
+            else:
+                LowRow[2] = "[ ? ] "
         else:
-            LowRow[2] = "[ ? ] "
-    else:
-        LowRow[2] = "[ # ] "
+            LowRow[2] = "[ # ] "
+    except:
+        LowRow = ["#","#","#"]
 
     #Terrain code
     Log.append("Printed Terrain")
@@ -1038,7 +1026,7 @@ def World(): # Handles terrain and Player choices
                     WorldGeneration()
         elif keyboard.is_pressed("3"): # Collection
             Log.append("Collection")
-            if sum(PlayerInventoryAmmount) >= 20 * PlayerInfo[7]:
+            if sum(PlayerInventoryAmmount) >= 60 * PlayerInfo[7]:
                 print("You are carrying too much.")
                 PlayerAchivements[15] = 1
                 time.sleep(1.5)
@@ -1318,7 +1306,8 @@ def World(): # Handles terrain and Player choices
                         if PlayerAchivements[18] == 1:
                             print("\n\nnerd\nMessage TMAltair or be smart enough to unlock it\n" + Fore.GREEN + "Complete" + Fore.RESET)
 
-                        if PlayerAchivements[19] == 1:
+                        if PlayerAchivements[19] == -1:
+
                             print("\n\nWord Aesthetics\nReach the world border" + Fore.GREEN + "Complete" + Fore.RESET)
 
                         if PlayerAchivements[20] == 1:
@@ -1361,7 +1350,7 @@ def World(): # Handles terrain and Player choices
                     PlayerMagicType.append(WorldDataMonolithSpellType[PlayerInfo[19]])
                     PlayerMagicValue.append(WorldDataMonolithSpellValue[PlayerInfo[19]])
                     PlayerInfo[19] = PlayerInfo[19] + 1
-
+                    time.sleep(1.5)
                     os.remove(os.path.dirname(os.path.abspath(__file__)) + "\\WorldData\\X" + str(PlayerInfo[2]) + " Y" + str(PlayerInfo[3]) + ".txt")
                     WorldGeneration()
                 else:      
@@ -1681,6 +1670,7 @@ def World(): # Handles terrain and Player choices
                                     try:
                                         TempInt = int(TempInt)
                                         Test = PlayerInventoryArmour[TempInt]
+                                        Test = Test
                                     except:
                                         print("This ID is invalid, make sure it's in brackets and a number")
                                     else:
@@ -2085,7 +2075,7 @@ def SaveLoad():
         with open(destination) as file:
             PlayerMagicType = json.load(file)
 
-        destination = os.path.dirname(os.path.abspath(__file__)) + "\\\PlayerData\\" + str(SlotNo) + "\\PlayerMagicValue.json"
+        destination = os.path.dirname(os.path.abspath(__file__)) + "\\PlayerData\\" + str(SlotNo) + "\\PlayerMagicValue.json"
         with open(destination) as file:
             PlayerMagicValue = json.load(file)
 
@@ -2269,7 +2259,6 @@ def Battle():
                 Battle()
             if DungeonData[4] == 1:
                 DungeonData[4] = 1
-
                 Dungeon()
             else:
                 World()
