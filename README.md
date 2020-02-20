@@ -6,10 +6,10 @@ A final revison of 1.0 will be released soon. Once all items are done 1.0 will b
   
 
 - [ ] Updates and Rebalancing of
-  - [ ] Areas
-  - [ ] Items
+  - [x] Areas
+  - [x] Items
   - [ ] Stats
-  - [ ] Caves
+  - [x] Caves
   - [ ] Crafting Requirements
 - [ ] Remove dependcies
 
