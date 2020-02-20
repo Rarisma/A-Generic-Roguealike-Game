@@ -12,7 +12,7 @@ import pathlib
 init(convert=True)
 #chess pieces!
 
-SystemInfo  = ["Build Version: 17/2/2020","1.0r2"]
+SystemInfo  = ["Build Version: 20/2/2020","1.0B2"]
 LatestVer   = "ERROR"
 Save = 0
 Terrain = 0
