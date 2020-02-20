@@ -51,11 +51,11 @@ PlayerQuestReqRes     = [""]
 PlayerQuestReqAmm     = [0]
 PlayerAchivements     = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 #WorldData Variables SHOULD NOT be modifyed instead unless its for a master branch (USE THE MOD API)
-WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside"]
-WorldDataMapIcon            = ["G","F","M","T","A","V","H","A","V","L","B","C","F","S","F","F","H","C","F","M","D","O","A","P","M","R"]
-WorldDataTerrainColor       = ["GREEN","RESET","WHITE","RESET","RESET","RED","GREEN","WHITE","CYAN","BLUE","YELLOW","RESET","WHITE","GREEN","GREEN","GREEN","RESET","CYAN","YELLOW","YELLOW","YELLOW","BLUE","RESET","WHITE","WHITE","CYAN"]
-WorldDataTerrainBrightness  = ["BRIGHT","NORMAL","BRIGHT","NORMAL","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","NORMAL","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","BRIGHT","BRIGHT","DIM"]
-WorldDataProffessionData    = [0,0,0,0,0,0,0,0,1,1,1,0,2,0,2,2,0,0,0,0,0,1,0,0,0,1]
+WorldDataTerrain            = ["in the grasslands","in the flatlands","in the mountains","in a town","in an abandoned town","near a volcano","on some hills","in a abandoned mine","in a valley","in a lake","in a beach","in a cave","in a taiga forest","in a swamp","in a forest","in a thick forest","on a hillside","on a cliffside","on some farmland","in a mesa","in the middle of a Desert","in a Oasis","inside of an abandoned cabin","on a Plateou","in snowy mountain","near a riverside","in a bog","at a Strange Forest","at a Mushroom Forest","at a Meteor","At a Shipwreck","At a port"]
+WorldDataMapIcon            = ["G","F","M","T","A","V","H","A","V","L","B","C","F","S","F","F","H","C","F","M","D","O","A","P","M","R","B","F","M","M","P"]
+WorldDataTerrainColor       = ["GREEN","RESET","WHITE","RESET","RESET","RED","GREEN","WHITE","CYAN","BLUE","YELLOW","RESET","WHITE","GREEN","GREEN","GREEN","RESET","CYAN","YELLOW","YELLOW","YELLOW","BLUE","RESET","WHITE","WHITE","CYAN","GREEN","MAGENTA","RED","BLUE","BLUE","BLUE"]
+WorldDataTerrainBrightness  = ["BRIGHT","NORMAL","BRIGHT","NORMAL","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","NORMAL","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","DIM","DIM","BRIGHT","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","DIM"]
+WorldDataProffessionData    = [0,0,0,0,0,0,0,0,1,1,1,0,2,0,2,2,0,0,0,0,0,1,0,0,0,1,0,1]
 WorldDataResource           = ["Apples","Bark","Berries","Blue Lilly Pads","Branches","Bundles of grass","Bundles of leaves","Bundles of wheat","Bushes","Cacti","Carrots","Dark wood logs","Emeralds","Fish","Flowers","Grass Fibers","Herbs","KG of Black Sand","KG of Sand","Lilly Pads","Litres of water","Magma Branches","Magma Logs","Magma stones","Moss","Mystical berries","Oak wood logs","Palm tree logs","Palm wood","Pink Lilly Pads","Potatoes","Redwood Branches","Redwood Logs","Seeds","Spruce Branches","Spruce logs"]
 WorldDataResourceColor      = ["RED","WHITE","RED","BLUE","GREEN","GREEN","GREEN","YELLOW","WHITE","GREEN","YELLOW","WHITE","GREEN","CYAN","MAGENTA","GREEN","GREEN","WHITE","YELLOW","GREEN","BLUE","RED","RED","RED","GREEN","CYAN","RESET","YELLOW","YELLOW","MAGENTA","YELLOW","RED","RED","GREEN","CYAN","CYAN"]
 WorldDataResourceBrightness = ["BRIGHT","DIM","BRIGHT","BRIGHT","DIM","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","BRIGHT","BRIGHT","BRIGHT","DIM","BRIGHT","DIM","DIM","DIM","BRIGHT","DIM","DIM","DIM","DIM","BRIGHT","BRIGHT","BRIGHT","BRIGHT","BRIGHT","DIM","DIM","NORMAL","NORMAL","DIM","DIM"]
@@ -292,13 +292,11 @@ def ModLoader():
             TempString = json.load(file)
             WorldDataResource = WorldDataResource  + TempString
 
-
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResourceColor .json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResourceColor .json"
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataResourceColor  = WorldDataResourceColor   + TempString
-
 
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResourceBrightness.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataResourceBrightness.json"
@@ -408,7 +406,6 @@ def ModLoader():
         with open(destination) as file:
             TempString = json.load(file)
             WorldDataCraftWeaponAxeReq  = WorldDataCraftWeaponAxeReq  + TempString
-
 
     if os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeAmm.json"):
         destination = os.path.dirname(os.path.abspath(__file__)) + "\\Mods\\WorldDataCraftWeaponAxeAmm.json"
