@@ -2,18 +2,17 @@
 Rougealike is randomised RPG where you can find lots of things such as monoliths, villages and caves
 
 # Release 1.0
-A final revison of 1.0 will be released soon. Once all items are done 1.0 will be thoroughly tested and released before March 1st
-  
+Development of Rougealike 1.0 is finished now, and testing has started
 
-- [ ] Updates and Rebalancing of
-  - [x] Areas
-  - [x] Items
-  - [ ] Stats
-  - [x] Caves
-  - [ ] Crafting Requirements
 - [ ] Remove dependcies
 
 Complete:
+- [x] Updates and Rebalancing of
+  - [x] Areas
+  - [x] Items
+  - [x] Stats
+  - [x] Caves
+  - [x] Crafting Requirements
 - [x] Mod support
 - [x] Main Quest
 - [x] Achivements
