@@ -11,10 +11,10 @@ A final revison of 1.0 will be released soon. Once all items are done 1.0 will b
   - [ ] Stats
   - [ ] Caves
   - [ ] Crafting Requirements
-- [ ] Mod support
 - [ ] Remove dependcies
 
 Complete:
+- [x] Mod support
 - [x] Main Quest
 - [x] Achivements
 - [x] Quests
