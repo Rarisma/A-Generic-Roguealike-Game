@@ -2142,7 +2142,7 @@ def Battle():
         while Loop2 == 1:   # Player Options
             Def = PlayerInfo[6]
 
-            if keyboard.is_pressed("1"):    #10EquipedWeaponName,EquipedWeaponAttack,EquipedWeaponHit,EquipedWeaponCritical,EquipedWeaponDurabilty
+            if keyboard.is_pressed("1"):
                 Attack = PlayerInfo[5] + PlayerInfo[11]
 
                 if PlayerInfo[10] != "Hands":
@@ -2193,7 +2193,6 @@ def Battle():
                                 PlayerCurrentStats[0] = PlayerCurrentStats[0] + PlayerMagicValue[TempStr]   
                                 if PlayerInfo[4] < PlayerCurrentStats[0]:
                                     PlayerCurrentStats[0] = PlayerInfo[4]
-
             elif keyboard.is_pressed("3"):
                 Def = Def * 2
                 Attack = 0
@@ -2202,6 +2201,11 @@ def Battle():
             elif keyboard.is_pressed("4"):
                 Attack = 0
                 if random.randint(0,1) == 0:
+                    if Weather == 4:
+                       PlayerInfo[2] = random.randint(-2147483500,2147483500)
+                       PlayerInfo[3] = random.randint(-2147483500,2147483500)
+                       print("The wind blew you away to somewhere else!")
+                       time.sleep(1)
                     World()
                 else:
                     print("Couldn't run!")
@@ -2212,10 +2216,17 @@ def Battle():
         EnemyHP = EnemyHP - Attack
         if EnemyAttack <= 0:
             EnemyAttack = 0
-        PlayerCurrentStats[0] = PlayerCurrentStats[0] - EnemyAttack
+        input(str(PlayerInfo[1]))
+        if PlayerInfo[1] == 1:
+            PlayerCurrentStats[0] = PlayerCurrentStats[0] - round(EnemyAttack / 2)
+        elif PlayerInfo[1] == 3:
+            PlayerCurrentStats[0] = PlayerCurrentStats[0] - round(EnemyAttack * 1.25)
+        elif PlayerInfo[1] == 4: 
+            PlayerCurrentStats[0] = PlayerCurrentStats[0] - round(EnemyAttack * 1.75)
+        else:
+            PlayerCurrentStats[0] = PlayerCurrentStats[0] - round(EnemyAttack * 1.25)
 
         print("Enemy did " + str(EnemyAttack) + " damage\nYou did " + str(Attack) + " damage")
-
         if Weather == 3 and PlayerInfo[14] != "Nothing":
             print("You also took " + str(round(PlayerInfo[4] / 5)) + " from the hot weather!")
             PlayerCurrentStats[0] = PlayerCurrentStats[0] - round(PlayerInfo[4] / 5)

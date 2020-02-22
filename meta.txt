@@ -1,3 +1,0 @@
-Don't edit this file if you are looking at this in the Master Repo, This is for the AutoUpdater
-If you are looking at this on your PC as a user delete this if you want as rougealike failed to delete it
-1.0
