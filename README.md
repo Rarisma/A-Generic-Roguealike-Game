@@ -1,4 +1,4 @@
-# By any chance are you looking for [The remake](https://github.com/Rarisma/Yet-Another-Generic-Rougelike-Game)
+# By any chance are you looking for [the remake](https://github.com/Rarisma/Yet-Another-Generic-Rougelike-Game)
 
 
 # Rougealike 1.0
